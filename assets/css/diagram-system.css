@@ -25,6 +25,21 @@
   display: none;
 }
 
+/* The text alternative is always sr-only now. Below the breakpoint the
+   grouped cards are the visual form and carry the same relationships; this
+   holds the detail neither visual form can. */
+.arch__alt {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
 .arch__svg {
   display: block;
   width: 100%;
@@ -38,47 +53,111 @@
   color: var(--text-dim);
 }
 
-/* The description is the mobile composition and the text alternative. */
-.arch__alt {
+/* --------------------------------------------------------------------------
+   Mobile composition: grouped cards, labelled connectors between them.
+   Real text that reflows, rather than a shrunken drawing or two long lists.
+   -------------------------------------------------------------------------- */
+
+.amob {
+  display: grid;
+  justify-items: stretch;
+  gap: 0;
   margin-top: var(--space-2);
 }
 
-.arch__alt h3 {
-  font-size: var(--step-0);
-  margin: var(--space-5) 0 var(--space-2);
+.amob__card {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  padding: var(--space-3) var(--space-4);
 }
 
-.arch__alt h3:first-child {
-  margin-top: 0;
+/* A control that is not a stage in the sequence: dashed, and offset so it
+   reads as attached to the side rather than part of the chain. */
+.amob__card--aside {
+  border-style: dashed;
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  margin-left: var(--space-5);
 }
 
-.arch__alt ul {
-  list-style: none;
-  padding: 0;
-  display: grid;
-  gap: var(--space-2);
+.amob__group {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 var(--space-2);
 }
 
-.prose .arch__alt ul {
-  padding: 0;
-}
-
-.arch__alt li {
-  margin: 0;
-  padding-left: var(--space-5);
-  position: relative;
-  font-size: var(--step-0);
-}
-
-.arch__alt li::before {
-  content: "→";
-  position: absolute;
-  left: 0;
+.amob__card--aside .amob__group {
   color: var(--accent);
 }
 
-.arch__alt strong {
-  font-weight: 600;
+.amob__aside-detail {
+  margin: 0;
+  font-size: var(--step-0);
+  color: var(--text);
+}
+
+.amob__chips {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.prose .amob__chips {
+  padding: 0;
+}
+
+.prose .amob__chips li,
+.amob__chip {
+  margin: 0;
+  padding: 0.2em 0.6em;
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* Scoped under .prose as well, because `.prose .amob__chips li` above is
+   more specific than a bare class and was winning on colour. */
+.prose .amob__chips li.amob__chip--key,
+.amob__chip--key {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* The connector between two cards: a short rule with the verb on it. */
+.amob__edge {
+  position: relative;
+  margin: 0;
+  padding: var(--space-4) 0 var(--space-4) var(--space-5);
+  color: var(--text-dim);
+}
+
+.amob__edge::before {
+  content: "";
+  position: absolute;
+  left: var(--space-3);
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--border-strong);
+}
+
+.amob__edge::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--space-3) - 3px);
+  bottom: 2px;
+  width: 7px;
+  height: 7px;
+  border-right: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
+  transform: rotate(45deg);
 }
 
 @media (min-width: 60rem) {
@@ -86,12 +165,14 @@
     display: block;
   }
 
-  /* display:none, not a visually-hidden clip. The SVG above this breakpoint
-     is a real accessible representation: it has a labelled group role and
-     every node is focusable with an aria-label naming its connections. A
-     clipped copy of the same information would be read out twice. Below the
-     breakpoint the SVG is display:none and therefore out of the tree, and
-     this becomes the only representation. Exactly one at every width. */
+  .amob {
+    display: none;
+  }
+
+  /* The SVG is the accessible representation above this breakpoint, so the
+     text alternative goes out of the tree rather than being read as a second
+     copy of the same relationships. Below it, the SVG is display:none and
+     the grouped cards are aria-hidden, leaving this as the only one. */
   .arch__alt {
     display: none;
   }
@@ -228,13 +309,6 @@
   marker-end: url(#arrow-accent);
 }
 
-.ac--unverified {
-  stroke: var(--border-strong);
-  stroke-dasharray: 1 5;
-  stroke-linecap: round;
-  marker-end: url(#arrow);
-}
-
 .ac__verb {
   fill: var(--text-dim);
   font-family: var(--font-mono);
@@ -314,9 +388,7 @@
 .anode:hover > .ac--control,
 .anode:focus-visible > .ac--control,
 .anode:hover > .ac--data,
-.anode:focus-visible > .ac--data,
-.anode:hover > .ac--unverified,
-.anode:focus-visible > .ac--unverified {
+.anode:focus-visible > .ac--data {
   marker-end: url(#arrow-accent);
 }
 

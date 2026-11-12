@@ -1,21 +1,31 @@
 {{/* Architecture diagram.
 
        {{< architecture svg="infrastructure-agent" label="..." caption="..." >}}
-       ### How to read it
-       - **Slack** carries the request in
+       [Request] Slack
+       -> request
+       [Orchestration] LangGraph*
+       ---
+       ### Components
+       - **Slack** is the request interface...
        {{< /architecture >}}
 
-     `svg` names a file in assets/diagrams/. It is inlined so that the shared
-     CSS vocabulary in diagram-system.css styles it and both themes work from
-     the site tokens, with no second copy of the drawing and no runtime fetch.
+     Inner content is split on a `---` line. Above it is the mobile
+     composition; below it is the text alternative.
 
-     Exactly one accessible representation at any width. Above 60rem the SVG
-     is it: a labelled group whose nodes are focusable and carry aria-labels
-     naming their connections, which is also what gives keyboard users the
-     same highlighting a mouse gets. Below 60rem the SVG is display:none and
-     so out of the accessibility tree, and the inner content takes over as
-     both the visible composition and the accessible one. A phone gets a
-     readable structure instead of a shrunken picture of one.
+     Mobile syntax, one line each:
+       [Group name] Chip, Chip*, Chip      a group card; * emphasises a chip
+       -> verb                             a labelled connector to the next card
+       !! Note :: detail                   a control that is not in the sequence
+
+     Three representations, one per context, and exactly one of them is in the
+     accessibility tree at a time:
+
+       >= 60rem   the SVG. A labelled group whose nodes are focusable and
+                  carry aria-labels naming their connections, which is what
+                  gives keyboard users the same highlighting a mouse gets.
+       <  60rem   the grouped cards below, as real text that reflows.
+       always     the text alternative, sr-only, for the detail neither
+                  visual form carries.
 
      The SVG is deliberately not aria-hidden: focusable elements inside an
      aria-hidden subtree are a WCAG failure, so the choice was between
@@ -24,6 +34,9 @@
 {{- $name := .Get "svg" -}}
 {{- $res := resources.Get (printf "diagrams/%s.svg" $name) -}}
 {{- $id := printf "arch-%s" (anchorize $name) -}}
+{{- $parts := split .Inner "\n---\n" -}}
+{{- $spec := index $parts 0 -}}
+{{- $alt := cond (gt (len $parts) 1) (index $parts 1) "" -}}
 
 <figure class="arch" aria-labelledby="{{ $id }}-label">
   <p class="arch__label mono" id="{{ $id }}-label">{{ .Get "label" | default "Architecture" }}</p>
@@ -36,9 +49,45 @@
   {{- errorf "architecture shortcode: assets/diagrams/%s.svg not found" $name -}}
   {{- end }}
 
-  <div class="arch__alt">
-    {{ .Inner | markdownify }}
+  {{/* Mobile composition: grouped cards with labelled connectors between
+       them, rather than a list of every component and every relationship. */}}
+  <div class="amob" aria-hidden="true">
+    {{- range split (trim $spec "\n ") "\n" }}
+    {{- $line := trim . " \t" }}
+    {{- if hasPrefix $line "[" }}
+      {{- $close := index (findRE `^\[[^\]]*\]` $line) 0 }}
+      {{- $group := trim (trim $close "[]") " " }}
+      {{- $rest := trim (strings.TrimPrefix $close $line) " " }}
+    <div class="amob__card">
+      <p class="amob__group mono">{{ $group }}</p>
+      <ul class="amob__chips">
+        {{- range split $rest "," }}
+        {{- $chip := trim . " " }}
+        {{- if $chip }}
+        <li class="amob__chip mono{{ if hasSuffix $chip "*" }} amob__chip--key{{ end }}">{{ trim $chip "*" }}</li>
+        {{- end }}
+        {{- end }}
+      </ul>
+    </div>
+    {{- else if hasPrefix $line "->" }}
+    <p class="amob__edge mono">{{ trim (strings.TrimPrefix "->" $line) " " }}</p>
+    {{- else if hasPrefix $line "!!" }}
+      {{- $bits := split (trim (strings.TrimPrefix "!!" $line) " ") "::" }}
+    <div class="amob__card amob__card--aside">
+      <p class="amob__group mono">{{ trim (index $bits 0) " " }}</p>
+      {{- if gt (len $bits) 1 }}
+      <p class="amob__aside-detail">{{ trim (index $bits 1) " " }}</p>
+      {{- end }}
+    </div>
+    {{- end }}
+    {{- end }}
   </div>
+
+  {{- with $alt }}
+  <div class="arch__alt">
+    {{ . | markdownify }}
+  </div>
+  {{- end }}
 
   {{- with .Get "caption" }}
   <figcaption>{{ . | markdownify }}</figcaption>

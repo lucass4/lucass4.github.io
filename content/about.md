@@ -58,8 +58,8 @@ I'd give engineers context and guardrails before I'd give them answers. Earlier 
 career I went deep enough on problems that I became part of the critical path, and the
 decision processes I've built since are partly a correction for that.
 
-The problems that hold my attention have a number attached. Cost, latency, throughput, and
-the time it takes to get from a request to a running environment.
+Cost, latency, throughput, and the time it takes to get from a request to a running
+environment.
 
 ## Outside work
 

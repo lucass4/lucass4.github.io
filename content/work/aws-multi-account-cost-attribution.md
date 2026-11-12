@@ -36,11 +36,13 @@ I wrote the attribution framework and the enforcement model behind it.
 
 ## The design
 
-A five-tag schema carries the attribution, so every cost line can be traced without a
-lookup table living in someone's head.
+A five-tag schema carries the attribution, so a tagged resource can be traced without a
+lookup table living in someone's head. It does not cover everything on the bill: the deny
+below applies to stateful resources, so ephemeral work can run untagged, and shared
+compute needed its own rule.
 
-Service Control Policies enforce it by denying untagged stateful resources. This is the
-decision I'd defend hardest. The common approach scans for untagged resources and chases
+Service Control Policies enforce it by denying untagged stateful resources. The common
+approach scans for untagged resources and chases
 the owners, which leaves the data wrong between the mistake and the sweep, and there's
 always somewhere it's wrong. An SCP that refuses to create an untagged stateful resource
 keeps bad data out from the start. The cost is that somebody's Terraform plan fails, which

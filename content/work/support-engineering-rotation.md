@@ -1,5 +1,5 @@
 ---
-title: "One Engineer Takes the Interrupts So Seven Can Build"
+title: "Building a Weekly Infrastructure Support Rotation"
 weight: 4
 featured: true
 metric: "1 week in 10"
@@ -7,7 +7,7 @@ metric_note: "every engineer rotates through every area"
 problem: "Infrastructure requests, alerts and dependency upgrades arrived continuously and landed on whoever saw them first, so project work was interrupted constantly and each area's knowledge stayed with its specialist."
 role: "Designed it, wrote the process, implemented it and rolled it out"
 scale: "Grew to ten engineers across four countries, every Infrastructure-owned repository"
-outcome: "Interrupts have one owner per week; the other seven keep their project time, and everyone passes through every area in turn"
+outcome: "Interrupts have one owner per week; the other nine keep their project time, and everyone passes through every area in turn"
 stack: ["Argo CD", "Renovate", "ClickUp", "Slack", "Kanban"]
 description: "A weekly support engineer rotation at Fortis Games: one person absorbs requests, alerts and dependency upgrades, which protects everyone else's project time and spreads knowledge across every area of the platform."
 ---
@@ -106,8 +106,7 @@ and not an attempt to reconstruct it.
 
 ## What it did
 
-The direct effect is the one it was designed for. Seven engineers get a week where
-interrupts are somebody else's job.
+Nine engineers get a week where interrupts are somebody else's job.
 
 The second effect wasn't something I designed for, and it's the one I'd point at now. Every
 engineer passes through every area, roughly a week in ten. The SRE specialist spends a

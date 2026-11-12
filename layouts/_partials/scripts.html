@@ -1,8 +1,7 @@
-{{/* All three are tiny and no-op when their targets are absent, so they are
+{{/* Both are tiny and no-op when their targets are absent, so they are
      bundled unconditionally instead of being gated per page type. */}}
 {{- $js := slice
       (resources.Get "js/theme.js")
-      (resources.Get "js/collapse.js")
       (resources.Get "js/code-copy.js") -}}
 {{- $bundle := $js | resources.Concat "js/site.js" -}}
 {{- if hugo.IsProduction -}}

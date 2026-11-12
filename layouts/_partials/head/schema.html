@@ -1,0 +1,22 @@
+{{- if .IsHome -}}
+{{- $person := dict
+  "@context" "https://schema.org"
+  "@type" "Person"
+  "name" site.Params.authorName
+  "url" site.BaseURL
+  "jobTitle" "Platform and Infrastructure Engineering Leader"
+  "address" (dict "@type" "PostalAddress" "addressLocality" "Metro Vancouver" "addressRegion" "BC" "addressCountry" "CA")
+  "sameAs" (slice site.Params.linkedin site.Params.github)
+-}}
+<script type="application/ld+json">{{ $person | jsonify }}</script>
+{{- else if and .IsPage (eq .Section "writing") -}}
+{{- $article := dict
+  "@context" "https://schema.org"
+  "@type" "BlogPosting"
+  "headline" .Title
+  "datePublished" (.Date.Format "2006-01-02")
+  "url" .Permalink
+  "author" (dict "@type" "Person" "name" site.Params.authorName "url" site.BaseURL)
+-}}
+<script type="application/ld+json">{{ $article | jsonify }}</script>
+{{- end -}}

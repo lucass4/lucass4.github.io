@@ -1,0 +1,16 @@
+{{ define "main" }}
+<div class="wrap wrap--narrow">
+  <header class="page-head">
+    <h1 class="page-head__title">{{ .Title }}</h1>
+    {{- with .Content }}
+    <div class="page-head__lede">{{ . }}</div>
+    {{- end }}
+  </header>
+
+  <ul class="article-list article-list--index">
+    {{- range .RegularPages }}
+    {{ partial "article-preview.html" (dict "page" . "level" 2) }}
+    {{- end }}
+  </ul>
+</div>
+{{ end }}

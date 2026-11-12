@@ -1,0 +1,9 @@
+{{/* Only worth a table of contents once a page is long enough to need one.
+     Fragments.Identifiers is every heading anchor on the page; Headings is a
+     tree and its length is 1 for a flat document, which is not what we want. */}}
+{{- if and (ge .WordCount 600) (ge (len .Fragments.Identifiers) 4) }}
+<nav class="toc" aria-labelledby="toc-title">
+  <h2 class="toc__title mono" id="toc-title">On this page</h2>
+  {{ .TableOfContents }}
+</nav>
+{{- end }}

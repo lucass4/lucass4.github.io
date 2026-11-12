@@ -1,0 +1,27 @@
+{{- $page := . -}}
+{{- $level := 3 -}}
+{{- if reflect.IsMap . -}}
+  {{- $page = .page -}}
+  {{- $level = .level | default 3 -}}
+{{- end -}}
+{{- with $page }}
+<li class="article-item">
+  <p class="article-item__meta mono">
+    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
+    {{- with .Params.tags }}
+    <span class="sep" aria-hidden="true">·</span>
+    <span>{{ delimit (first 3 .) ", " }}</span>
+    {{- end }}
+    {{- if ge .ReadingTime 1 }}
+    <span class="sep" aria-hidden="true">·</span>
+    <span>{{ .ReadingTime }} min read</span>
+    {{- end }}
+  </p>
+  <h{{ $level }} class="article-item__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h{{ $level }}>
+  {{- with .Description }}
+  <p class="article-item__summary">{{ . }}</p>
+  {{- else }}
+  <p class="article-item__summary">{{ .Summary | plainify | truncate 170 }}</p>
+  {{- end }}
+</li>
+{{- end }}

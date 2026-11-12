@@ -1,0 +1,16 @@
+{{ define "main" }}
+<article class="prose-page">
+  <div class="wrap wrap--narrow">
+    <header class="page-head">
+      <h1 class="page-head__title">{{ .Title }}</h1>
+      {{/* No standfirst here. `preview` exists for the home page's About
+           section and `description` for metadata; printing either one above
+           the body just restates the opening paragraph. */}}
+    </header>
+
+    <div class="prose">
+      {{ .Content }}
+    </div>
+  </div>
+</article>
+{{ end }}

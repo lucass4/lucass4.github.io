@@ -1,0 +1,17 @@
+{{ define "main" }}
+<div class="wrap wrap--narrow">
+  <header class="page-head">
+    <p class="page-head__kicker mono">404</p>
+    <h1 class="page-head__title">That page is not here</h1>
+    <p class="page-head__lede">The link may be out of date, or the page may have moved.</p>
+  </header>
+  <div class="prose">
+    <ul>
+      <li><a href="{{ "/" | relURL }}">Home</a></li>
+      {{- with site.GetPage "/work" }}{{ if .RegularPages }}<li><a href="{{ .RelPermalink }}">Work</a></li>{{ end }}{{ end }}
+      {{- with site.GetPage "/writing" }}{{ if .RegularPages }}<li><a href="{{ .RelPermalink }}">Writing</a></li>{{ end }}{{ end }}
+      {{- with site.GetPage "/about" }}<li><a href="{{ .RelPermalink }}">About</a></li>{{ end }}
+    </ul>
+  </div>
+</div>
+{{ end }}

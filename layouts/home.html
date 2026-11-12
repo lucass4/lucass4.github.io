@@ -1,0 +1,82 @@
+{{ define "main" }}
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <h1 class="hero__title" id="hero-title">{{ site.Params.headline }}</h1>
+    <div class="hero__lede">
+      {{ .Content }}
+    </div>
+    <p class="hero__meta">
+      <span class="mono">{{ site.Params.location }}</span>
+    </p>
+    <p class="hero__actions">
+      {{- with site.GetPage "/work" }}
+      <a class="btn btn--primary" href="{{ .RelPermalink }}">Explore my work</a>
+      {{- end }}
+      <a class="btn btn--ghost" href="{{ site.Params.linkedin }}" rel="me noopener">LinkedIn</a>
+    </p>
+  </div>
+</section>
+
+{{- $work := where (where site.RegularPages "Section" "work") "Params.featured" true -}}
+{{- $work = $work | first 3 -}}
+{{- with $work }}
+<section class="section" aria-labelledby="work-title">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="section__title" id="work-title">Selected work</h2>
+      {{- with site.GetPage "/work" }}
+      <a class="section__more" href="{{ .RelPermalink }}">All work</a>
+      {{- end }}
+    </div>
+    <ol class="case-list">
+      {{- range . }}
+      {{ partial "case-preview.html" . }}
+      {{- end }}
+    </ol>
+  </div>
+</section>
+{{- end }}
+
+{{/* Only rendered when something is actually published. */}}
+{{- $writing := where site.RegularPages "Section" "writing" -}}
+{{- with $writing | first 3 }}
+<section class="section" aria-labelledby="writing-title">
+  <div class="wrap">
+    <div class="section__head">
+      <h2 class="section__title" id="writing-title">Writing</h2>
+      {{- with site.GetPage "/writing" }}
+      <a class="section__more" href="{{ .RelPermalink }}">All writing</a>
+      {{- end }}
+    </div>
+    <ul class="article-list">
+      {{- range . }}
+      {{ partial "article-preview.html" . }}
+      {{- end }}
+    </ul>
+  </div>
+</section>
+{{- end }}
+
+{{- with site.GetPage "/about" }}
+{{- with .Params.preview }}
+<section class="section section--about" aria-labelledby="about-title">
+  <div class="wrap">
+    <h2 class="section__title" id="about-title">About</h2>
+    <p class="about-preview">{{ . }}</p>
+    <p><a class="link-arrow" href="{{ $.RelPermalink }}">Read the full background</a></p>
+  </div>
+</section>
+{{- end }}
+{{- end }}
+
+<section class="section section--contact" aria-labelledby="contact-title">
+  <div class="wrap">
+    <h2 class="section__title" id="contact-title">Contact</h2>
+    <p>LinkedIn is the reliable way to reach me.</p>
+    <p class="contact__links">
+      <a class="btn btn--ghost" href="{{ site.Params.linkedin }}" rel="me noopener">LinkedIn</a>
+      <a class="btn btn--ghost" href="{{ site.Params.github }}" rel="me noopener">GitHub</a>
+    </p>
+  </div>
+</section>
+{{ end }}

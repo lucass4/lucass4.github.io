@@ -1,0 +1,10 @@
+{{/* Both files are tiny and no-op when their targets are absent, so they are
+     bundled unconditionally instead of being gated per page type. */}}
+{{- $js := slice (resources.Get "js/theme.js") (resources.Get "js/code-copy.js") -}}
+{{- $bundle := $js | resources.Concat "js/site.js" -}}
+{{- if hugo.IsProduction -}}
+  {{- $bundle = $bundle | minify | fingerprint -}}
+<script src="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}" defer></script>
+{{- else -}}
+<script src="{{ $bundle.RelPermalink }}" defer></script>
+{{- end -}}

@@ -45,7 +45,7 @@ leaders, covering CI/CD, SRE, platform and AI infrastructure.
 The platform is EKS, with each layer chosen to be something a product team never has to
 think about.
 
-{{< architecture svg="kubernetes-platform" label="Platform architecture" caption="Grouped by domain, with every line labelled by what one component does to another. The diagram states responsibilities and relationships, not topology: cluster counts, network layout and addressing are not published." >}}
+{{< architecture svg="kubernetes-platform" label="Platform architecture" caption="Grouped by domain, with every line labelled. Kyverno's accent line is a decision applied to what Argo CD ships, not a hop the manifests take. The diagram states responsibilities and relationships, not topology: cluster counts, network layout and addressing are not published." >}}
 [Delivery] Git, Argo CD*
 -> applies, through admission
 [Cluster, on EKS] Kyverno*, Application workloads*, Istio ambient, KEDA, Karpenter, Crossplane*
@@ -54,8 +54,9 @@ think about.
 [Outside the cluster] AWS resources
 !! Terraform :: Runs outside the cluster and provisions the cluster itself and the AWS accounts underneath it. Not something a request passes through.
 ---
-Argo CD reads desired state from Git and applies manifests through Kyverno, which runs
-in the cluster as an admission webhook and either admits a workload or denies it.
+Argo CD reads desired state from Git and applies manifests to the cluster. Kyverno runs
+there as an admission webhook on what Argo CD applies, and either admits a workload or
+denies it; manifests do not pass through Kyverno on the way in.
 KEDA scales workloads on queue depth and event rate, Karpenter adds nodes for pods that
 are pending, and Istio in ambient mode connects the workloads with mTLS and L4 policy
 per node and L7 at waypoint proxies. The platform services run in the cluster too:

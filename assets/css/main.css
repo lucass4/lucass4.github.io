@@ -1493,3 +1493,35 @@ main > .section:last-of-type {
     grid-column: 1 / -1;
   }
 }
+
+/* Controls that are not positioned in the sequence. Visually attached to the
+   flow but outside its numbering, so the diagram never implies an execution
+   order for something that does not have one. */
+.flow__controls {
+  margin: var(--space-4) 0 0;
+  padding: var(--space-3) var(--space-4);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  display: grid;
+  gap: var(--space-2);
+}
+
+.flow__controls-label {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.flow__controls dd {
+  margin: 0;
+  display: grid;
+  gap: var(--space-1);
+}
+
+@media (min-width: 40rem) {
+  .flow__controls dd {
+    grid-template-columns: 11rem minmax(0, 1fr);
+    gap: var(--space-1) var(--space-4);
+    align-items: baseline;
+  }
+}

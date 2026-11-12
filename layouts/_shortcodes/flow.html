@@ -6,12 +6,17 @@
        {{< flow caption="..." label="..." >}}
        Step name :: what happens
        gate: Boundary name :: what it refuses
+       note: Control name :: applies across the whole path, not at one point
        {{< /flow >}}
 
      A line prefixed `gate:` renders as a boundary rather than a step, because
      in an agent the interesting part is not the happy path, it is where the
      path is interrupted. Steps are numbered; gates are not, so the numbering
      counts work and not checkpoints.
+
+     `note:` is for a control that does not sit at one position in the
+     sequence. Putting such a control in the numbered path would assert an
+     execution order, which is the mistake this row type exists to avoid.
 
      Same reasoning as the `stack` shortcode: HTML rather than an SVG, so it
      reflows at 390px, follows the theme tokens, stays selectable and is read
@@ -22,11 +27,13 @@
   {{- $line := trim . " \t" -}}
   {{- with $line -}}
     {{- $isGate := hasPrefix (lower $line) "gate:" -}}
+    {{- $isNote := hasPrefix (lower $line) "note:" -}}
     {{- $body := $line -}}
-    {{- if $isGate }}{{ $body = trim (substr $line 5) " " }}{{ end -}}
+    {{- if or $isGate $isNote }}{{ $body = trim (substr $line 5) " " }}{{ end -}}
     {{- $parts := split $body "::" -}}
     {{- $rows = $rows | append (dict
         "gate" $isGate
+        "note" $isNote
         "name" (trim (index $parts 0) " ")
         "detail" (cond (gt (len $parts) 1) (trim (index $parts 1) " ") "")
       ) -}}
@@ -36,8 +43,12 @@
 
 <figure class="diagram flow" role="group" aria-labelledby="{{ $id }}-label">
   <p class="diagram__label mono" id="{{ $id }}-label">{{ .Get "label" | default "Request flow" }}</p>
+  {{/* Sequenced rows stay in the ordered list. Cross-cutting controls are
+       lifted out of it, so the list only ever claims an order for things
+       that have one. */}}
   <ol class="flow__steps">
     {{- range $rows }}
+    {{- if not .note }}
     <li class="flow__row{{ if .gate }} flow__row--gate{{ end }}">
       {{- if .gate }}
       <span class="flow__gate-label mono">Boundary</span>
@@ -48,7 +59,17 @@
       {{- end }}
     </li>
     {{- end }}
+    {{- end }}
   </ol>
+  {{- $notes := where $rows "note" true }}
+  {{- with $notes }}
+  <dl class="flow__controls">
+    <dt class="flow__controls-label mono">Not in the request path</dt>
+    {{- range . }}
+    <dd><span class="flow__name">{{ .name }}</span>{{ with .detail }} <span class="flow__detail">{{ . }}</span>{{ end }}</dd>
+    {{- end }}
+  </dl>
+  {{- end }}
   {{- with .Get "caption" }}
   <figcaption>{{ . | markdownify }}</figcaption>
   {{- end }}

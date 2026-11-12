@@ -108,11 +108,10 @@ and not an attempt to reconstruct it.
 
 Nine engineers get a week where interrupts are somebody else's job.
 
-The second effect wasn't something I designed for, and it's the one I'd point at now. Every
-engineer passes through every area, roughly a week in ten. The SRE specialist spends a
-week merging CI/CD dependency upgrades. The CI/CD specialist spends a week inside Argo CD
-sync failures. Nobody can route an area's questions permanently to the person who owns that
-area, because within a couple of months they'll be answering them.
+Every engineer also passes through every area, roughly a week in ten. The SRE specialist
+spends a week merging CI/CD dependency upgrades. The CI/CD specialist spends a week inside
+Argo CD sync failures. Nobody can route an area's questions permanently to the person who
+owns that area, because within a couple of months they'll be answering them.
 
 It moved more knowledge between areas than the documentation work I ran, because it put
 people inside areas they wouldn't have picked.

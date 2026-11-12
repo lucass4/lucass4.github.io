@@ -80,12 +80,12 @@ as `article:published_time` as though it were a publication date. Articles in
 
 ### Architecture diagrams
 
-Two shortcodes, both rendering semantic HTML rather than an SVG or an image, so they
-reflow at 390px, follow the theme tokens, stay selectable and searchable, and are read in
-document order by a screen reader with no separate text alternative to maintain.
+Two shortcodes. Both follow the theme tokens, so a theme change restyles them, and both
+state responsibilities and relationships rather than topology.
 
 `stack` is a layer diagram: what each layer is responsible for and which component does
-it. It states responsibilities, not topology.
+it. One row per line, fields separated by `::`. Semantic HTML throughout, so it reflows
+at 390px and stays selectable.
 
 ```
 {{< stack label="Platform layers" caption="Optional, markdown allowed." >}}
@@ -94,19 +94,25 @@ Compute :: Managed Kubernetes :: EKS
 {{< /stack >}}
 ```
 
-`flow` is a sequence: how a request moves through a system and where it is stopped.
+`architecture` draws a component diagram. It has three representations and puts exactly
+one of them in the accessibility tree at a time: the inline SVG from
+`assets/diagrams/<name>.svg` at 60rem and above, whose nodes are focusable and carry
+aria-labels naming their connections; grouped cards below that, as real text that
+reflows; and an sr-only text alternative, always present, for the detail neither visual
+form carries. `assets/css/diagram-system.css` holds the shared SVG vocabulary, and the
+shortcode's own header comment documents the card syntax.
 
 ```
-{{< flow label="One provisioning request" caption="Optional." >}}
-Request :: Arrives in Slack as prose
-gate: Human approval :: It proposes; a person approves
-Service :: Baseline deployed on EKS
-{{< /flow >}}
+{{< architecture svg="infrastructure-agent" label="One request" caption="Optional." >}}
+[Request] Slack
+-> prose request
+[Orchestration] LangGraph*
++[Nested group] Runs inside the group above
+!! Secret redaction :: Not a stage a request passes through.
+---
+The text alternative, below the `---` line.
+{{< /architecture >}}
 ```
-
-One row per line, fields separated by `::`. A row prefixed `gate:` renders as a boundary
-instead of a numbered step, so the numbering counts work and not checkpoints, and the
-place a request gets refused is the thing that stands out.
 
 For both: only the lines you write become content. Add a diagram only when the underlying
 details are verified, and say in the caption what the diagram deliberately leaves out.

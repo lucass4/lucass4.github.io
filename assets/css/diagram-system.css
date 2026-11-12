@@ -1,10 +1,19 @@
 /* ==========================================================================
    Architecture diagram system
 
-   Inline SVG for the drawing, HTML for the content. The SVG is aria-hidden
-   and decorative; the HTML description below it is the accessible
-   representation and is also the mobile layout, so a phone gets a readable
-   structure instead of a scaled-down picture of one.
+   Inline SVG for the drawing, HTML for the content. Three representations,
+   and exactly one is in the accessibility tree at a time:
+
+     >= 60rem   the SVG. Not decorative and not aria-hidden: it is a labelled
+                group whose nodes are focusable and carry aria-labels naming
+                their connections, which is what gives a keyboard user the
+                same emphasis a mouse gets.
+     <  60rem   the grouped cards (.amob), as real text that reflows, so a
+                phone gets a readable structure instead of a scaled-down
+                picture of one. The SVG is display:none there.
+     always     the text alternative (.arch__alt), sr-only, holding the
+                detail neither visual form carries. It leaves the tree above
+                the breakpoint, where the SVG is already the description.
 
    Every colour, font and space below resolves to an existing site token. The
    SVGs carry no presentation attributes, so a theme change restyles them.
@@ -72,13 +81,34 @@
   padding: var(--space-3) var(--space-4);
 }
 
-/* A control that is not a stage in the sequence: dashed, and offset so it
-   reads as attached to the side rather than part of the chain. */
+/* Something that is not a stage in the sequence, such as a control or a
+   component that acts from outside it: dashed, and offset so it reads as
+   attached to the side rather than part of the chain. */
 .amob__card--aside {
   border-style: dashed;
   border-color: var(--accent);
   background: var(--accent-soft);
   margin-left: var(--space-5);
+}
+
+/* A group that runs inside the stage above it. Indented off the chain, and
+   the chain's rule runs unbroken past its left edge, so the next connector
+   reads as leaving that stage and not this card. */
+.amob__card--nested {
+  position: relative;
+  margin: var(--space-3) 0 0 var(--space-5);
+}
+
+.amob__card--nested::before {
+  content: "";
+  position: absolute;
+  /* Minus the card's own border, so this lands on the same pixel column as
+     the connector rule above and below it. */
+  left: calc(var(--space-3) - var(--space-5) - 1px);
+  top: calc(var(--space-3) * -1);
+  bottom: calc(var(--space-3) * -1);
+  width: 1px;
+  background: var(--border-strong);
 }
 
 .amob__group {

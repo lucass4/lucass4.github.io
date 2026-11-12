@@ -48,21 +48,22 @@ think about.
 {{< architecture svg="kubernetes-platform" label="Platform architecture" caption="Grouped by domain, with every line labelled by what one component does to another. The diagram states responsibilities and relationships, not topology: cluster counts, network layout and addressing are not published." >}}
 [Delivery] Git, Argo CD*
 -> applies, through admission
-[Cluster, on EKS] Kyverno*, Application workloads*, Istio ambient, KEDA, Karpenter, Crossplane
--> supply and observe
-[Platform services] External Secrets, ExternalDNS, cert-manager, Datadog
--> provisioned by and claimed through
-[Outside the cluster] Terraform, AWS resources
+[Cluster, on EKS] Kyverno*, Application workloads*, Istio ambient, KEDA, Karpenter, Crossplane*
++[Platform services, in the cluster] External Secrets, ExternalDNS, cert-manager, Datadog (Operator-managed agents)
+-> workloads claim, Crossplane manages
+[Outside the cluster] AWS resources
+!! Terraform :: Runs outside the cluster and provisions the cluster itself and the AWS accounts underneath it. Not something a request passes through.
 ---
 Argo CD reads desired state from Git and applies manifests through Kyverno, which runs
 in the cluster as an admission webhook and either admits a workload or denies it.
-Inside the cluster, KEDA scales workloads on queue depth and event rate, Karpenter adds
-nodes for pods that are pending, and Istio in ambient mode connects the workloads with
-mTLS and L4 policy per node and L7 at waypoint proxies. External Secrets, ExternalDNS
-and cert-manager supply secrets, DNS records and certificates to the workloads, and
-Datadog observes them. Crossplane also runs in the cluster: workloads claim managed
-dependencies through it, and its providers provision the AWS resources outside the
-cluster. Terraform provisions the cluster itself and the accounts underneath it.
+KEDA scales workloads on queue depth and event rate, Karpenter adds nodes for pods that
+are pending, and Istio in ambient mode connects the workloads with mTLS and L4 policy
+per node and L7 at waypoint proxies. The platform services run in the cluster too:
+External Secrets, ExternalDNS and cert-manager supply secrets, DNS records and
+certificates to the workloads, and Datadog's Operator-managed agents observe them.
+Crossplane runs in the cluster as well, and workloads claim managed dependencies through
+it; its providers manage the AWS resources outside the cluster. Terraform runs outside
+and provisions the cluster itself and the accounts underneath it.
 {{< /architecture >}}
 
 Delivery runs through GitOps. ArgoCD reconciles cluster state from Git, so the cluster's

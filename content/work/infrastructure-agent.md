@@ -47,16 +47,29 @@ Underneath it's a LangGraph graph reaching internal systems over MCP. MCP is doi
 work there: the tools the agent can call are described once and consumed by the model, so
 each integration isn't hand-written glue that drifts from the thing it wraps.
 
-{{< flow label="One provisioning request" caption="Ordering reflects what the permission boundaries allow: the GitHub App is allowed to open a branch, so that step needs no approval, and approval sits before anything reaches infrastructure. Secret handling is listed separately because it guards what the agent reads and what it ships, not a position in this path. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}
-Request :: Arrives in Slack as prose, usually with details missing
-Orchestration :: LangGraph graph decides which tools to call and in what order
-Tool calls :: Reaches internal systems over MCP; strict schemas, so it cannot invent a call
-Repository :: Created through a GitHub App that can open a branch but cannot merge or bypass branch protection
-gate: Human approval :: It proposes; a person approves. No production write reaches a cluster unreviewed
-Infrastructure :: Provisioned for the new environment
-Service :: Baseline deployed on EKS with observability and Okta SSO already wired up
-note: Secret handling :: Secrets are scanned and redacted before anything is embedded, and the release gate fails closed on a leaked credential
-{{< /flow >}}
+{{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Solid lines are the agent acting, dashed lines carry content, and the accent dotted line is a security control that sits outside the request path. The sparse line on the right marks the one relationship I could not verify: whether merging the branch is what triggers the apply. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}
+### Components
+
+- **Slack** is the request interface. Requests arrive as prose, usually with details missing.
+- **LangGraph** is the orchestration graph. It decides which tools to call and in what order.
+- **MCP tools** reach internal systems. Each carries a strict schema, so the agent cannot invent a call.
+- **GitHub App** opens a branch. It cannot merge or bypass branch protection, so it sits outside the production write boundary.
+- **Human approval** is the gate on that boundary. The agent proposes and a person approves.
+- **Infrastructure** is provisioned behind the gate.
+- **EKS service** is the baseline deployment, with observability and Okta SSO wired up.
+- **Secret redaction** guards what the agent reads into context and what its releases ship. It is not a stage a request passes through.
+
+### Relationships
+
+- Slack carries the request to LangGraph.
+- LangGraph invokes the MCP tools.
+- MCP tool calls open a branch through the GitHub App.
+- MCP tool calls propose a change to the human approval gate.
+- Approval allows the change to reach infrastructure.
+- Infrastructure provisioning is followed by the service deployment on EKS.
+- Secret redaction guards the orchestration layer's inputs and releases.
+- Not verified: whether the merge is what triggers the apply.
+{{< /architecture >}}
 
 ## Choosing the framework
 

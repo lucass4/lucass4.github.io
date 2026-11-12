@@ -9,9 +9,17 @@
      CSS vocabulary in diagram-system.css styles it and both themes work from
      the site tokens, with no second copy of the drawing and no runtime fetch.
 
-     The SVG is aria-hidden and decorative. The inner content is the accessible
-     representation, and below 60rem it is also the visible composition, so a
-     phone gets a readable structure instead of a shrunken picture of one.
+     Exactly one accessible representation at any width. Above 60rem the SVG
+     is it: a labelled group whose nodes are focusable and carry aria-labels
+     naming their connections, which is also what gives keyboard users the
+     same highlighting a mouse gets. Below 60rem the SVG is display:none and
+     so out of the accessibility tree, and the inner content takes over as
+     both the visible composition and the accessible one. A phone gets a
+     readable structure instead of a shrunken picture of one.
+
+     The SVG is deliberately not aria-hidden: focusable elements inside an
+     aria-hidden subtree are a WCAG failure, so the choice was between
+     keyboard parity and a decorative SVG, and keyboard parity won.
 */}}
 {{- $name := .Get "svg" -}}
 {{- $res := resources.Get (printf "diagrams/%s.svg" $name) -}}

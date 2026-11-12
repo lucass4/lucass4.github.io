@@ -3,9 +3,9 @@
      directly under the h1 on the work index; hard-coding either skips a level
      on the other page.
 
-     Title, problem and outcome only. Role and stack live on the case study
-     itself: in an index they add four lines per item without helping anyone
-     decide which one to open. */}}
+     Title, problem and the headline figure. The prose `outcome` is a sentence
+     and stays on the case study itself, in the factsheet; in an index it reads
+     past rather than landing. `role` and `stack` are there too. */}}
 {{- $page := . -}}
 {{- $level := 3 -}}
 {{- if reflect.IsMap . -}}
@@ -18,8 +18,13 @@
   {{- with .Params.problem }}
   <p class="case__problem">{{ . }}</p>
   {{- end }}
-  {{- with .Params.outcome }}
-  <p class="case__outcome"><span class="case__outcome-label mono">Outcome</span> {{ . }}</p>
+  {{- with .Params.metric }}
+  <p class="case__metric">
+    <span class="case__metric-figure">{{ . }}</span>
+    {{- with $page.Params.metric_note }}
+    <span class="case__metric-note mono">{{ . }}</span>
+    {{- end }}
+  </p>
   {{- end }}
   <p class="case__more"><a class="link-arrow" href="{{ .RelPermalink }}">Read the case study<span class="sr-only">: {{ .Title }}</span></a></p>
 </li>

@@ -2,6 +2,8 @@
 title: "Kubernetes Platform Architecture"
 weight: 1
 featured: true
+metric: "No downtime"
+metric_note: "ECS to EKS, no maintenance window"
 problem: "A game company with no internal platform needed one that studio teams could ship on without each team rebuilding infrastructure from scratch."
 role: "Designed the architecture end to end, then led the function that ran it"
 scale: "Multiple game studios, teams across four countries"

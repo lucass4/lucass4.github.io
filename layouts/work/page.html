@@ -14,9 +14,9 @@
       {{- end }}
 
       {{/* Role, scale, outcome and stack were dropped from the index previews
-           and live here instead. Collapsed on mobile so they do not push the
-           first paragraph below a second screen. */}}
-      <details class="factsheet-wrap" open>
+           and live here instead. Ships closed and is expanded by CSS above
+           48rem; expanding it with script after paint caused a layout shift. */}}
+      <details class="factsheet-wrap">
         <summary class="factsheet-wrap__summary mono">Details</summary>
         <dl class="factsheet">
           {{- with .Params.role }}

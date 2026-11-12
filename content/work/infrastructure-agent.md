@@ -2,6 +2,8 @@
 title: "Infrastructure Automation with an Agent"
 weight: 2
 featured: true
+metric: "2 days → 30 seconds"
+metric_note: "50 environments in three months"
 problem: "Standing up a new game environment took about two days of coordinated work across several people, which made experiments expensive enough that teams avoided them."
 role: "Designed and built it, including the security model and the release gate"
 scale: "50 environments provisioned in three months"
@@ -44,6 +46,17 @@ takes about 30 seconds. It ran 50 times in three months.
 Underneath it's a LangGraph graph reaching internal systems over MCP. MCP is doing real
 work there: the tools the agent can call are described once and consumed by the model, so
 each integration isn't hand-written glue that drifts from the thing it wraps.
+
+{{< flow label="One provisioning request" caption="Every step and both boundaries are in the confirmed design. What is deliberately absent: internal service names, the tool list, and the repository and cluster naming. The numbering counts work, so the boundaries are not numbered." >}}
+Request :: Arrives in Slack as prose, usually with details missing
+Orchestration :: LangGraph graph decides which tools to call and in what order
+Tool calls :: Reaches internal systems over MCP; strict schemas, so it cannot invent a call
+gate: Secret redaction :: Scanned and redacted before anything is embedded
+gate: Human approval :: It proposes; a person approves. No production write reaches a cluster unreviewed
+Repository :: Created through a GitHub App that can open a branch but cannot merge or bypass branch protection
+Infrastructure :: Provisioned for the new environment
+Service :: Baseline deployed on EKS with observability and Okta SSO already wired up
+{{< /flow >}}
 
 ## Choosing the framework
 

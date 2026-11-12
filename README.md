@@ -20,15 +20,19 @@ does not.
 ## Layout
 
 ```
-assets/css/main.css      design tokens and all component styles
-assets/css/chroma.css    generated syntax highlighting, see below
-assets/js/               theme toggle and copy-code, both progressive enhancement
-content/_index.md        home page lede
-content/about.md         about page, including the career timeline
-content/work/            case studies
-layouts/                 the theme
+assets/css/main.css            design tokens and all component styles
+assets/css/diagram-system.css  architecture diagrams: SVG vocabulary and mobile cards
+assets/css/chroma.css          generated syntax highlighting, see below
+assets/diagrams/               one SVG per architecture diagram
+assets/js/                     theme toggle and copy-code, both progressive enhancement
+content/_index.md              home page lede
+content/about.md               about page, including the career timeline
+content/work/                  case studies
+drafts/                        articles not ready to publish; Hugo never reads this
+layouts/                       the theme
 static/favicon.svg
-tools/gen-chroma.py      regenerates assets/css/chroma.css
+tools/gen-chroma.py            regenerates assets/css/chroma.css
+.github/screenshots/           review screenshots, not referenced by the site
 ```
 
 `layouts/` has no `themes/` directory and `hugo.toml` sets no `theme`, so the templates
@@ -68,11 +72,17 @@ A case study goes in `content/work/`. Front matter it understands:
 | `metric` | The headline figure, e.g. `2 days → 30 seconds`. Shown large in indexes |
 | `metric_note` | Small print beside the figure |
 | `stack` | List, rendered as a monospace run |
-| `featured` | `true` puts it on the home page, highest three by `weight` |
+| `weight` | Order within the section, lowest first |
+| `featured` | `true` puts it on the home page, the first three by `weight` |
+| `description` | Meta description, `og:description` and `twitter:description` |
+| `period` | Date range on the factsheet. The template reads it; no case study sets one |
 
 Indexes show title, problem and `metric`. The prose `outcome`, plus `role`, `scale` and
 `stack`, appear on the case study itself, in a block that is collapsed on mobile. A
 sentence reads past in a list; a figure lands.
+
+Elsewhere: `preview` is the About page's standfirst on the home page, `tags` renders on
+articles in `content/writing/`, and `noindex` adds a robots meta tag.
 
 Case studies carry no `date`: they are ordered by `weight`, and a date would be published
 as `article:published_time` as though it were a publication date. Articles in
@@ -116,6 +126,49 @@ The text alternative, below the `---` line.
 
 For both: only the lines you write become content. Add a diagram only when the underlying
 details are verified, and say in the caption what the diagram deliberately leaves out.
+
+#### Authoring an SVG
+
+The drawing is hand-placed. There is no layout engine, so coordinates, label positions
+and collisions are yours to get right. Both existing diagrams use a viewBox around
+920–980 by 600–620 and scale to 100% width, which at the prose column's 672px renders
+10px type at roughly 7px.
+
+| Class | Goes on | Does |
+|---|---|---|
+| `anode` | the `<g>` wrapping one component | Focusable: pair it with `tabindex="0"`, `role="img"` and an `aria-label` naming the component's connections |
+| `an__focus-ring` | a `<rect>`, first child of `anode` | Invisible until `:focus-visible`, then a dashed accent outline |
+| `an`, `an__box`, `an__label`, `an__sub` | the inner `<g>` and its parts | The drawn box, its name, and a one-line qualifier under it |
+| `an--orchestration`, `an--security`, `an--foundation` | the inner `an` group | Tier accents: accent border, accent fill, dashed and receding |
+| `ag__box`, `ag__label` | a group `<g>`, not focusable | A labelled region. Nesting one group box inside another means deployment containment |
+| `ab__box`, `ab__label` | a boundary `<g>` | Trust boundary: accent, dashed, heavier than a group |
+| `ac`, plus `ac--control`, `ac--data` or `ac--security` | a `<path>` | Acts on (solid), reads state from (dashed), policy decision (accent dotted) |
+| `ac__verb` | a `<text>` | The label sitting on a connector |
+| `al__label` | a `<text>` | Legend text. Each diagram draws its own legend covering only the styles it uses |
+
+Four rules that are not obvious from reading one diagram:
+
+1. **A connector belongs to the node it leaves, as a direct child of that `anode`
+   group.** The highlight rules are `.anode:hover > .ac` and `.anode:focus-visible > .ac`,
+   which is what gives keyboard users the emphasis a mouse gets without any script. Nest
+   a connector deeper and it stops lighting up; park it at the top level and it never
+   lights up at all.
+2. **No presentation attributes.** Every colour and width resolves to a token in
+   `diagram-system.css`, which is what makes the theme toggle restyle the drawing. A
+   `fill="#1f2328"` in the SVG survives the switch and is wrong in one of the two themes.
+3. **Arrow markers are shared.** `#arrow` and `#arrow-accent` come from
+   `layouts/_partials/svg-defs.html`, emitted once per document. A diagram that defines
+   its own `<marker id="arrow">` duplicates the id as soon as a page carries two
+   diagrams.
+4. **Group boxes are deployment boundaries, not labels.** If a component runs on the
+   cluster, draw it inside the cluster box, even when it spends its time talking to
+   things outside. The in-cluster controllers in `kubernetes-platform.svg` are the
+   worked example.
+
+A node whose connector points at another connector rather than at a node is saying the
+thing it names is a gate on that edge, not a stop along it. Kyverno is drawn that way:
+Argo CD applies to the API server, which calls the admission webhook and refuses the
+request itself on a deny, so nothing routes through Kyverno.
 
 Articles go in `content/writing/`. The section, its nav entry and the home page's Writing
 block all appear only once at least one article is published. There is no flag to set:

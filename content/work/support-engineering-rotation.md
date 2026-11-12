@@ -20,17 +20,16 @@ description: "A weekly support engineer rotation at Fortis Games: one person abs
 
 A platform team fields a continuous stream of small work. Requests for access, a service
 behaving oddly, an alert firing, a dependency upgrade waiting on review. None of it is
-optional and none of it is the project anyone is supposed to be working on this quarter.
+optional and none of it is the project anyone is meant to be working on this quarter.
 
-Handled the obvious way, that work lands on whoever happens to see the message. The cost
-shows up twice. Project work gets fragmented, because an engineer who might be interrupted
-can't plan a day around deep work. And the interrupts route themselves to whoever is known
-to answer them, which means they keep reaching the same person.
+Left alone, that work lands on whoever sees the message first, and it costs twice. An
+engineer who might be interrupted can't plan a day around deep work. And interrupts route
+themselves to whoever is known to answer them, so they keep reaching the same person.
 
 The second cost was the sharper one for us. The team was organised around four areas with a
-lead each: CI/CD, SRE, platform, AI infrastructure. Specialisation is why that structure
-works, and it's also how an area becomes one person's private knowledge. When every CI/CD
-question goes to the CI/CD people, nobody else ever learns CI/CD.
+lead each: CI/CD, SRE, platform, AI infrastructure. Specialisation is why that works, and
+it's also how an area becomes one person's private knowledge. When every CI/CD question
+goes to the CI/CD people, nobody else learns CI/CD.
 
 ## Constraints
 
@@ -73,15 +72,19 @@ Project work is explicitly allowed to be large. The constraint is that it has to
 pausable, not that it has to be small. If the week forbids real work, the team loses
 capacity it had planned for.
 
-## Making requests visible
+## One channel, and a ticket behind every message
 
-A request in a chat channel isn't tracked. Reacting to it with an envelope emoji creates a
-tracked task automatically, so capturing a request costs one reaction and there's nothing a
-requester has to learn.
+Requests arrive in a single operations channel. A request in a chat channel isn't tracked,
+so reacting to it with an envelope emoji creates a tracked task automatically. Capturing a
+request costs one reaction, and there's nothing a requester has to learn.
 
-The support engineer coordinates it through to completion even when somebody else
-implements the fix. Ownership follows the request and not the implementation, so a request
-that gets handed off still has someone answerable for it.
+The channel is also where the people who filed the requests find out what's happening to
+them, so keeping requesters informed of progress and blockers is written into the role, and
+the ticket gives those updates somewhere to live.
+
+The support engineer coordinates each request to completion even when somebody else
+implements the fix. Ownership follows the request and not the implementation, so one that
+gets handed off still has someone answerable for it.
 
 ## No broken windows
 
@@ -118,6 +121,12 @@ area, because in eight weeks they'll be answering them.
 It moved more knowledge between areas than the documentation work I ran, because it put
 people inside areas they wouldn't have picked.
 
+The teams filing requests were happier with us afterwards. I never measured that, so it's
+what I observed and what they told me, not a number I can show. What I'd point to as the
+likely cause is the part that was visible to them: a named person each week, a ticket
+behind every request, and somebody whose job that week included telling them where their
+request had got to.
+
 ## Trade-offs
 
 One engineer in eight on support is around twelve percent of capacity going to work that
@@ -131,10 +140,25 @@ knowledge moves.
 A week is long enough to see something through and short enough that the turn comes round
 often. Shorter shifts would add handoffs, and every handoff is a chance to drop context.
 
+## Where I was taking it next
+
+The rotation gives interrupts an owner. It doesn't reduce how many arrive, and a good share
+of them are alerts needing the same first twenty minutes of investigation every time.
+
+My last piece of work at Fortis was a proof-of-concept evaluation of kagent, which runs
+agents as Kubernetes resources with sandboxed execution. The fit here is what interested
+me: an agent that picks up an alert, gathers the context a human would gather and attaches
+it to the ticket changes what the support engineer starts from. The propose-and-approve
+boundary from the Slack provisioning agent applies, because triage that writes to a cluster
+on its own is a much worse idea.
+
+That stayed a proof of concept, so this is a direction I'd started on and not a result.
+
 ## What I would do differently
 
 Measure it. I can describe what the rotation changed and I can't show it. Request volume
-and time to acknowledge were both available and neither was tracked.
+and time to acknowledge were both available and neither was tracked, and the satisfaction
+improvement above is exactly the kind of claim that needed a number.
 
 ## Open before this publishes
 

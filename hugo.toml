@@ -13,7 +13,8 @@ DefaultContentLanguage           = "en"
     fadeIn                       = true
     fadeInIndex                  = false
     dateFormat                   = "Jan 2, 2006"
-    email                        = "me.lucas.sa@gmail.com"
+    # No `email` param on purpose: it renders the address as plain text in the
+    # contact section, where scrapers read it. Reach-out goes through LinkedIn.
 
     [params.home]
         introHeight              = "medium"
@@ -40,10 +41,6 @@ DefaultContentLanguage           = "en"
         url       = "https://linkedin.com/in/lucassantanna"
         icon      = "linkedin-in"
         icon_pack = "fab"
-    [[params.social]]
-        url       = "mailto:me.lucas.sa@gmail.com"
-        icon      = "paper-plane"
-        icon_pack = "fas"
 
 [taxonomies]
   tag = "tags"

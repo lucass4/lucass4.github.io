@@ -2,4 +2,4 @@
 title: "Contact"
 ---
 
-Email is the reliable way to reach me. I read LinkedIn less often but it does get read.
+LinkedIn is the way to reach me. The icon above goes to my profile.

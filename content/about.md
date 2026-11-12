@@ -60,6 +60,12 @@ decision processes I've built since are partly a correction for that.
 The problems that hold my attention have a number attached. Cost, latency, throughput, and
 the time it takes to get from a request to a running environment.
 
+## Outside work
+
+I've been boxing for a year and doing CrossFit for three. A homelab and a 3D printer
+absorb most of my tinkering at home. I play drums and, more quietly, acoustic guitar. The
+rest of my time goes to my wife and our dog.
+
 ## Career
 
 <ul class="timeline">

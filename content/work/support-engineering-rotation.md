@@ -1,6 +1,5 @@
 ---
 title: "One Engineer Takes the Interrupts So Seven Can Build"
-draft: true
 weight: 4
 featured: true
 metric: "1 week in 10"
@@ -12,9 +11,6 @@ outcome: "Interrupts have one owner per week; the other seven keep their project
 stack: ["Argo CD", "Renovate", "ClickUp", "Slack", "Kanban"]
 description: "A weekly support engineer rotation at Fortis Games: one person absorbs requests, alerts and dependency upgrades, which protects everyone else's project time and spreads knowledge across every area of the platform."
 ---
-
-> Draft. Written from the team's own process document. Three things need checking before
-> this publishes; they're at the end.
 
 ## Context
 
@@ -160,9 +156,3 @@ That stayed a proof of concept, so this is a direction I'd started on and not a 
 Measure it. I can describe what the rotation changed and I can't show it. Request volume
 and time to acknowledge were both available and neither was tracked, and the satisfaction
 improvement above is exactly the kind of claim that needed a number.
-
-## Open before this publishes
-
-One thing, and it will not be resolved: there are no numbers. Request volume, time to
-acknowledge and Renovate backlog depth were all available and none was tracked, which the
-section above says plainly. Nothing else here needs checking.

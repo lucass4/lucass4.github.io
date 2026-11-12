@@ -56,9 +56,9 @@ Shared compute uses a landlord-and-tenant split, built on Datadog container cost
 allocation. Tenants are charged for the pod resources they request. Idle capacity is
 charged to my own team.
 
-That last part is the bit worth copying. Socialise unused capacity across tenants and
-nobody owns bin-packing efficiency, so it degrades without anyone noticing. Charging it to
-the platform team puts the bill with the team that can act on it.
+Socialise unused capacity across tenants and nobody owns bin-packing efficiency, so it
+degrades without anyone noticing. Charging it to the platform team puts the bill with the
+team that can act on it.
 
 ## Trade-offs
 
@@ -75,7 +75,6 @@ security boundary, and that was a separate conversation.
 
 Attribution survived the consolidation, enforced at admission.
 
-The lesson is that an account structure carries meaning nobody wrote down. Before
-collapsing a boundary it's worth asking what work that boundary has quietly been doing.
-Billing isolation was never why those 38 accounts existed, and it was still load-bearing by
-the time anyone looked.
+We hadn't documented all the functions those account boundaries served. Billing isolation
+was never why the 38 accounts existed, and it was still load-bearing by the time anyone
+looked.

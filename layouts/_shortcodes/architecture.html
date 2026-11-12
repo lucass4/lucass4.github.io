@@ -14,8 +14,10 @@
 
      Mobile syntax, one line each:
        [Group name] Chip, Chip*, Chip      a group card; * emphasises a chip
+       +[Group name] Chip, Chip            a group card nested in the one above
        -> verb                             a labelled connector to the next card
-       !! Note :: detail                   a control that is not in the sequence
+       !! Note :: detail                   something attached to the side of the
+                                           sequence, not a stage in it
 
      Three representations, one per context, and exactly one of them is in the
      accessibility tree at a time:
@@ -54,11 +56,15 @@
   <div class="amob" aria-hidden="true">
     {{- range split (trim $spec "\n ") "\n" }}
     {{- $line := trim . " \t" }}
+    {{/* A leading + means this group runs inside the group above it, rather
+         than after it: the chain continues past an indented card. */}}
+    {{- $nested := hasPrefix $line "+[" }}
+    {{- if $nested }}{{ $line = trim (strings.TrimPrefix "+" $line) " " }}{{ end }}
     {{- if hasPrefix $line "[" }}
       {{- $close := index (findRE `^\[[^\]]*\]` $line) 0 }}
       {{- $group := trim (trim $close "[]") " " }}
       {{- $rest := trim (strings.TrimPrefix $close $line) " " }}
-    <div class="amob__card">
+    <div class="amob__card{{ if $nested }} amob__card--nested{{ end }}">
       <p class="amob__group mono">{{ $group }}</p>
       <ul class="amob__chips">
         {{- range split $rest "," }}

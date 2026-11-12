@@ -1,5 +1,5 @@
-<svg class="arch__svg" viewBox="0 0 920 620" role="group"
-     aria-label="Kubernetes platform architecture. Twelve components in four domains; use Tab to step through them."
+<svg class="arch__svg" viewBox="0 0 980 620" role="group"
+     aria-label="Kubernetes platform architecture. Twelve focusable components in four domains, with platform services nested inside the EKS cluster; use Tab to step through them."
      xmlns="http://www.w3.org/2000/svg">
 
   <!-- Each node owns the connectors that leave it, so hover and keyboard
@@ -7,25 +7,29 @@
        Domain groups are drawn first and are not focusable: they label a
        region, they are not components.
 
-       Kyverno and Crossplane sit inside the cluster group because both run
-       in it: Kyverno as an admission webhook, Crossplane as controllers
-       whose providers reach outward. Only Terraform and the AWS resources
-       that it and Crossplane manage are genuinely outside. -->
+       Group boxes are deployment boundaries, not just labels. Everything that
+       runs on the cluster is drawn inside the cluster box: Kyverno as an
+       admission webhook, Crossplane as controllers whose providers reach
+       outward, and the platform services as a nested group, since External
+       Secrets, ExternalDNS, cert-manager and the Datadog agents are all
+       in-cluster controllers and agents that happen to talk to services
+       outside. Only Terraform, which runs outside and provisions the cluster,
+       and the AWS resources Crossplane manages are genuinely outside. -->
 
   <g class="ag">
     <rect class="ag__box" x="16" y="70" width="176" height="196" rx="10" />
     <text class="ag__label" x="16" y="62">Delivery</text>
   </g>
   <g class="ag">
-    <rect class="ag__box" x="250" y="56" width="470" height="380" rx="10" />
+    <rect class="ag__box" x="250" y="56" width="716" height="380" rx="10" />
     <text class="ag__label" x="250" y="48">Cluster, on EKS</text>
   </g>
   <g class="ag">
-    <rect class="ag__box" x="750" y="56" width="152" height="260" rx="10" />
-    <text class="ag__label" x="750" y="48">Platform services</text>
+    <rect class="ag__box" x="744" y="86" width="216" height="254" rx="10" />
+    <text class="ag__label" x="744" y="78">Platform services</text>
   </g>
   <g class="ag">
-    <rect class="ag__box" x="16" y="486" width="886" height="104" rx="10" />
+    <rect class="ag__box" x="16" y="486" width="950" height="104" rx="10" />
     <text class="ag__label" x="16" y="478">Outside the cluster</text>
   </g>
 
@@ -114,7 +118,7 @@
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Crossplane runs in the cluster. It turns in-cluster claims into AWS resources outside it.">
+     aria-label="Crossplane runs in the cluster. It turns in-cluster claims into AWS resources outside it, and manages them.">
     <rect class="an__focus-ring" x="432" y="332" width="276" height="74" rx="12" />
     <g class="an">
       <rect class="an__box" x="440" y="340" width="260" height="58" rx="8" />
@@ -122,41 +126,42 @@
       <text class="an__sub" x="570" y="382" text-anchor="middle">controllers and providers</text>
     </g>
     <path class="ac ac--control" d="M640,398 V462 H740 V506" />
-    <text class="ac__verb" x="748" y="456">provisions</text>
+    <text class="ac__verb" x="748" y="456">manages</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="External Secrets, ExternalDNS and cert-manager supply secrets, DNS records and certificates to the workloads.">
-    <rect class="an__focus-ring" x="754" y="78" width="140" height="174" rx="12" />
+     aria-label="External Secrets, ExternalDNS and cert-manager run in the cluster and supply secrets, DNS records and certificates to the workloads.">
+    <rect class="an__focus-ring" x="750" y="92" width="204" height="166" rx="12" />
     <g class="an">
-      <rect class="an__box" x="762" y="86" width="128" height="46" rx="8" />
-      <text class="an__sub" x="826" y="114" text-anchor="middle">External Secrets</text>
+      <rect class="an__box" x="756" y="98" width="192" height="46" rx="8" />
+      <text class="an__sub" x="852" y="126" text-anchor="middle">External Secrets</text>
     </g>
     <g class="an">
-      <rect class="an__box" x="762" y="142" width="128" height="46" rx="8" />
-      <text class="an__sub" x="826" y="170" text-anchor="middle">ExternalDNS</text>
+      <rect class="an__box" x="756" y="152" width="192" height="46" rx="8" />
+      <text class="an__sub" x="852" y="180" text-anchor="middle">ExternalDNS</text>
     </g>
     <g class="an">
-      <rect class="an__box" x="762" y="198" width="128" height="46" rx="8" />
-      <text class="an__sub" x="826" y="226" text-anchor="middle">cert-manager</text>
+      <rect class="an__box" x="756" y="206" width="192" height="46" rx="8" />
+      <text class="an__sub" x="852" y="234" text-anchor="middle">cert-manager</text>
     </g>
-    <path class="ac ac--control" d="M756,176 H706" />
-    <text class="ac__verb" x="731" y="169" text-anchor="middle">supply</text>
+    <path class="ac ac--control" d="M752,175 H706" />
+    <text class="ac__verb" x="729" y="168" text-anchor="middle">supply</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Datadog observes the workloads.">
-    <rect class="an__focus-ring" x="754" y="246" width="140" height="62" rx="12" />
+     aria-label="Datadog runs in the cluster as Operator-managed agents. They observe the workloads.">
+    <rect class="an__focus-ring" x="750" y="264" width="204" height="70" rx="12" />
     <g class="an">
-      <rect class="an__box" x="762" y="254" width="128" height="46" rx="8" />
-      <text class="an__sub" x="826" y="282" text-anchor="middle">Datadog</text>
+      <rect class="an__box" x="756" y="270" width="192" height="58" rx="8" />
+      <text class="an__label" x="852" y="294" text-anchor="middle">Datadog</text>
+      <text class="an__sub" x="852" y="312" text-anchor="middle">Operator-managed agents</text>
     </g>
-    <path class="ac ac--control" d="M762,272 C730,272 714,218 706,202" />
-    <text class="ac__verb" x="726" y="246" text-anchor="end">observes</text>
+    <path class="ac ac--control" d="M752,299 H738 V210 H706" />
+    <text class="ac__verb" x="732" y="235" text-anchor="end">observes</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Terraform provisions the cluster itself and the accounts underneath it.">
+     aria-label="Terraform runs outside the cluster. It provisions the cluster itself and the accounts underneath it.">
     <rect class="an__focus-ring" x="52" y="504" width="196" height="72" rx="12" />
     <g class="an an--foundation">
       <rect class="an__box" x="60" y="512" width="180" height="56" rx="8" />
@@ -190,6 +195,6 @@
 
     <rect class="an__box" x="398" y="-9" width="26" height="18" rx="4"
           style="fill: none; stroke: var(--border); stroke-dasharray: 3 3" />
-    <text class="al__label" x="432" y="4">managed outside the cluster</text>
+    <text class="al__label" x="432" y="4">runs outside the cluster</text>
   </g>
 </svg>

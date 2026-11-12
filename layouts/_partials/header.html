@@ -1,0 +1,36 @@
+{{/* Nav is derived from sections that actually have published pages, so an
+     empty section never shows up as a dead link. */}}
+{{- $nav := slice -}}
+{{- range slice "work" "writing" -}}
+  {{- with site.GetPage (printf "/%s" .) -}}
+    {{- if .RegularPages -}}
+      {{- $nav = $nav | append . -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="site-header__name" href="{{ "/" | relURL }}">{{ site.Title }}</a>
+
+    <nav class="site-nav" aria-label="Main">
+      <ul class="site-nav__list">
+        {{- range $nav }}
+        <li><a href="{{ .RelPermalink }}"{{ if or (eq $.RelPermalink .RelPermalink) (and $.IsPage (eq $.Section .Section)) }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+        {{- end }}
+        {{- with site.GetPage "/about" }}
+        <li><a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+        {{- end }}
+        <li><a href="{{ site.Params.linkedin }}" rel="me noopener">LinkedIn</a></li>
+      </ul>
+    </nav>
+
+    {{/* Enhancement only: hidden until the script enables it, so no-JS users
+         are not shown a control that does nothing. CSS still follows the OS. */}}
+    <button type="button" class="theme-toggle" id="theme-toggle" hidden
+            aria-label="Switch between light and dark theme">
+      <span class="theme-toggle__icon" aria-hidden="true"></span>
+      <span class="theme-toggle__text">Theme</span>
+    </button>
+  </div>
+</header>

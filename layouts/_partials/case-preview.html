@@ -1,0 +1,30 @@
+{{/* Accepts either a page, or a dict of `page` and `level`. On the home page
+     the previews sit under an h2 section heading and so are h3; on the work
+     index they are the first level below the h1 and so are h2. Hard-coding
+     either one skips a heading level on the other page. */}}
+{{- $page := . -}}
+{{- $level := 3 -}}
+{{- if reflect.IsMap . -}}
+  {{- $page = .page -}}
+  {{- $level = .level | default 3 -}}
+{{- end -}}
+{{- with $page }}
+<li class="case">
+  <h{{ $level }} class="case__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h{{ $level }}>
+  {{- with .Params.problem }}
+  <p class="case__problem">{{ . }}</p>
+  {{- end }}
+  <dl class="case__facts">
+    {{- with .Params.role }}
+    <dt>Role</dt><dd>{{ . }}</dd>
+    {{- end }}
+    {{- with .Params.outcome }}
+    <dt>Outcome</dt><dd>{{ . }}</dd>
+    {{- end }}
+  </dl>
+  {{- with .Params.stack }}
+  <p class="case__stack mono">{{ delimit . " · " }}</p>
+  {{- end }}
+  <p class="case__more"><a class="link-arrow" href="{{ .RelPermalink }}">Read the case study<span class="sr-only">: {{ .Title }}</span></a></p>
+</li>
+{{- end }}

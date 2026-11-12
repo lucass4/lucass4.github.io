@@ -1,0 +1,10 @@
+{{- $main := resources.Get "css/main.css" -}}
+{{- $chroma := resources.Get "css/chroma.css" -}}
+{{- $css := slice $main $chroma | resources.Concat "css/site.css" -}}
+{{- if hugo.IsProduction -}}
+  {{- $css = $css | minify | fingerprint -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+{{- else -}}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}">
+{{- end }}
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">

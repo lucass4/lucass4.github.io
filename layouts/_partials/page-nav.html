@@ -1,0 +1,29 @@
+{{- $section := site.GetPage (printf "/%s" .Section) -}}
+{{- $pages := $section.RegularPages -}}
+{{- $prev := "" -}}
+{{- $next := "" -}}
+{{- range $i, $p := $pages -}}
+  {{- if eq $p.RelPermalink $.RelPermalink -}}
+    {{- if gt $i 0 }}{{ $prev = index $pages (sub $i 1) }}{{ end -}}
+    {{- if lt (add $i 1) (len $pages) }}{{ $next = index $pages (add $i 1) }}{{ end -}}
+  {{- end -}}
+{{- end -}}
+{{/* Writing is ordered by date, so newer/older is accurate there. Work is
+     ordered by weight, a curated sequence, where those labels would lie. */}}
+{{- $labels := cond (eq .Section "writing") (slice "Newer" "Older") (slice "Previous" "Next") -}}
+{{- if or $prev $next }}
+<nav class="page-nav" aria-label="More in {{ $section.LinkTitle }}">
+  <div class="page-nav__slot">
+    {{- with $prev }}
+    <span class="page-nav__label mono">{{ index $labels 0 }}</span>
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    {{- end }}
+  </div>
+  <div class="page-nav__slot page-nav__slot--end">
+    {{- with $next }}
+    <span class="page-nav__label mono">{{ index $labels 1 }}</span>
+    <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+    {{- end }}
+  </div>
+</nav>
+{{- end }}

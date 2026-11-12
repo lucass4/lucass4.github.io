@@ -1,73 +1,65 @@
-baseURL                          = "https://lucassantanna.ca/"
-theme                            = "introduction"
-DefaultContentLanguage           = "en"
+baseURL = "https://lucassantanna.ca/"
+title = "Lucas Sant' Anna"
+locale = "en-CA"
+defaultContentLanguage = "en"
+enableRobotsTXT = true
+# Tags render as labels from front matter; no archive pages until there is
+# enough writing to justify them, and an empty /tags/ page is worse than none.
+disableKinds = ["taxonomy", "term"]
+enableGitInfo = false
 
-# CI overrides baseURL with whatever GitHub Pages is actually serving
-# (lucass4.github.io until the custom domain's DNS resolves, then
-# lucassantanna.ca), so the value above only matters for local builds.
+# CI passes --baseURL from the Pages action, so the value above only matters
+# for local builds. See .github/workflows/pages.yml.
+
+# Nothing here sets `theme`: the layouts in layouts/ are the theme.
 
 [params]
-    themeStyle                   = "auto"
-    showMenu                     = true
-    showRSSButton                = true
-    fadeIn                       = true
-    fadeInIndex                  = false
-    dateFormat                   = "Jan 2, 2006"
-    # No `email` param on purpose: it renders the address as plain text in the
-    # contact section, where scrapers read it. Reach-out goes through LinkedIn.
-
-    [params.home]
-        introHeight              = "medium"
-        # Flip to true once the first post is out of draft. While every post is a
-        # draft this renders a "Latest Post" heading with nothing under it.
-        showLatest               = false
-        showAllPosts             = false
-        allPostsArchiveFormat    = true
-        localTime                = true
-        timeZone                 = "America/Vancouver"
-        timeFormat               = "en-CA"
-
-    # Share buttons on post pages. Off: no accounts on any of these networks.
-    [params.share]
-        twitter                  = false
-        facebook                 = false
-        pinterest                = false
-
-    [[params.social]]
-        url       = "https://github.com/lucass4"
-        icon      = "github"
-        icon_pack = "fab"
-    [[params.social]]
-        url       = "https://linkedin.com/in/lucassantanna"
-        icon      = "linkedin-in"
-        icon_pack = "fab"
-
-[taxonomies]
-  tag = "tags"
-  series = "series"
+  description = "Lucas Sant' Anna designs platforms and leads the teams that build them. Distributed systems, cloud infrastructure, Kubernetes and platform engineering."
+  authorName = "Lucas Sant' Anna"
+  location = "Metro Vancouver, Canada"
+  headline = "I design platforms and lead the teams that build them."
+  # Deliberately no email address. It would be scraped out of the rendered HTML.
+  linkedin = "https://linkedin.com/in/lucassantanna"
+  github = "https://github.com/lucass4"
 
 [markup]
-  defaultMarkdownHandler = "goldmark"
-  [markup.goldmark]
   [markup.goldmark.renderer]
     unsafe = true
+  [markup.goldmark.parser]
+    wrapStandAloneImageWithinParagraph = false
+    [markup.goldmark.parser.attribute]
+      block = true
+      title = true
   [markup.highlight]
+    # Classes, not inline styles, so one highlight theme can follow light/dark.
+    noClasses = false
     codeFences = true
     guessSyntax = false
-    hl_Lines = ""
-    lineNoStart = 1
     lineNos = false
-    lineNumbersInTable = true
-    style = "solarized-dark"
-    tabWidth = 4
+    tabWidth = 2
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 3
+    ordered = false
 
-[languages]
-    [languages.en]
-        label      = "English"
-        locale     = "en-ca"
-        contentDir = "content/en"
-        weight     = 0
-        title      = "Lucas Sant' Anna"
-        [languages.en.params]
-            description = "Platform and infrastructure engineering. Kubernetes, AWS, and agents applied to infrastructure work."
-            footerText  = "Lucas Sant' Anna. Built with [Hugo](https://gohugo.io) and the [Introduction](https://github.com/victoriadrake/hugo-theme-introduction) theme."
+[outputs]
+  home = ["html", "rss"]
+  section = ["html", "rss"]
+
+[imaging]
+  resampleFilter = "lanczos"
+  [imaging.webp]
+    quality = 82
+  [imaging.jpeg]
+    quality = 82
+
+[minify]
+  [minify.tdewolff.html]
+    keepQuotes = true
+
+[services.rss]
+  limit = 20
+
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.5

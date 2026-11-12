@@ -1,0 +1,35 @@
+{{ define "main" }}
+<article class="prose-page">
+  <div class="wrap wrap--narrow">
+    <header class="page-head">
+      <p class="page-head__kicker mono">
+        <a href="{{ (site.GetPage "/writing").RelPermalink }}">Writing</a>
+        <span class="sep" aria-hidden="true">·</span>
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2 January 2006" }}</time>
+        {{- if ge .ReadingTime 1 }}
+        <span class="sep" aria-hidden="true">·</span><span>{{ .ReadingTime }} min read</span>
+        {{- end }}
+      </p>
+      <h1 class="page-head__title">{{ .Title }}</h1>
+      {{- with .Description }}
+      <p class="page-head__lede">{{ . }}</p>
+      {{- end }}
+      {{- with .Params.tags }}
+      <p class="tag-row">
+        {{- range . }}
+        <span class="tag mono">{{ . }}</span>
+        {{- end }}
+      </p>
+      {{- end }}
+    </header>
+
+    {{ partial "toc.html" . }}
+
+    <div class="prose">
+      {{ .Content }}
+    </div>
+
+    {{ partial "page-nav.html" . }}
+  </div>
+</article>
+{{ end }}

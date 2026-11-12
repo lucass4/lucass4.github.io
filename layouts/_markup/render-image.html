@@ -1,0 +1,28 @@
+{{- $src := .Destination -}}
+{{- $alt := .PlainText -}}
+{{- $res := "" -}}
+{{- if not (urls.Parse $src).Scheme -}}
+  {{- $res = .Page.Resources.GetMatch $src -}}
+  {{- if not $res }}{{ $res = resources.Get $src }}{{ end -}}
+{{- end -}}
+
+{{- if and $res (in (slice "image/jpeg" "image/png") $res.MediaType.Type) -}}
+  {{/* Only raster images are resized; SVG diagrams pass through untouched. */}}
+  {{- $small := $res.Resize "640x webp q82" -}}
+  {{- $mid := $res.Resize "1024x webp q82" -}}
+  {{- $large := $res.Resize "1600x webp q82" -}}
+<figure class="figure">
+  <img src="{{ $mid.RelPermalink }}"
+       srcset="{{ $small.RelPermalink }} 640w, {{ $mid.RelPermalink }} 1024w, {{ $large.RelPermalink }} 1600w"
+       sizes="(max-width: 48rem) 100vw, 44rem"
+       width="{{ $mid.Width }}" height="{{ $mid.Height }}"
+       alt="{{ $alt }}" loading="lazy" decoding="async">
+  {{- with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
+{{- else -}}
+<figure class="figure">
+  <img src="{{ $src | safeURL }}" alt="{{ $alt }}" loading="lazy" decoding="async"
+       {{- with $res }} width="{{ .Width | default "" }}" height="{{ .Height | default "" }}"{{ end }}>
+  {{- with .Title }}<figcaption>{{ . }}</figcaption>{{ end }}
+</figure>
+{{- end -}}

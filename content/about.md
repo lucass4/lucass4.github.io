@@ -4,62 +4,61 @@ preview: "I design platform architecture and lead the teams that run it. Eightee
 description: "Lucas Sant' Anna: platform and infrastructure engineering leader in Metro Vancouver. Kubernetes, AWS, distributed systems, and engineering leadership."
 ---
 
-I am a platform and infrastructure engineer who moved into leading the function without
-leaving the architecture behind. The work I care about sits where a system's shape is
-still undecided: design it, take it to production, then run and evolve it with a team
-that owns it.
+I'm a platform and infrastructure engineer who moved into leading the function and kept
+the architecture. The work I care about sits where a system's shape is still undecided:
+design it, take it to production, then run and evolve it with a team that owns it.
 
-I live in New Westminster, British Columbia, and have worked remotely for most of the
-last decade.
+I live in New Westminster, British Columbia, and I've worked remotely for most of the last
+decade.
 
 ## Leading the function
 
 At Fortis Games I built DevOps Engineering from nothing. By the end it ran through four
 area leaders, one each for CI/CD, SRE, platform and AI infrastructure, which made me a
-manager of managers while I still owned platform architecture and technical direction.
-The team was distributed across Brazil, Portugal, England and Canada, an eight-hour
-spread, so almost nothing could depend on everyone being awake at once.
+manager of managers while I still owned platform architecture and technical direction. The
+team was spread across Brazil, Portugal, England and Canada, an eight-hour spread, so
+almost nothing could depend on everyone being awake at once.
 
-That constraint shaped how I lead. I wrote the RFC and ADR process so decisions got
-argued in writing and stayed findable afterwards. I wrote the service ownership model
-that set out what platform owes product teams and what they own themselves, and the
-incident management model that goes with it. The point of all three is that engineers
-can decide without waiting for me.
+That constraint shaped how I lead. I wrote the RFC and ADR process so decisions got argued
+in writing and stayed findable afterwards. I wrote the service ownership model that set out
+what platform owes product teams and what they own themselves, and the incident management
+model that goes with it. All three exist so engineers can decide without waiting for me.
 
 Earlier I managed nine distributed engineers at ChatFood through an AWS and Kubernetes
 migration, and was technical lead for four engineers at Wrapbook.
 
 ## Hands on
 
-I have never stopped building. At Fortis I designed the Kubernetes platform end to end:
+I've never stopped building. At Fortis I designed the Kubernetes platform end to end:
 networking, GitOps, autoscaling, service mesh, secrets, policy, observability, DNS and
 ingress. I implemented Istio Ambient Mode with waypoint proxies, which is what made
 zero-downtime cutovers from ECS to EKS possible. I built a LangGraph and MCP agent that
 provisions a complete game environment from Slack.
 
-At Prodigy Education I owned platform architecture, reliability and cost for
-infrastructure serving around 10 million monthly users with peaks above 150,000
-concurrent. I led the Karpenter migration there, contributing upstream along the way,
-and moved deployments from Flux v1 to ArgoCD without downtime.
+At Prodigy Education I owned platform architecture, reliability and cost for infrastructure
+serving around 10 million monthly users with peaks above 150,000 concurrent. I led the
+Karpenter migration there, contributing upstream along the way, and moved deployments from
+Flux v1 to ArgoCD without downtime.
 
-Before Kubernetes I spent years on distributed systems and event-driven architecture:
-Kafka and Kafka Streams at Receptiviti, RabbitMQ and Java APIs at NS90, enterprise
-integrations for airline and property clients at Grupo Mult.
+Before Kubernetes I spent years on distributed systems and event-driven architecture: Kafka
+and Kafka Streams at Receptiviti, RabbitMQ and Java APIs at NS90, enterprise integrations
+for airline and property clients at Grupo Mult.
 
 For my own development work I use oh-my-pi across commercial and open-source models,
 picking per task.
 
 ## How I think about the work
 
-Architecture is only half of a platform. The other half is the operating model: who
-decides, who is on call, what is written down. A design nobody can run is not finished.
+A platform is an architecture plus an operating model: who decides, who's on call, what's
+written down. I've seen good designs sit unused because the second half was never settled,
+so I now treat it as part of the design work.
 
-I would rather give engineers context and guardrails than answers. Earlier in my career
-I went deep enough on problems that I became part of the critical path, and the decision
-processes I have built since are partly a correction for that.
+I'd give engineers context and guardrails before I'd give them answers. Earlier in my
+career I went deep enough on problems that I became part of the critical path, and the
+decision processes I've built since are partly a correction for that.
 
-Measurable work interests me more than tidy work. Cost, latency, throughput, and the
-time it takes to get from a request to a running environment.
+The problems that hold my attention have a number attached. Cost, latency, throughput, and
+the time it takes to get from a request to a running environment.
 
 ## Career
 
@@ -84,5 +83,5 @@ Informática Gerencial, Colégio COTEMIG, 2005.
 
 ## Contact
 
-[LinkedIn](https://linkedin.com/in/lucassantanna) is the reliable way to reach me. Code
-lives on [GitHub](https://github.com/lucass4).
+[LinkedIn](https://linkedin.com/in/lucassantanna) is the way to reach me. Code lives on
+[GitHub](https://github.com/lucass4).

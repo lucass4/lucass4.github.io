@@ -44,7 +44,7 @@
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Argo CD reconciles the cluster against Git, and applies manifests through Kyverno.">
+     aria-label="Argo CD reconciles the cluster against Git, and applies manifests to the workloads.">
     <rect class="an__focus-ring" x="24" y="182" width="160" height="68" rx="12" />
     <g class="an an--orchestration">
       <rect class="an__box" x="32" y="190" width="144" height="52" rx="8" />
@@ -53,20 +53,25 @@
     </g>
     <path class="ac ac--data" d="M104,186 V156" />
     <text class="ac__verb" x="112" y="175">reads</text>
-    <path class="ac ac--control" d="M176,216 H266" />
-    <text class="ac__verb" x="221" y="209" text-anchor="middle">applies</text>
+    <path class="ac ac--control" d="M176,216 H212 V191 H434" />
+    <text class="ac__verb" x="323" y="184" text-anchor="middle">applies</text>
   </g>
 
+  <!-- Kyverno gates the apply, it is not a stop on the way. Argo CD applies to
+       the API server, which calls the webhook during admission and refuses the
+       request itself on a deny. So the accent line points at that edge and
+       Kyverno sits off it, the way a gate does. -->
   <g class="anode" tabindex="0" role="img"
-     aria-label="Kyverno runs in the cluster as an admission webhook. It admits workloads, or denies them.">
-    <rect class="an__focus-ring" x="264" y="178" width="146" height="76" rx="12" />
+     aria-label="Kyverno runs in the cluster as an admission webhook on what Argo CD applies. It admits a workload, or denies it. Manifests do not pass through Kyverno.">
+    <rect class="an__focus-ring" x="264" y="248" width="146" height="76" rx="12" />
     <g class="an an--security">
-      <rect class="an__box" x="272" y="186" width="130" height="60" rx="8" />
-      <text class="an__label" x="337" y="211" text-anchor="middle">Kyverno</text>
-      <text class="an__sub" x="337" y="229" text-anchor="middle">admission webhook</text>
+      <rect class="an__box" x="272" y="256" width="130" height="60" rx="8" />
+      <text class="an__label" x="337" y="281" text-anchor="middle">Kyverno</text>
+      <text class="an__sub" x="337" y="299" text-anchor="middle">admission webhook</text>
     </g>
-    <path class="ac ac--control" d="M402,205 C418,205 420,191 434,191" />
-    <text class="ac__verb" x="412" y="180" text-anchor="middle">admits</text>
+    <path class="ac ac--security" d="M337,252 V196" />
+    <text class="ac__verb" x="345" y="224">admits or</text>
+    <text class="ac__verb" x="345" y="238">denies</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
@@ -102,7 +107,7 @@
       <text class="an__sub" x="570" y="205" text-anchor="middle">game services</text>
     </g>
     <path class="ac ac--data" d="M440,205 H416 V369 H436" />
-    <text class="ac__verb" x="410" y="300" text-anchor="end">claims</text>
+    <text class="ac__verb" x="410" y="334" text-anchor="end">claims</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
@@ -145,7 +150,7 @@
       <text class="an__sub" x="852" y="234" text-anchor="middle">cert-manager</text>
     </g>
     <path class="ac ac--control" d="M752,175 H706" />
-    <text class="ac__verb" x="729" y="168" text-anchor="middle">supply</text>
+    <text class="ac__verb" x="722" y="168" text-anchor="middle">supply</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
@@ -196,5 +201,8 @@
     <rect class="an__box" x="398" y="-9" width="26" height="18" rx="4"
           style="fill: none; stroke: var(--border); stroke-dasharray: 3 3" />
     <text class="al__label" x="432" y="4">runs outside the cluster</text>
+
+    <path class="ac ac--security" d="M600,0 H626" />
+    <text class="al__label" x="634" y="4">policy decision</text>
   </g>
 </svg>

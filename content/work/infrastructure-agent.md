@@ -47,15 +47,15 @@ Underneath it's a LangGraph graph reaching internal systems over MCP. MCP is doi
 work there: the tools the agent can call are described once and consumed by the model, so
 each integration isn't hand-written glue that drifts from the thing it wraps.
 
-{{< flow label="One provisioning request" caption="Every step and both boundaries are in the confirmed design. What is deliberately absent: internal service names, the tool list, and the repository and cluster naming. The numbering counts work, so the boundaries are not numbered." >}}
+{{< flow label="One provisioning request" caption="Ordering reflects what the permission boundaries allow: the GitHub App is allowed to open a branch, so that step needs no approval, and approval sits before anything reaches infrastructure. Secret handling is listed separately because it guards what the agent reads and what it ships, not a position in this path. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}
 Request :: Arrives in Slack as prose, usually with details missing
 Orchestration :: LangGraph graph decides which tools to call and in what order
 Tool calls :: Reaches internal systems over MCP; strict schemas, so it cannot invent a call
-gate: Secret redaction :: Scanned and redacted before anything is embedded
-gate: Human approval :: It proposes; a person approves. No production write reaches a cluster unreviewed
 Repository :: Created through a GitHub App that can open a branch but cannot merge or bypass branch protection
+gate: Human approval :: It proposes; a person approves. No production write reaches a cluster unreviewed
 Infrastructure :: Provisioned for the new environment
 Service :: Baseline deployed on EKS with observability and Okta SSO already wired up
+note: Secret handling :: Secrets are scanned and redacted before anything is embedded, and the release gate fails closed on a leaked credential
 {{< /flow >}}
 
 ## Choosing the framework

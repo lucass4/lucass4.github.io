@@ -86,17 +86,14 @@
     display: block;
   }
 
-  /* Kept in the accessibility tree, out of the visual layout. */
+  /* display:none, not a visually-hidden clip. The SVG above this breakpoint
+     is a real accessible representation: it has a labelled group role and
+     every node is focusable with an aria-label naming its connections. A
+     clipped copy of the same information would be read out twice. Below the
+     breakpoint the SVG is display:none and therefore out of the tree, and
+     this becomes the only representation. Exactly one at every width. */
   .arch__alt {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
-    border: 0;
+    display: none;
   }
 }
 
@@ -261,29 +258,92 @@
   letter-spacing: 0.02em;
 }
 
-/* Hover is an affordance, not an animation: a node lifts its border weight
-   so a reader can follow one component without the diagram moving. */
-@media (hover: hover) {
-  .an {
-    transition: opacity var(--transition);
-  }
+/* Highlighting, not dimming.
 
-  .arch__canvas:hover .an {
-    opacity: 0.55;
-  }
+   Hover and keyboard focus do the same thing: lift the hovered component and
+   emphasise the connectors leaving it. Nothing else is faded, so the rest of
+   the architecture stays as readable as it was.
 
-  .arch__canvas:hover .an:hover {
-    opacity: 1;
-  }
+   Every connector and label is visible by default. This only ever adds
+   emphasis, so a reader who never hovers and a reader who cannot hover both
+   see the complete diagram.
 
-  .arch__canvas:hover .an:hover .an__box {
-    stroke: var(--accent);
-    stroke-width: 2;
-  }
+   A connector sits inside the group of the node it leaves, which is what
+   makes `.anode:hover > .ac` possible without scripting. */
+
+.anode {
+  outline: none;
+}
+
+.anode:hover .an__box,
+.anode:focus-visible .an__box {
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.anode:hover .an__label,
+.anode:focus-visible .an__label {
+  fill: var(--accent);
+}
+
+/* Security nodes already use the accent fill; deepen the border instead so
+   the state is still distinguishable. */
+.anode:hover .an--security .an__box,
+.anode:focus-visible .an--security .an__box {
+  stroke-width: 2.5;
+}
+
+.anode:hover > .ac,
+.anode:focus-visible > .ac {
+  stroke: var(--accent);
+  stroke-width: 2.2;
+}
+
+.anode:hover > .ac--security,
+.anode:focus-visible > .ac--security {
+  stroke-width: 2.4;
+}
+
+.anode:hover > .ac__verb,
+.anode:focus-visible > .ac__verb {
+  fill: var(--accent);
+}
+
+/* Arrowheads are shared markers and cannot inherit the hovered stroke, so the
+   emphasised connector gets the accent marker instead. */
+.anode:hover > .ac--control,
+.anode:focus-visible > .ac--control,
+.anode:hover > .ac--data,
+.anode:focus-visible > .ac--data,
+.anode:hover > .ac--unverified,
+.anode:focus-visible > .ac--unverified {
+  marker-end: url(#arrow-accent);
+}
+
+/* Keyboard focus needs to be findable, not only pretty. */
+.anode:focus-visible .an__box {
+  stroke-dasharray: none;
+  filter: drop-shadow(0 0 0 var(--accent));
+}
+
+.anode:focus-visible > .an__focus-ring {
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 3;
+  fill: none;
+  opacity: 1;
+}
+
+.an__focus-ring {
+  opacity: 0;
+  fill: none;
+  stroke: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .an {
+  .anode,
+  .an__box,
+  .ac {
     transition: none;
   }
 }

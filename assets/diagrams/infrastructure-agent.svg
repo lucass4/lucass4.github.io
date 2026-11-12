@@ -1,96 +1,120 @@
-<svg class="arch__svg" viewBox="0 0 960 600" role="presentation" aria-hidden="true" focusable="false"
+<svg class="arch__svg" viewBox="0 0 960 600" role="group"
+     aria-label="Infrastructure agent architecture. Eight components; use Tab to step through them."
      xmlns="http://www.w3.org/2000/svg">
 
-  <!-- Security control, drawn outside the request path on purpose: secret
-       redaction guards what the agent reads and what it ships, and is not a
-       stage a request passes through. -->
-  <g class="an an--security">
-    <rect class="an__box" x="236" y="150" width="180" height="68" rx="8" />
-    <text class="an__label" x="326" y="179" text-anchor="middle">Secret redaction</text>
-    <text class="an__sub" x="326" y="198" text-anchor="middle">context and releases</text>
-  </g>
+  <!-- Each node owns the connectors that leave it, which is what lets hover
+       and keyboard focus emphasise a component and its outgoing edges with no
+       script. Boundary and legend sit outside, since they are not components. -->
 
-  <!-- Request interface -->
-  <g class="an">
-    <rect class="an__box" x="16" y="340" width="150" height="68" rx="8" />
-    <text class="an__label" x="91" y="369" text-anchor="middle">Slack</text>
-    <text class="an__sub" x="91" y="388" text-anchor="middle">prose request</text>
-  </g>
-
-  <!-- Orchestration: the tier that decides -->
-  <g class="an an--orchestration">
-    <rect class="an__box" x="236" y="330" width="180" height="88" rx="8" />
-    <text class="an__label" x="326" y="371" text-anchor="middle">LangGraph</text>
-    <text class="an__sub" x="326" y="391" text-anchor="middle">orchestration graph</text>
-  </g>
-
-  <!-- Tool layer -->
-  <g class="an">
-    <rect class="an__box" x="486" y="340" width="160" height="68" rx="8" />
-    <text class="an__label" x="566" y="369" text-anchor="middle">MCP tools</text>
-    <text class="an__sub" x="566" y="388" text-anchor="middle">strict schemas</text>
-  </g>
-
-  <!-- Repository work sits outside the boundary: the App may open a branch -->
-  <g class="an">
-    <rect class="an__box" x="700" y="120" width="186" height="76" rx="8" />
-    <text class="an__label" x="793" y="152" text-anchor="middle">GitHub App</text>
-    <text class="an__sub" x="793" y="171" text-anchor="middle">branch, cannot merge</text>
-  </g>
-
-  <!-- Trust boundary around everything that writes to production -->
+  <!-- Trust boundary, drawn first so node surfaces sit above it -->
   <g class="ab">
     <rect class="ab__box" x="672" y="266" width="242" height="282" rx="12" />
     <text class="ab__label" x="672" y="258">Production write</text>
   </g>
 
-  <!-- The gate on that boundary -->
-  <g class="an an--security">
-    <rect class="an__box" x="696" y="290" width="194" height="64" rx="8" />
-    <text class="an__label" x="793" y="317" text-anchor="middle">Human approval</text>
-    <text class="an__sub" x="793" y="336" text-anchor="middle">person approves</text>
+  <!-- Security control, off the request path on purpose: secret redaction
+       guards what the agent reads and what it ships. -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Secret redaction. Guards the agent's context and its releases. Not a stage a request passes through.">
+    <rect class="an__focus-ring" x="228" y="142" width="196" height="84" rx="12" />
+    <g class="an an--security">
+      <rect class="an__box" x="236" y="150" width="180" height="68" rx="8" />
+      <text class="an__label" x="326" y="179" text-anchor="middle">Secret redaction</text>
+      <text class="an__sub" x="326" y="198" text-anchor="middle">context and releases</text>
+    </g>
+    <path class="ac ac--security" d="M326,218 V324" />
+    <text class="ac__verb" x="334" y="276">guards</text>
   </g>
 
-  <g class="an">
-    <rect class="an__box" x="696" y="386" width="194" height="64" rx="8" />
-    <text class="an__label" x="793" y="413" text-anchor="middle">Infrastructure</text>
-    <text class="an__sub" x="793" y="432" text-anchor="middle">provisioned</text>
+  <!-- Request interface -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Slack, the request interface. Requests arrive as prose. Carries the request to LangGraph.">
+    <rect class="an__focus-ring" x="8" y="332" width="166" height="84" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="16" y="340" width="150" height="68" rx="8" />
+      <text class="an__label" x="91" y="369" text-anchor="middle">Slack</text>
+      <text class="an__sub" x="91" y="388" text-anchor="middle">prose request</text>
+    </g>
+    <path class="ac ac--data" d="M166,374 H230" />
+    <text class="ac__verb" x="198" y="366" text-anchor="middle">request</text>
   </g>
 
-  <g class="an">
-    <rect class="an__box" x="696" y="470" width="194" height="64" rx="8" />
-    <text class="an__label" x="793" y="497" text-anchor="middle">EKS service</text>
-    <text class="an__sub" x="793" y="516" text-anchor="middle">observability, SSO</text>
+  <!-- Orchestration: the tier that decides -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="LangGraph, the orchestration graph. Decides which tools to call and in what order. Invokes the MCP tools.">
+    <rect class="an__focus-ring" x="228" y="322" width="196" height="104" rx="12" />
+    <g class="an an--orchestration">
+      <rect class="an__box" x="236" y="330" width="180" height="88" rx="8" />
+      <text class="an__label" x="326" y="371" text-anchor="middle">LangGraph</text>
+      <text class="an__sub" x="326" y="391" text-anchor="middle">orchestration graph</text>
+    </g>
+    <path class="ac ac--control" d="M416,374 H480" />
+    <text class="ac__verb" x="448" y="366" text-anchor="middle">invokes</text>
   </g>
 
-  <!-- Connectors -->
-  <path class="ac ac--data" d="M166,374 H230" />
-  <text class="ac__verb" x="198" y="366" text-anchor="middle">request</text>
+  <!-- Tool layer -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="MCP tools, each carrying a strict schema so the agent cannot invent a call. Opens a branch through the GitHub App, and proposes a change to the human approval gate.">
+    <rect class="an__focus-ring" x="478" y="332" width="176" height="84" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="486" y="340" width="160" height="68" rx="8" />
+      <text class="an__label" x="566" y="369" text-anchor="middle">MCP tools</text>
+      <text class="an__sub" x="566" y="388" text-anchor="middle">strict schemas</text>
+    </g>
+    <path class="ac ac--control" d="M566,340 C566,248 628,158 694,158" />
+    <text class="ac__verb" x="600" y="232">opens branch</text>
+    <path class="ac ac--control" d="M646,382 C668,382 668,322 690,322" />
+    <text class="ac__verb" x="664" y="406" text-anchor="end">proposes</text>
+  </g>
 
-  <path class="ac ac--control" d="M416,374 H480" />
-  <text class="ac__verb" x="448" y="366" text-anchor="middle">invokes</text>
+  <!-- Repository work sits outside the boundary: the App may open a branch -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="GitHub App. Can open a branch, cannot merge or bypass branch protection, so it sits outside the production write boundary. Whether merging is what triggers the apply is not verified.">
+    <rect class="an__focus-ring" x="692" y="112" width="202" height="92" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="700" y="120" width="186" height="76" rx="8" />
+      <text class="an__label" x="793" y="152" text-anchor="middle">GitHub App</text>
+      <text class="an__sub" x="793" y="171" text-anchor="middle">branch, cannot merge</text>
+    </g>
+    <path class="ac ac--unverified" d="M886,158 C930,170 936,380 896,412" />
+    <text class="ac__verb" transform="rotate(90 944 290)" x="944" y="290"
+          text-anchor="middle">apply after merge?</text>
+  </g>
 
-  <path class="ac ac--security" d="M326,218 V324" />
-  <text class="ac__verb" x="334" y="276">guards</text>
+  <!-- The gate on the boundary -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Human approval, the gate on the production write boundary. The agent proposes and a person approves. No production write reaches a cluster unreviewed.">
+    <rect class="an__focus-ring" x="688" y="282" width="210" height="80" rx="12" />
+    <g class="an an--security">
+      <rect class="an__box" x="696" y="290" width="194" height="64" rx="8" />
+      <text class="an__label" x="793" y="317" text-anchor="middle">Human approval</text>
+      <text class="an__sub" x="793" y="336" text-anchor="middle">person approves</text>
+    </g>
+    <path class="ac ac--control" d="M793,354 V380" />
+    <text class="ac__verb" x="801" y="372">applies</text>
+  </g>
 
-  <path class="ac ac--control" d="M566,340 C566,248 628,158 694,158" />
-  <text class="ac__verb" x="600" y="232" text-anchor="start">opens branch</text>
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Infrastructure, provisioned behind the approval gate. Followed by the service deployment.">
+    <rect class="an__focus-ring" x="688" y="378" width="210" height="80" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="696" y="386" width="194" height="64" rx="8" />
+      <text class="an__label" x="793" y="413" text-anchor="middle">Infrastructure</text>
+      <text class="an__sub" x="793" y="432" text-anchor="middle">provisioned</text>
+    </g>
+    <path class="ac ac--control" d="M793,450 V464" />
+    <text class="ac__verb" x="801" y="462">deploys</text>
+  </g>
 
-  <path class="ac ac--control" d="M646,382 C668,382 668,322 690,322" />
-  <text class="ac__verb" x="656" y="404" text-anchor="start">proposes</text>
-
-  <path class="ac ac--control" d="M793,354 V380" />
-  <text class="ac__verb" x="801" y="372">applies</text>
-
-  <path class="ac ac--control" d="M793,450 V464" />
-  <text class="ac__verb" x="801" y="462">deploys</text>
-
-  <!-- A relationship we could not verify: whether merging the branch is what
-       triggers the apply, through GitOps. Drawn sparse, labelled on its own
-       vertical run, and called out in the legend. -->
-  <path class="ac ac--unverified" d="M886,158 C930,170 936,380 896,412" />
-  <text class="ac__verb" transform="rotate(90 944 290)" x="944" y="290"
-        text-anchor="middle">apply after merge?</text>
+  <g class="anode" tabindex="0" role="img"
+     aria-label="EKS service. The baseline deployment, with observability and Okta SSO already wired up.">
+    <rect class="an__focus-ring" x="688" y="462" width="210" height="80" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="696" y="470" width="194" height="64" rx="8" />
+      <text class="an__label" x="793" y="497" text-anchor="middle">EKS service</text>
+      <text class="an__sub" x="793" y="516" text-anchor="middle">observability, SSO</text>
+    </g>
+  </g>
 
   <!-- Legend -->
   <g class="al" transform="translate(16, 574)">

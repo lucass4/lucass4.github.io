@@ -14,33 +14,33 @@ description: "A weekly support engineer rotation at Fortis Games: one person abs
 ---
 
 > Draft. Written from the team's own process document. Three things need checking before
-> this publishes; they are at the end.
+> this publishes; they're at the end.
 
 ## Context
 
-A platform team gets interrupted for a living. Requests for access, a service behaving
-oddly, an alert firing, a dependency upgrade waiting on review. None of it is optional and
-none of it is the project anyone is supposed to be working on this quarter.
+A platform team fields a continuous stream of small work. Requests for access, a service
+behaving oddly, an alert firing, a dependency upgrade waiting on review. None of it is
+optional and none of it is the project anyone is supposed to be working on this quarter.
 
 Handled the obvious way, that work lands on whoever happens to see the message. The cost
 shows up twice. Project work gets fragmented, because an engineer who might be interrupted
-cannot plan a day around deep work. And the interrupts route themselves to whoever is known
-to answer them, which means they always reach the same person.
+can't plan a day around deep work. And the interrupts route themselves to whoever is known
+to answer them, which means they keep reaching the same person.
 
-The second cost was sharper for us than the first. The team was organised around four areas
-with a lead each: CI/CD, SRE, platform, AI infrastructure. Specialisation is why that
-structure works, and it is also how an area becomes one person's private knowledge. When
-every CI/CD question goes to the CI/CD people, nobody else ever learns CI/CD.
+The second cost was the sharper one for us. The team was organised around four areas with a
+lead each: CI/CD, SRE, platform, AI infrastructure. Specialisation is why that structure
+works, and it's also how an area becomes one person's private knowledge. When every CI/CD
+question goes to the CI/CD people, nobody else ever learns CI/CD.
 
 ## Constraints
 
 Requests still had to be answered the same day. Pushing them into a backlog groomed next
-sprint turns a working platform into a ticket queue. The team also spanned four countries,
-so nothing could depend on everyone being online at once.
+sprint leaves the people who filed them waiting on a platform that's meant to unblock them.
 
-A dedicated support person was the obvious answer and the wrong one. A permanent support
-role fixes the interruption problem by making one engineer absorb it forever, which solves
-the focus half and makes the knowledge half worse.
+The team spanned four countries, so nothing could depend on everyone being online at once.
+
+A dedicated support person would have solved the interruption problem and made the
+knowledge problem worse, by giving one engineer the interrupts permanently.
 
 ## My role
 
@@ -52,10 +52,10 @@ One engineer per week, Monday to Friday, working hours. The week is named in adv
 the roster order is fixed, so everyone knows when their turn is coming and who holds it
 now.
 
-This is not on-call. Incidents and after-hours paging are a separate process with its own
-escalation path. The support rotation deliberately has no after-hours component, because
-its job is absorbing the daytime stream, and bundling the two would have made a week of
-support indistinguishable from a week of being on call.
+This isn't on-call. Incidents and after-hours paging are a separate process with their own
+escalation path. The support rotation has no after-hours component by design, because its
+job is the daytime stream, and bundling the two would have made a support week
+indistinguishable from an on-call week.
 
 The week has four claims on it, in a fixed order:
 
@@ -66,80 +66,75 @@ Renovate :: Dependency PRs across every Infrastructure-owned repository, oldest 
 Project work :: Anything from the Kanban board, any size, pausable :: third priority
 {{< /stack >}}
 
-The ladder is written down because without it the support engineer optimises for whatever
-is loudest.
+The order is written down because an undirected support engineer will work on whichever
+thing is making the most noise, and that isn't reliably the thing that matters most.
 
 Project work is explicitly allowed to be large. The constraint is that it has to be
-pausable, not that it has to be small. A support week that forbids real work produces a
-week of busy-waiting, and that is capacity the team planned for and did not get.
+pausable, not that it has to be small. If the week forbids real work, the team loses
+capacity it had planned for.
 
 ## Making requests visible
 
-A request in a chat channel is a message that scrolls. Reacting to it with an envelope
-emoji creates a tracked task automatically, so the cost of capturing a request is one
-reaction and there is nothing a requester has to learn.
+A request in a chat channel isn't tracked. Reacting to it with an envelope emoji creates a
+tracked task automatically, so capturing a request costs one reaction and there's nothing a
+requester has to learn.
 
 The support engineer coordinates it through to completion even when somebody else
-implements the fix. Ownership follows the request, not the implementation, which is what
-stops a handed-off request from quietly becoming nobody's.
+implements the fix. Ownership follows the request and not the implementation, so a request
+that gets handed off still has someone answerable for it.
 
 ## No broken windows
 
-For alerts and Argo CD failures the rule is explicit: do not let recurring failures or
-noisy alerts become something the team learns to ignore.
+For alerts and Argo CD failures the rule is explicit: don't let recurring failures or noisy
+alerts become something the team learns to ignore.
 
 That means fixing the underlying cause, and it also means editing the monitor when the
-monitor is what is wrong. A monitor that cries wolf is worse than no
-monitor, because it trains everyone to scroll past the channel where the real one will
-appear.
+monitor is what's wrong. A monitor that fires on nothing teaches people to skim the channel
+where the real alert is going to arrive.
 
-If something cannot be fixed inside the week, it gets documented and given an owner.
-Unfixable-this-week is an acceptable outcome; unowned is not.
+If something can't be fixed inside the week, it gets documented and given an owner.
 
 ## Friday handoff
 
-The handoff happens in the Friday team meeting, which already existed. It did not need a
-new meeting, and putting it in front of the whole team makes the week's state common
-knowledge, not a private briefing between two people.
+The handoff happens in the Friday team meeting, which already existed. It didn't need a new
+meeting, and doing it in front of the whole team makes the week's state common knowledge.
 
 The outgoing engineer covers open requests and blockers, unresolved alerts and Argo CD
 failures, Renovate PRs still needing attention, and anything else the next engineer should
-know. Tasks are updated before the meeting, so the handoff is a conversation about state and not an
-attempt to reconstruct it.
+know. Tasks are updated before the meeting, so the handoff is a conversation about state
+and not an attempt to reconstruct it.
 
 ## What it did
 
 The direct effect is the one it was designed for. Seven engineers get a week where
-interrupts are somebody else's job, which makes a planned week actually plannable.
+interrupts are somebody else's job.
 
-The effect I did not design for is the one I would talk about now. Every engineer passes
-through every area, roughly a week in eight. The SRE specialist spends a week merging CI/CD
-dependency upgrades. The CI/CD specialist spends a week inside Argo CD sync failures.
-Nobody gets to route an area's questions permanently to the person who owns that area,
-because in eight weeks they will be answering them personally.
+The second effect wasn't something I designed for, and it's the one I'd point at now. Every
+engineer passes through every area, roughly a week in eight. The SRE specialist spends a
+week merging CI/CD dependency upgrades. The CI/CD specialist spends a week inside Argo CD
+sync failures. Nobody can route an area's questions permanently to the person who owns that
+area, because in eight weeks they'll be answering them.
 
-That did more for cross-area knowledge than any documentation effort I ran. Writing things
-down helps the person who already knows where to look. A rotation makes people look.
+It moved more knowledge between areas than the documentation work I ran, because it put
+people inside areas they wouldn't have picked.
 
 ## Trade-offs
 
-One engineer in eight on support is around twelve percent of capacity spent on work that
-never appears on a roadmap. That cost was always being paid, spread invisibly across
-everyone, where it could not be planned around or measured.
+One engineer in eight on support is around twelve percent of capacity going to work that
+never appears on a roadmap. That cost was already being paid, spread across everyone, where
+it couldn't be planned around or measured.
 
-A specialist having a slow week in someone else's area is also a real cost. Requests take
-longer to resolve while the person holding them is learning. That is tuition, and it is
-also the mechanism.
+A specialist having a slow week in somebody else's area is a real cost too. Requests take
+longer to resolve while the person holding them is learning, and that's part of how the
+knowledge moves.
 
-Weekly is long enough to see something through and short enough that the turn comes round
-often. Shorter would add handoffs, which is where state goes missing.
+A week is long enough to see something through and short enough that the turn comes round
+often. Shorter shifts would add handoffs, and every handoff is a chance to drop context.
 
 ## What I would do differently
 
-Measure it. I can describe what the rotation changed and I cannot show it, because nothing
-was instrumented before or after. Request volume and time to acknowledge were both
-available and neither was tracked, which makes the strongest claim here the one I can least
-support.
+Measure it. I can describe what the rotation changed and I can't show it. Request volume
+and time to acknowledge were both available and neither was tracked.
 
 ## Open before this publishes
 

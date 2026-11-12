@@ -19,9 +19,9 @@ baseline service on EKS, observability wired up, and SSO configured. Each piece 
 understood. The cost was the coordination between them: about two days, spread across more
 than one person, with waiting in between.
 
-The second-order effect is what bothered me. At that cost, teams stop standing things up
-speculatively. Experiments that should be cheap get batched, deferred
-or skipped, and nobody files a ticket saying "I didn't try something."
+At that cost, teams stop standing things up speculatively. Experiments that should be
+cheap get batched, deferred or skipped, and nobody files a ticket saying "I didn't try
+something."
 
 ## Constraints
 
@@ -47,28 +47,30 @@ Underneath it's a LangGraph graph reaching internal systems over MCP. MCP is doi
 work there: the tools the agent can call are described once and consumed by the model, so
 each integration isn't hand-written glue that drifts from the thing it wraps.
 
-{{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Solid lines are the agent acting, dashed lines carry content, and the accent dotted line is a security control that sits outside the request path. The sparse line on the right marks the one relationship I could not verify: whether merging the branch is what triggers the apply. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}
-### Components
-
-- **Slack** is the request interface. Requests arrive as prose, usually with details missing.
-- **LangGraph** is the orchestration graph. It decides which tools to call and in what order.
-- **MCP tools** reach internal systems. Each carries a strict schema, so the agent cannot invent a call.
-- **GitHub App** opens a branch. It cannot merge or bypass branch protection, so it sits outside the production write boundary.
-- **Human approval** is the gate on that boundary. The agent proposes and a person approves.
-- **Infrastructure** is provisioned behind the gate.
-- **EKS service** is the baseline deployment, with observability and Okta SSO wired up.
-- **Secret redaction** guards what the agent reads into context and what its releases ship. It is not a stage a request passes through.
-
-### Relationships
-
-- Slack carries the request to LangGraph.
-- LangGraph invokes the MCP tools.
-- MCP tool calls open a branch through the GitHub App.
-- MCP tool calls propose a change to the human approval gate.
-- Approval allows the change to reach infrastructure.
-- Infrastructure provisioning is followed by the service deployment on EKS.
-- Secret redaction guards the orchestration layer's inputs and releases.
-- Not verified: whether the merge is what triggers the apply.
+{{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Solid lines are the agent acting, dashed lines carry content, and the accent dotted line is a security control that sits outside the request path. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}
+[Request] Slack
+-> prose request
+[Orchestration] LangGraph*
+-> invokes
+[Tools] MCP tools*, strict schemas
+!! Secret redaction :: Guards what the agent reads into context and what its releases ship. Not a stage a request passes through.
+-> opens a branch
+[Repository] GitHub App, branch only, cannot merge
+-> proposes
+[Production write boundary] Human approval*
+-> applies
+[Behind the gate] Infrastructure, EKS service, observability, Okta SSO
+---
+Slack carries a prose request to the LangGraph orchestration graph, which decides
+which tools to call and in what order. The MCP tools reach internal systems and each
+carries a strict schema, so the agent cannot invent a call. Tool calls open a branch
+through a GitHub App that can create branches but cannot merge or bypass branch
+protection, which is why it sits outside the production write boundary. The agent then
+proposes a change to the human approval gate on that boundary; a person approves, and
+only then does the change reach infrastructure, followed by the baseline service
+deployment on EKS with observability and Okta SSO. Secret redaction guards the
+orchestration layer's inputs and its releases and is not a stage a request passes
+through.
 {{< /architecture >}}
 
 ## Choosing the framework
@@ -116,12 +118,10 @@ bill, and a per-run figure makes the automation's economics something you can ar
 
 ## Results and lessons
 
-The timings and the run count are above. What's worth saying here is what I got wrong.
-
-The security model was more work than the agent. The graph took a few days. Deciding what
-it was allowed to touch, making those limits enforceable outside the prompt, and proving
-they held took considerably longer, and that work is what made it something I was willing
-to point at production.
+I underestimated how much work the security model would take. The graph took a few days.
+Defining what it was allowed to touch, enforcing those limits outside the prompt, and
+proving they held took considerably longer, and that work is what made it something I was
+willing to point at production.
 
 The eval harness should also have come first. I built it after the graph worked, which
 left a stretch where I was changing behaviour with no way to measure whether I was making

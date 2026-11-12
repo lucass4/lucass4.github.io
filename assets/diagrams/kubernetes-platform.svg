@@ -1,184 +1,183 @@
-<svg class="arch__svg" viewBox="0 0 920 600" role="group"
-     aria-label="Kubernetes platform architecture. Eleven components in four domains; use Tab to step through them."
+<svg class="arch__svg" viewBox="0 0 920 620" role="group"
+     aria-label="Kubernetes platform architecture. Twelve components in four domains; use Tab to step through them."
      xmlns="http://www.w3.org/2000/svg">
 
   <!-- Each node owns the connectors that leave it, so hover and keyboard
        focus emphasise a component and what it acts on, with no script.
        Domain groups are drawn first and are not focusable: they label a
-       region, they are not components. -->
+       region, they are not components.
+
+       Kyverno and Crossplane sit inside the cluster group because both run
+       in it: Kyverno as an admission webhook, Crossplane as controllers
+       whose providers reach outward. Only Terraform and the AWS resources
+       that it and Crossplane manage are genuinely outside. -->
 
   <g class="ag">
-    <rect class="ag__box" x="16" y="56" width="190" height="212" rx="10" />
-    <text class="ag__label" x="16" y="48">Delivery</text>
+    <rect class="ag__box" x="16" y="70" width="176" height="196" rx="10" />
+    <text class="ag__label" x="16" y="62">Delivery</text>
   </g>
   <g class="ag">
-    <rect class="ag__box" x="430" y="56" width="300" height="300" rx="10" />
-    <text class="ag__label" x="430" y="48">Cluster, on EKS</text>
+    <rect class="ag__box" x="250" y="56" width="470" height="380" rx="10" />
+    <text class="ag__label" x="250" y="48">Cluster, on EKS</text>
   </g>
   <g class="ag">
-    <rect class="ag__box" x="760" y="56" width="146" height="300" rx="10" />
-    <text class="ag__label" x="760" y="48">Platform services</text>
+    <rect class="ag__box" x="750" y="56" width="152" height="260" rx="10" />
+    <text class="ag__label" x="750" y="48">Platform services</text>
   </g>
   <g class="ag">
-    <rect class="ag__box" x="16" y="430" width="890" height="118" rx="10" />
-    <text class="ag__label" x="16" y="422">Outside the cluster</text>
+    <rect class="ag__box" x="16" y="486" width="886" height="104" rx="10" />
+    <text class="ag__label" x="16" y="478">Outside the cluster</text>
   </g>
 
-  <!-- Delivery -->
   <g class="anode" tabindex="0" role="img"
      aria-label="Git holds the desired state. Argo CD reads it.">
-    <rect class="an__focus-ring" x="26" y="78" width="170" height="72" rx="12" />
+    <rect class="an__focus-ring" x="24" y="92" width="160" height="68" rx="12" />
     <g class="an">
-      <rect class="an__box" x="34" y="86" width="154" height="56" rx="8" />
-      <text class="an__label" x="111" y="110" text-anchor="middle">Git</text>
-      <text class="an__sub" x="111" y="128" text-anchor="middle">desired state</text>
+      <rect class="an__box" x="32" y="100" width="144" height="52" rx="8" />
+      <text class="an__label" x="104" y="122" text-anchor="middle">Git</text>
+      <text class="an__sub" x="104" y="140" text-anchor="middle">desired state</text>
     </g>
   </g>
 
   <g class="anode" tabindex="0" role="img"
      aria-label="Argo CD reconciles the cluster against Git, and applies manifests through Kyverno.">
-    <rect class="an__focus-ring" x="26" y="174" width="170" height="72" rx="12" />
+    <rect class="an__focus-ring" x="24" y="182" width="160" height="68" rx="12" />
     <g class="an an--orchestration">
-      <rect class="an__box" x="34" y="182" width="154" height="56" rx="8" />
-      <text class="an__label" x="111" y="206" text-anchor="middle">Argo CD</text>
-      <text class="an__sub" x="111" y="224" text-anchor="middle">reconciles</text>
+      <rect class="an__box" x="32" y="190" width="144" height="52" rx="8" />
+      <text class="an__label" x="104" y="212" text-anchor="middle">Argo CD</text>
+      <text class="an__sub" x="104" y="230" text-anchor="middle">reconciles</text>
     </g>
-    <path class="ac ac--data" d="M111,176 V146" />
-    <text class="ac__verb" x="119" y="165">reads</text>
-    <path class="ac ac--control" d="M188,210 H244" />
-    <text class="ac__verb" x="216" y="203" text-anchor="middle">applies</text>
+    <path class="ac ac--data" d="M104,186 V156" />
+    <text class="ac__verb" x="112" y="175">reads</text>
+    <path class="ac ac--control" d="M176,216 H266" />
+    <text class="ac__verb" x="221" y="209" text-anchor="middle">applies</text>
   </g>
 
-  <!-- Admission: everything entering the cluster passes through it -->
   <g class="anode" tabindex="0" role="img"
-     aria-label="Kyverno is the admission gate. It admits workloads into the cluster, or denies them.">
-    <rect class="an__focus-ring" x="242" y="170" width="156" height="80" rx="12" />
+     aria-label="Kyverno runs in the cluster as an admission webhook. It admits workloads, or denies them.">
+    <rect class="an__focus-ring" x="264" y="178" width="146" height="76" rx="12" />
     <g class="an an--security">
-      <rect class="an__box" x="250" y="178" width="140" height="64" rx="8" />
-      <text class="an__label" x="320" y="204" text-anchor="middle">Kyverno</text>
-      <text class="an__sub" x="320" y="223" text-anchor="middle">admits or denies</text>
+      <rect class="an__box" x="272" y="186" width="130" height="60" rx="8" />
+      <text class="an__label" x="337" y="211" text-anchor="middle">Kyverno</text>
+      <text class="an__sub" x="337" y="229" text-anchor="middle">admission webhook</text>
     </g>
-    <path class="ac ac--control" d="M390,206 C412,206 420,200 444,200" />
-    <text class="ac__verb" x="416" y="190" text-anchor="middle">admits</text>
+    <path class="ac ac--control" d="M402,205 C418,205 420,191 434,191" />
+    <text class="ac__verb" x="412" y="180" text-anchor="middle">admits</text>
   </g>
 
-  <!-- Inside the cluster -->
   <g class="anode" tabindex="0" role="img"
-     aria-label="KEDA scales workloads on the event signal that drives them.">
-    <rect class="an__focus-ring" x="442" y="78" width="146" height="70" rx="12" />
+     aria-label="KEDA scales workloads on queue depth and event rate.">
+    <rect class="an__focus-ring" x="432" y="68" width="136" height="68" rx="12" />
     <g class="an">
-      <rect class="an__box" x="450" y="86" width="130" height="54" rx="8" />
-      <text class="an__label" x="515" y="109" text-anchor="middle">KEDA</text>
-      <text class="an__sub" x="515" y="127" text-anchor="middle">event signals</text>
+      <rect class="an__box" x="440" y="76" width="120" height="52" rx="8" />
+      <text class="an__label" x="500" y="98" text-anchor="middle">KEDA</text>
+      <text class="an__sub" x="500" y="116" text-anchor="middle">event signals</text>
     </g>
-    <path class="ac ac--control" d="M515,140 V166" />
-    <text class="ac__verb" x="523" y="158">scales</text>
+    <path class="ac ac--control" d="M500,128 V154" />
+    <text class="ac__verb" x="508" y="146">scales</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
      aria-label="Karpenter adds nodes for pods that are pending.">
-    <rect class="an__focus-ring" x="584" y="78" width="136" height="70" rx="12" />
+    <rect class="an__focus-ring" x="568" y="68" width="140" height="68" rx="12" />
     <g class="an">
-      <rect class="an__box" x="592" y="86" width="120" height="54" rx="8" />
-      <text class="an__label" x="652" y="109" text-anchor="middle">Karpenter</text>
-      <text class="an__sub" x="652" y="127" text-anchor="middle">pending pods</text>
+      <rect class="an__box" x="576" y="76" width="124" height="52" rx="8" />
+      <text class="an__label" x="638" y="98" text-anchor="middle">Karpenter</text>
+      <text class="an__sub" x="638" y="116" text-anchor="middle">pending pods</text>
     </g>
-    <path class="ac ac--control" d="M652,140 V166" />
-    <text class="ac__verb" x="660" y="158">adds nodes</text>
+    <path class="ac ac--control" d="M638,128 V154" />
+    <text class="ac__verb" x="646" y="146">adds nodes</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
      aria-label="Application workloads, the game services. They claim managed dependencies through Crossplane.">
-    <rect class="an__focus-ring" x="442" y="164" width="278" height="80" rx="12" />
+    <rect class="an__focus-ring" x="432" y="152" width="276" height="78" rx="12" />
     <g class="an an--orchestration">
-      <rect class="an__box" x="450" y="172" width="262" height="64" rx="8" />
-      <text class="an__label" x="581" y="198" text-anchor="middle">Application workloads</text>
-      <text class="an__sub" x="581" y="217" text-anchor="middle">game services</text>
+      <rect class="an__box" x="440" y="160" width="260" height="62" rx="8" />
+      <text class="an__label" x="570" y="186" text-anchor="middle">Application workloads</text>
+      <text class="an__sub" x="570" y="205" text-anchor="middle">game services</text>
     </g>
-    <path class="ac ac--data" d="M640,362 V392 H570 V450" />
-    <text class="ac__verb" x="648" y="384">claims</text>
+    <path class="ac ac--data" d="M440,205 H416 V369 H436" />
+    <text class="ac__verb" x="410" y="300" text-anchor="end">claims</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
      aria-label="Istio in ambient mode connects the workloads, with mTLS and layer 4 policy per node and layer 7 at waypoint proxies.">
-    <rect class="an__focus-ring" x="442" y="264" width="278" height="80" rx="12" />
+    <rect class="an__focus-ring" x="432" y="242" width="276" height="74" rx="12" />
     <g class="an">
-      <rect class="an__box" x="450" y="272" width="262" height="64" rx="8" />
-      <text class="an__label" x="581" y="298" text-anchor="middle">Istio ambient</text>
-      <text class="an__sub" x="581" y="317" text-anchor="middle">mTLS per node, L7 at waypoints</text>
+      <rect class="an__box" x="440" y="250" width="260" height="58" rx="8" />
+      <text class="an__label" x="570" y="274" text-anchor="middle">Istio ambient</text>
+      <text class="an__sub" x="570" y="292" text-anchor="middle">mTLS per node, L7 at waypoints</text>
     </g>
-    <path class="ac ac--control" d="M581,272 V242" />
-    <text class="ac__verb" x="589" y="260">connects</text>
+    <path class="ac ac--control" d="M570,250 V228" />
+    <text class="ac__verb" x="578" y="243">connects</text>
   </g>
 
-  <!-- Platform services the team owns so product teams do not -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Crossplane runs in the cluster. It turns in-cluster claims into AWS resources outside it.">
+    <rect class="an__focus-ring" x="432" y="332" width="276" height="74" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="440" y="340" width="260" height="58" rx="8" />
+      <text class="an__label" x="570" y="364" text-anchor="middle">Crossplane</text>
+      <text class="an__sub" x="570" y="382" text-anchor="middle">controllers and providers</text>
+    </g>
+    <path class="ac ac--control" d="M640,398 V462 H740 V506" />
+    <text class="ac__verb" x="748" y="456">provisions</text>
+  </g>
+
   <g class="anode" tabindex="0" role="img"
      aria-label="External Secrets, ExternalDNS and cert-manager supply secrets, DNS records and certificates to the workloads.">
-    <rect class="an__focus-ring" x="764" y="78" width="134" height="186" rx="12" />
+    <rect class="an__focus-ring" x="754" y="78" width="140" height="174" rx="12" />
     <g class="an">
-      <rect class="an__box" x="772" y="86" width="122" height="50" rx="8" />
-      <text class="an__sub" x="833" y="116" text-anchor="middle">External Secrets</text>
+      <rect class="an__box" x="762" y="86" width="128" height="46" rx="8" />
+      <text class="an__sub" x="826" y="114" text-anchor="middle">External Secrets</text>
     </g>
     <g class="an">
-      <rect class="an__box" x="772" y="148" width="122" height="50" rx="8" />
-      <text class="an__sub" x="833" y="178" text-anchor="middle">ExternalDNS</text>
+      <rect class="an__box" x="762" y="142" width="128" height="46" rx="8" />
+      <text class="an__sub" x="826" y="170" text-anchor="middle">ExternalDNS</text>
     </g>
     <g class="an">
-      <rect class="an__box" x="772" y="210" width="122" height="50" rx="8" />
-      <text class="an__sub" x="833" y="240" text-anchor="middle">cert-manager</text>
+      <rect class="an__box" x="762" y="198" width="128" height="46" rx="8" />
+      <text class="an__sub" x="826" y="226" text-anchor="middle">cert-manager</text>
     </g>
-    <path class="ac ac--control" d="M766,192 H718" />
-    <text class="ac__verb" x="742" y="185" text-anchor="middle">supply</text>
+    <path class="ac ac--control" d="M756,176 H706" />
+    <text class="ac__verb" x="731" y="169" text-anchor="middle">supply</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
      aria-label="Datadog observes the workloads.">
-    <rect class="an__focus-ring" x="764" y="264" width="134" height="66" rx="12" />
+    <rect class="an__focus-ring" x="754" y="246" width="140" height="62" rx="12" />
     <g class="an">
-      <rect class="an__box" x="772" y="272" width="122" height="50" rx="8" />
-      <text class="an__sub" x="833" y="302" text-anchor="middle">Datadog</text>
+      <rect class="an__box" x="762" y="254" width="128" height="46" rx="8" />
+      <text class="an__sub" x="826" y="282" text-anchor="middle">Datadog</text>
     </g>
-    <path class="ac ac--control" d="M772,300 C742,300 726,246 718,230" />
-    <text class="ac__verb" x="736" y="274" text-anchor="end">observes</text>
+    <path class="ac ac--control" d="M762,272 C730,272 714,218 706,202" />
+    <text class="ac__verb" x="726" y="246" text-anchor="end">observes</text>
   </g>
 
-  <!-- Outside the cluster -->
   <g class="anode" tabindex="0" role="img"
      aria-label="Terraform provisions the cluster itself and the accounts underneath it.">
-    <rect class="an__focus-ring" x="52" y="448" width="196" height="78" rx="12" />
+    <rect class="an__focus-ring" x="52" y="504" width="196" height="72" rx="12" />
     <g class="an an--foundation">
-      <rect class="an__box" x="60" y="456" width="180" height="62" rx="8" />
-      <text class="an__label" x="150" y="482" text-anchor="middle">Terraform</text>
-      <text class="an__sub" x="150" y="501" text-anchor="middle">cluster and accounts</text>
+      <rect class="an__box" x="60" y="512" width="180" height="56" rx="8" />
+      <text class="an__label" x="150" y="536" text-anchor="middle">Terraform</text>
+      <text class="an__sub" x="150" y="554" text-anchor="middle">cluster and accounts</text>
     </g>
-    <path class="ac ac--control" d="M240,487 H330 V392 H500 V362" />
-    <text class="ac__verb" x="400" y="385" text-anchor="middle">provisions</text>
+    <path class="ac ac--control" d="M240,540 H330 V442" />
+    <text class="ac__verb" x="338" y="470">provisions</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Crossplane turns in-cluster claims into AWS resources.">
-    <rect class="an__focus-ring" x="472" y="448" width="196" height="78" rx="12" />
-    <g class="an">
-      <rect class="an__box" x="480" y="456" width="180" height="62" rx="8" />
-      <text class="an__label" x="570" y="482" text-anchor="middle">Crossplane</text>
-      <text class="an__sub" x="570" y="501" text-anchor="middle">claims from in-cluster</text>
-    </g>
-    <path class="ac ac--control" d="M660,487 H694" />
-    <text class="ac__verb" x="677" y="479" text-anchor="middle">provisions</text>
-  </g>
-
-  <g class="anode" tabindex="0" role="img"
-     aria-label="AWS resources: the managed dependencies behind those claims.">
-    <rect class="an__focus-ring" x="692" y="448" width="196" height="78" rx="12" />
+     aria-label="AWS resources: the managed dependencies behind the claims, outside the cluster.">
+    <rect class="an__focus-ring" x="632" y="504" width="216" height="72" rx="12" />
     <g class="an an--foundation">
-      <rect class="an__box" x="700" y="456" width="180" height="62" rx="8" />
-      <text class="an__label" x="790" y="482" text-anchor="middle">AWS resources</text>
-      <text class="an__sub" x="790" y="501" text-anchor="middle">managed dependencies</text>
+      <rect class="an__box" x="640" y="512" width="200" height="56" rx="8" />
+      <text class="an__label" x="740" y="536" text-anchor="middle">AWS resources</text>
+      <text class="an__sub" x="740" y="554" text-anchor="middle">managed dependencies</text>
     </g>
   </g>
 
-  <!-- Legend -->
-  <g class="al" transform="translate(16, 576)">
+  <g class="al" transform="translate(16, 606)">
     <path class="ac ac--control" d="M0,0 H26" />
     <text class="al__label" x="34" y="4">acts on</text>
 

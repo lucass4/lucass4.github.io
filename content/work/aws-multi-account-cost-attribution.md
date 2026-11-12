@@ -1,6 +1,5 @@
 ---
 title: "Consolidating 38 AWS Accounts Without Losing Cost Visibility"
-date: 2026-03-10
 weight: 3
 featured: true
 problem: "Consolidating 38 AWS accounts into six removed the account boundary that per-game cost reporting had been relying on."

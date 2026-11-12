@@ -1,6 +1,5 @@
 ---
 title: "Zero-Downtime Migration from ECS to EKS"
-date: 2026-04-01
 draft: true
 weight: 4
 featured: true

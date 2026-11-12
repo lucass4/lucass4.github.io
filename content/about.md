@@ -1,6 +1,6 @@
 ---
 title: "About"
-preview: "I design platform architecture and lead the teams that run it. Eighteen years on backend and distributed systems, nine of them on AWS, most recently leading DevOps Engineering at Fortis Games."
+preview: "Three years at Fortis Games, where I built DevOps Engineering and then led it, on a team spread across four countries. Before that, platform and reliability ownership for infrastructure serving around 10 million users a month."
 description: "Lucas Sant' Anna: platform and infrastructure engineering leader in Metro Vancouver. Kubernetes, AWS, distributed systems, and engineering leadership."
 ---
 
@@ -14,10 +14,10 @@ decade.
 ## Leading the function
 
 At Fortis Games I built DevOps Engineering from nothing. By the end it ran through four
-area leaders, one each for CI/CD, SRE, platform and AI infrastructure, which made me a
-manager of managers while I still owned platform architecture and technical direction. The
-team was spread across Brazil, Portugal, England and Canada, an eight-hour spread, so
-almost nothing could depend on everyone being awake at once.
+area leaders, one each for CI/CD, SRE, platform and AI infrastructure, and I kept platform
+architecture and technical direction alongside that. The team was spread across Brazil,
+Portugal, England and Canada, an eight-hour spread, so almost nothing could depend on
+everyone being awake at once.
 
 That constraint shaped how I lead. I wrote the RFC and ADR process so decisions got argued
 in writing and stayed findable afterwards. I wrote the service ownership model that set out
@@ -63,7 +63,7 @@ the time it takes to get from a request to a running environment.
 ## Career
 
 <ul class="timeline">
-<li><span class="meta">Mar 2026 &ndash; Dec 2026</span><span class="role">Sr. Manager, DevOps Engineering</span><span>Fortis Games &middot; Remote</span></li>
+<li><span class="meta">Mar 2026 &ndash; present</span><span class="role">Sr. Manager, DevOps Engineering</span><span>Fortis Games &middot; Remote</span></li>
 <li><span class="meta">Jan 2024 &ndash; Mar 2026</span><span class="role">Principal Software Engineer, Infrastructure Technical Lead</span><span>Fortis Games &middot; Remote</span></li>
 <li><span class="meta">Aug 2022 &ndash; Jan 2024</span><span class="role">Principal Software Developer, SRE</span><span>Prodigy Education &middot; Remote</span></li>
 <li><span class="meta">Feb 2022 &ndash; Aug 2022</span><span class="role">Staff Platform Systems Engineer</span><span>Wrapbook &middot; Remote</span></li>

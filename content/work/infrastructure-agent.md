@@ -1,6 +1,5 @@
 ---
 title: "Infrastructure Automation with an Agent"
-date: 2026-02-20
 weight: 2
 featured: true
 problem: "Standing up a new game environment took about two days of coordinated work across several people, which made experiments expensive enough that teams avoided them."

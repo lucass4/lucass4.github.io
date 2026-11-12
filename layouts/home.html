@@ -1,19 +1,20 @@
 {{ define "main" }}
+{{/* CTA sits directly under the lede. The location line follows it rather than
+     separating it from the headline, so the primary action is reachable
+     without scrolling at 390px. */}}
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap">
     <h1 class="hero__title" id="hero-title">{{ site.Params.headline }}</h1>
     <div class="hero__lede">
       {{ .Content }}
     </div>
-    <p class="hero__meta">
-      <span class="mono">{{ site.Params.location }}</span>
-    </p>
     <p class="hero__actions">
       {{- with site.GetPage "/work" }}
       <a class="btn btn--primary" href="{{ .RelPermalink }}">Explore my work</a>
       {{- end }}
       <a class="btn btn--ghost" href="{{ site.Params.linkedin }}" rel="me noopener">LinkedIn</a>
     </p>
+    <p class="hero__meta mono">{{ site.Params.location }}</p>
   </div>
 </section>
 
@@ -30,7 +31,7 @@
     </div>
     <ol class="case-list">
       {{- range . }}
-      {{ partial "case-preview.html" . }}
+      {{ partial "case-preview.html" (dict "page" . "level" 3) }}
       {{- end }}
     </ol>
   </div>
@@ -57,26 +58,28 @@
 </section>
 {{- end }}
 
-{{- with site.GetPage "/about" }}
-{{- with .Params.preview }}
-<section class="section section--about" aria-labelledby="about-title">
-  <div class="wrap">
-    <h2 class="section__title" id="about-title">About</h2>
-    <p class="about-preview">{{ . }}</p>
-    <p><a class="link-arrow" href="{{ $.RelPermalink }}">Read the full background</a></p>
-  </div>
-</section>
-{{- end }}
-{{- end }}
-
-<section class="section section--contact" aria-labelledby="contact-title">
-  <div class="wrap">
-    <h2 class="section__title" id="contact-title">Contact</h2>
-    <p>LinkedIn is the reliable way to reach me.</p>
-    <p class="contact__links">
-      <a class="btn btn--ghost" href="{{ site.Params.linkedin }}" rel="me noopener">LinkedIn</a>
-      <a class="btn btn--ghost" href="{{ site.Params.github }}" rel="me noopener">GitHub</a>
-    </p>
+{{/* About and Contact share one section. Two near-empty stacked sections put
+     four lines of text across two full screens of padding on mobile, and the
+     About preview already restated the hero lede. */}}
+<section class="section section--closing" aria-labelledby="about-title">
+  <div class="wrap closing">
+    <div class="closing__about">
+      <h2 class="section__title" id="about-title">About</h2>
+      {{- with site.GetPage "/about" }}
+      {{- with .Params.preview }}
+      <p class="about-preview">{{ . }}</p>
+      {{- end }}
+      <p><a class="link-arrow" href="{{ .RelPermalink }}">Read the full background</a></p>
+      {{- end }}
+    </div>
+    <div class="closing__contact">
+      <h2 class="section__title" id="contact-title">Contact</h2>
+      <p>LinkedIn is the way to reach me.</p>
+      <p class="contact__links">
+        <a class="btn btn--ghost" href="{{ site.Params.linkedin }}" rel="me noopener">LinkedIn</a>
+        <a class="btn btn--ghost" href="{{ site.Params.github }}" rel="me noopener">GitHub</a>
+      </p>
+    </div>
   </div>
 </section>
 {{ end }}

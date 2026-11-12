@@ -1,7 +1,7 @@
 {{ define "main" }}
 <article class="prose-page">
-  <div class="wrap wrap--narrow">
-    <header class="page-head">
+  <div class="wrap prose-layout">
+    <header class="page-head page-head--compact">
       <p class="page-head__kicker mono">
         <a href="{{ (site.GetPage "/work").RelPermalink }}">Work</a>
         {{- with .Params.period }}
@@ -13,20 +13,26 @@
       <p class="page-head__lede">{{ . }}</p>
       {{- end }}
 
-      <dl class="factsheet">
-        {{- with .Params.role }}
-        <div><dt>Role</dt><dd>{{ . }}</dd></div>
-        {{- end }}
-        {{- with .Params.scale }}
-        <div><dt>Scale</dt><dd>{{ . }}</dd></div>
-        {{- end }}
-        {{- with .Params.outcome }}
-        <div><dt>Outcome</dt><dd>{{ . }}</dd></div>
-        {{- end }}
-        {{- with .Params.stack }}
-        <div><dt>Stack</dt><dd>{{ delimit . ", " }}</dd></div>
-        {{- end }}
-      </dl>
+      {{/* Role, scale, outcome and stack were dropped from the index previews
+           and live here instead. Collapsed on mobile so they do not push the
+           first paragraph below a second screen. */}}
+      <details class="factsheet-wrap" open>
+        <summary class="factsheet-wrap__summary mono">Details</summary>
+        <dl class="factsheet">
+          {{- with .Params.role }}
+          <div><dt>Role</dt><dd>{{ . }}</dd></div>
+          {{- end }}
+          {{- with .Params.scale }}
+          <div><dt>Scale</dt><dd>{{ . }}</dd></div>
+          {{- end }}
+          {{- with .Params.outcome }}
+          <div><dt>Outcome</dt><dd>{{ . }}</dd></div>
+          {{- end }}
+          {{- with .Params.stack }}
+          <div><dt>Stack</dt><dd>{{ delimit . ", " }}</dd></div>
+          {{- end }}
+        </dl>
+      </details>
     </header>
 
     {{ partial "toc.html" . }}

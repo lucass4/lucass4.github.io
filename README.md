@@ -68,6 +68,30 @@ A case study goes in `content/work/`. Front matter it understands:
 | `stack` | List, rendered as a monospace run |
 | `featured` | `true` puts it on the home page, highest three by `weight` |
 
+Indexes show title, problem and outcome only. `role`, `scale` and `stack` appear on the
+case study itself, in a block that is collapsed on mobile.
+
+Case studies carry no `date`: they are ordered by `weight`, and a date would be published
+as `article:published_time` as though it were a publication date. Articles in
+`content/writing/` do have dates, and that is where the metadata comes from.
+
+### Architecture diagrams
+
+The `stack` shortcode renders a layer diagram as semantic HTML, so it reflows at 390px,
+follows the theme tokens, stays selectable, and is read in order by a screen reader with
+no separate text alternative to maintain.
+
+```
+{{< stack label="Platform layers" caption="Optional, markdown allowed." >}}
+Layer name :: what it is responsible for :: component, component
+Compute :: Managed Kubernetes :: EKS
+{{< /stack >}}
+```
+
+One layer per line, fields separated by `::`. Only the lines you write become content, so
+a diagram can state responsibilities without implying a topology. Add one only when the
+underlying details are verified.
+
 Articles go in `content/writing/`. The section, its nav entry and the home page's Writing
 block all appear only once at least one article is published. There is no flag to set:
 the templates check whether the section has pages, which is what keeps an empty Writing

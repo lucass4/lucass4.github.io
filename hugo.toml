@@ -1,0 +1,76 @@
+baseURL                          = "https://lucassantanna.ca/"
+theme                            = "introduction"
+DefaultContentLanguage           = "en"
+
+# CI overrides baseURL with whatever GitHub Pages is actually serving
+# (lucass4.github.io until the custom domain's DNS resolves, then
+# lucassantanna.ca), so the value above only matters for local builds.
+
+[params]
+    themeStyle                   = "auto"
+    showMenu                     = true
+    showRSSButton                = true
+    fadeIn                       = true
+    fadeInIndex                  = false
+    dateFormat                   = "Jan 2, 2006"
+    email                        = "me.lucas.sa@gmail.com"
+
+    [params.home]
+        introHeight              = "medium"
+        # Flip to true once the first post is out of draft. While every post is a
+        # draft this renders a "Latest Post" heading with nothing under it.
+        showLatest               = false
+        showAllPosts             = false
+        allPostsArchiveFormat    = true
+        localTime                = true
+        timeZone                 = "America/Vancouver"
+        timeFormat               = "en-CA"
+
+    # Share buttons on post pages. Off: no accounts on any of these networks.
+    [params.share]
+        twitter                  = false
+        facebook                 = false
+        pinterest                = false
+
+    [[params.social]]
+        url       = "https://github.com/lucass4"
+        icon      = "github"
+        icon_pack = "fab"
+    [[params.social]]
+        url       = "https://linkedin.com/in/lucassantanna"
+        icon      = "linkedin-in"
+        icon_pack = "fab"
+    [[params.social]]
+        url       = "mailto:me.lucas.sa@gmail.com"
+        icon      = "paper-plane"
+        icon_pack = "fas"
+
+[taxonomies]
+  tag = "tags"
+  series = "series"
+
+[markup]
+  defaultMarkdownHandler = "goldmark"
+  [markup.goldmark]
+  [markup.goldmark.renderer]
+    unsafe = true
+  [markup.highlight]
+    codeFences = true
+    guessSyntax = false
+    hl_Lines = ""
+    lineNoStart = 1
+    lineNos = false
+    lineNumbersInTable = true
+    style = "solarized-dark"
+    tabWidth = 4
+
+[languages]
+    [languages.en]
+        label      = "English"
+        locale     = "en-ca"
+        contentDir = "content/en"
+        weight     = 0
+        title      = "Lucas Sant' Anna"
+        [languages.en.params]
+            description = "Platform and infrastructure engineering. Kubernetes, AWS, and agents applied to infrastructure work."
+            footerText  = "Lucas Sant' Anna. Built with [Hugo](https://gohugo.io) and the [Introduction](https://github.com/victoriadrake/hugo-theme-introduction) theme."

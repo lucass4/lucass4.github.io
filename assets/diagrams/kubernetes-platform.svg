@@ -1,0 +1,146 @@
+<svg class="arch__svg" viewBox="0 0 920 600" role="presentation" aria-hidden="true" focusable="false"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Delivery: desired state and the thing that reconciles it -->
+  <g class="ag">
+    <rect class="ag__box" x="16" y="56" width="190" height="212" rx="10" />
+    <text class="ag__label" x="16" y="48">Delivery</text>
+  </g>
+  <g class="an">
+    <rect class="an__box" x="34" y="86" width="154" height="56" rx="8" />
+    <text class="an__label" x="111" y="110" text-anchor="middle">Git</text>
+    <text class="an__sub" x="111" y="128" text-anchor="middle">desired state</text>
+  </g>
+  <g class="an an--orchestration">
+    <rect class="an__box" x="34" y="182" width="154" height="56" rx="8" />
+    <text class="an__label" x="111" y="206" text-anchor="middle">Argo CD</text>
+    <text class="an__sub" x="111" y="224" text-anchor="middle">reconciles</text>
+  </g>
+
+  <!-- Admission: everything entering the cluster passes through it -->
+  <g class="an an--security">
+    <rect class="an__box" x="250" y="178" width="140" height="64" rx="8" />
+    <text class="an__label" x="320" y="204" text-anchor="middle">Kyverno</text>
+    <text class="an__sub" x="320" y="223" text-anchor="middle">admits or denies</text>
+  </g>
+
+  <!-- The cluster -->
+  <g class="ag">
+    <rect class="ag__box" x="430" y="56" width="300" height="300" rx="10" />
+    <text class="ag__label" x="430" y="48">Cluster, on EKS</text>
+  </g>
+  <g class="an">
+    <rect class="an__box" x="450" y="86" width="130" height="54" rx="8" />
+    <text class="an__label" x="515" y="109" text-anchor="middle">KEDA</text>
+    <text class="an__sub" x="515" y="127" text-anchor="middle">event signals</text>
+  </g>
+  <g class="an">
+    <rect class="an__box" x="592" y="86" width="120" height="54" rx="8" />
+    <text class="an__label" x="652" y="109" text-anchor="middle">Karpenter</text>
+    <text class="an__sub" x="652" y="127" text-anchor="middle">pending pods</text>
+  </g>
+  <g class="an an--orchestration">
+    <rect class="an__box" x="450" y="172" width="262" height="64" rx="8" />
+    <text class="an__label" x="581" y="198" text-anchor="middle">Application workloads</text>
+    <text class="an__sub" x="581" y="217" text-anchor="middle">game services</text>
+  </g>
+  <g class="an">
+    <rect class="an__box" x="450" y="272" width="262" height="64" rx="8" />
+    <text class="an__label" x="581" y="298" text-anchor="middle">Istio ambient</text>
+    <text class="an__sub" x="581" y="317" text-anchor="middle">mTLS per node, L7 at waypoints</text>
+  </g>
+
+  <!-- Platform services the team owns so product teams do not -->
+  <g class="ag">
+    <rect class="ag__box" x="760" y="56" width="146" height="300" rx="10" />
+    <text class="ag__label" x="760" y="48">Platform services</text>
+  </g>
+  <g class="an">
+    <rect class="an__box" x="772" y="86" width="122" height="50" rx="8" />
+    <text class="an__sub" x="833" y="116" text-anchor="middle">External Secrets</text>
+  </g>
+  <g class="an">
+    <rect class="an__box" x="772" y="148" width="122" height="50" rx="8" />
+    <text class="an__sub" x="833" y="178" text-anchor="middle">ExternalDNS</text>
+  </g>
+  <g class="an">
+    <rect class="an__box" x="772" y="210" width="122" height="50" rx="8" />
+    <text class="an__sub" x="833" y="240" text-anchor="middle">cert-manager</text>
+  </g>
+  <g class="an">
+    <rect class="an__box" x="772" y="272" width="122" height="50" rx="8" />
+    <text class="an__sub" x="833" y="302" text-anchor="middle">Datadog</text>
+  </g>
+
+  <!-- What sits underneath, and what is declared from inside the cluster -->
+  <g class="ag">
+    <rect class="ag__box" x="16" y="430" width="890" height="118" rx="10" />
+    <text class="ag__label" x="16" y="422">Outside the cluster</text>
+  </g>
+  <g class="an an--foundation">
+    <rect class="an__box" x="60" y="456" width="180" height="62" rx="8" />
+    <text class="an__label" x="150" y="482" text-anchor="middle">Terraform</text>
+    <text class="an__sub" x="150" y="501" text-anchor="middle">cluster and accounts</text>
+  </g>
+  <g class="an">
+    <rect class="an__box" x="480" y="456" width="180" height="62" rx="8" />
+    <text class="an__label" x="570" y="482" text-anchor="middle">Crossplane</text>
+    <text class="an__sub" x="570" y="501" text-anchor="middle">claims from in-cluster</text>
+  </g>
+  <g class="an an--foundation">
+    <rect class="an__box" x="700" y="456" width="180" height="62" rx="8" />
+    <text class="an__label" x="790" y="482" text-anchor="middle">AWS resources</text>
+    <text class="an__sub" x="790" y="501" text-anchor="middle">managed dependencies</text>
+  </g>
+
+  <!-- Relationships, each labelled with what one thing does to another -->
+  <path class="ac ac--data" d="M111,142 V176" />
+  <text class="ac__verb" x="119" y="165">reads</text>
+
+  <path class="ac ac--control" d="M188,210 H244" />
+  <text class="ac__verb" x="216" y="203" text-anchor="middle">applies</text>
+
+  <path class="ac ac--control" d="M390,206 C412,206 420,200 444,200" />
+  <text class="ac__verb" x="416" y="190" text-anchor="middle">admits</text>
+
+  <path class="ac ac--control" d="M515,140 V166" />
+  <text class="ac__verb" x="523" y="158">scales</text>
+
+  <path class="ac ac--control" d="M652,140 V166" />
+  <text class="ac__verb" x="660" y="158">adds nodes</text>
+
+  <path class="ac ac--control" d="M581,272 V242" />
+  <text class="ac__verb" x="589" y="260">connects</text>
+
+  <path class="ac ac--control" d="M766,192 H718" />
+  <text class="ac__verb" x="742" y="185" text-anchor="middle">supply</text>
+
+  <path class="ac ac--control" d="M772,300 C742,300 726,246 718,230" />
+  <text class="ac__verb" x="736" y="274" text-anchor="end">observes</text>
+
+  <path class="ac ac--control" d="M240,487 H330 V392 H500 V362" />
+  <text class="ac__verb" x="400" y="385" text-anchor="middle">provisions</text>
+
+  <path class="ac ac--data" d="M640,362 V392 H570 V450" />
+  <text class="ac__verb" x="648" y="384">claims</text>
+
+  <path class="ac ac--control" d="M660,487 H694" />
+  <text class="ac__verb" x="677" y="479" text-anchor="middle">provisions</text>
+
+  <!-- Legend -->
+  <g class="al" transform="translate(16, 576)">
+    <path class="ac ac--control" d="M0,0 H26" />
+    <text class="al__label" x="34" y="4">acts on</text>
+
+    <path class="ac ac--data" d="M110,0 H136" />
+    <text class="al__label" x="144" y="4">reads state from</text>
+
+    <rect class="an__box" x="266" y="-9" width="26" height="18" rx="4"
+          style="fill: var(--accent-soft); stroke: var(--accent)" />
+    <text class="al__label" x="300" y="4">policy gate</text>
+
+    <rect class="an__box" x="398" y="-9" width="26" height="18" rx="4"
+          style="fill: none; stroke: var(--border); stroke-dasharray: 3 3" />
+    <text class="al__label" x="432" y="4">managed outside the cluster</text>
+  </g>
+</svg>

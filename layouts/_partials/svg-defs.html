@@ -1,0 +1,15 @@
+{{/* Arrow markers, defined once per document. Each diagram SVG references
+     url(#arrow); defining them inside every diagram would duplicate ids on a
+     page carrying more than one. */}}
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path class="arrowhead" d="M0,1.5 L9,5 L0,8.5 z" />
+    </marker>
+    <marker id="arrow-accent" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+      <path class="arrowhead arrowhead--accent" d="M0,1.5 L9,5 L0,8.5 z" />
+    </marker>
+  </defs>
+</svg>

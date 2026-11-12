@@ -1,0 +1,38 @@
+{{/* Architecture diagram.
+
+       {{< architecture svg="infrastructure-agent" label="..." caption="..." >}}
+       ### How to read it
+       - **Slack** carries the request in
+       {{< /architecture >}}
+
+     `svg` names a file in assets/diagrams/. It is inlined so that the shared
+     CSS vocabulary in diagram-system.css styles it and both themes work from
+     the site tokens, with no second copy of the drawing and no runtime fetch.
+
+     The SVG is aria-hidden and decorative. The inner content is the accessible
+     representation, and below 60rem it is also the visible composition, so a
+     phone gets a readable structure instead of a shrunken picture of one.
+*/}}
+{{- $name := .Get "svg" -}}
+{{- $res := resources.Get (printf "diagrams/%s.svg" $name) -}}
+{{- $id := printf "arch-%s" (anchorize $name) -}}
+
+<figure class="arch" aria-labelledby="{{ $id }}-label">
+  <p class="arch__label mono" id="{{ $id }}-label">{{ .Get "label" | default "Architecture" }}</p>
+
+  {{- with $res }}
+  <div class="arch__canvas">
+    {{ .Content | safeHTML }}
+  </div>
+  {{- else }}
+  {{- errorf "architecture shortcode: assets/diagrams/%s.svg not found" $name -}}
+  {{- end }}
+
+  <div class="arch__alt">
+    {{ .Inner | markdownify }}
+  </div>
+
+  {{- with .Get "caption" }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>

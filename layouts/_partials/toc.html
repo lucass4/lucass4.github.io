@@ -1,9 +1,19 @@
-{{/* Only worth a table of contents once a page is long enough to need one.
-     Fragments.Identifiers is every heading anchor on the page; Headings is a
-     tree and its length is 1 for a flat document, which is not what we want. */}}
+{{/* Only worth a table of contents once a page has enough sections to need
+     one. Fragments.Identifiers is every heading anchor; Headings is a tree and
+     its length is 1 for a flat document.
+
+     <details open> so that with JavaScript disabled the whole list is visible,
+     which is the pre-existing behaviour. theme.js collapses it below the
+     sidebar breakpoint, where 300-odd pixels of links sat between the title
+     and the first paragraph. Above that breakpoint CSS hides the summary and
+     the list becomes a sticky sidebar. */}}
 {{- if and (ge .WordCount 450) (ge (len .Fragments.Identifiers) 5) }}
-<nav class="toc" aria-labelledby="toc-title">
-  <h2 class="toc__title mono" id="toc-title">On this page</h2>
-  {{ .TableOfContents }}
-</nav>
+<aside class="toc" aria-labelledby="toc-title">
+  <details class="toc__details" open id="toc-details">
+    <summary class="toc__summary">
+      <span class="toc__title mono" id="toc-title">On this page</span>
+    </summary>
+    {{ .TableOfContents }}
+  </details>
+</aside>
 {{- end }}

@@ -1,7 +1,11 @@
-{{/* Accepts either a page, or a dict of `page` and `level`. On the home page
-     the previews sit under an h2 section heading and so are h3; on the work
-     index they are the first level below the h1 and so are h2. Hard-coding
-     either one skips a heading level on the other page. */}}
+{{/* Accepts either a page, or a dict of `page` and `level`. Heading level is a
+     parameter because the previews sit under an h2 on the home page and
+     directly under the h1 on the work index; hard-coding either skips a level
+     on the other page.
+
+     Title, problem and outcome only. Role and stack live on the case study
+     itself: in an index they add four lines per item without helping anyone
+     decide which one to open. */}}
 {{- $page := . -}}
 {{- $level := 3 -}}
 {{- if reflect.IsMap . -}}
@@ -14,16 +18,8 @@
   {{- with .Params.problem }}
   <p class="case__problem">{{ . }}</p>
   {{- end }}
-  <dl class="case__facts">
-    {{- with .Params.role }}
-    <dt>Role</dt><dd>{{ . }}</dd>
-    {{- end }}
-    {{- with .Params.outcome }}
-    <dt>Outcome</dt><dd>{{ . }}</dd>
-    {{- end }}
-  </dl>
-  {{- with .Params.stack }}
-  <p class="case__stack mono">{{ delimit . " · " }}</p>
+  {{- with .Params.outcome }}
+  <p class="case__outcome"><span class="case__outcome-label mono">Outcome</span> {{ . }}</p>
   {{- end }}
   <p class="case__more"><a class="link-arrow" href="{{ .RelPermalink }}">Read the case study<span class="sr-only">: {{ .Title }}</span></a></p>
 </li>

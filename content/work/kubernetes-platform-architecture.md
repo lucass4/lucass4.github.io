@@ -1,6 +1,5 @@
 ---
 title: "Kubernetes Platform Architecture"
-date: 2026-01-15
 weight: 1
 featured: true
 problem: "A game company with no internal platform needed one that studio teams could ship on without each team rebuilding infrastructure from scratch."
@@ -43,6 +42,16 @@ leaders, covering CI/CD, SRE, platform and AI infrastructure.
 
 The platform is EKS, with each layer chosen to be something a product team never has to
 think about.
+
+{{< stack label="Platform layers" caption="Every layer here is one I designed and ran. The diagram states responsibilities, not topology: cluster counts, network layout and addressing are not published." >}}
+Delivery :: Cluster state reconciled from Git :: ArgoCD
+Policy :: Rules enforced at admission :: Kyverno
+Mesh :: mTLS and L4 per node, L7 where needed :: Istio Ambient, waypoint proxies
+Autoscaling :: Nodes against pending pods, workloads against their own signal :: Karpenter, KEDA
+Integrations :: Secrets, DNS, certificates, telemetry :: External Secrets, ExternalDNS, cert-manager, Datadog
+External resources :: Managed dependencies declared from inside the cluster :: Crossplane, Terraform
+Compute :: Managed Kubernetes :: EKS
+{{< /stack >}}
 
 Delivery runs through GitOps. ArgoCD reconciles cluster state from Git, so the cluster's
 contents are reviewable and a rollback is a revert. Letting CI push with cluster

@@ -389,7 +389,7 @@ hr {
    ========================================================================== */
 
 .hero {
-  padding-block: var(--space-7) var(--space-7);
+  padding-block: var(--space-6) var(--space-6);
 }
 
 .hero__title {
@@ -399,7 +399,7 @@ hr {
 }
 
 .hero__lede {
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
   color: var(--text-dim);
   font-size: var(--step-1);
   max-width: var(--measure);
@@ -409,21 +409,22 @@ hr {
   margin-top: var(--space-4);
 }
 
-.hero__meta {
-  margin-top: var(--space-5);
-  color: var(--text-dim);
-}
-
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-3);
-  margin-top: var(--space-6);
+  margin-top: var(--space-5);
+}
+
+/* Follows the buttons, so it cannot push them down the page. */
+.hero__meta {
+  margin-top: var(--space-4);
+  color: var(--text-dim);
 }
 
 @media (min-width: 48rem) {
   .hero {
-    padding-block: var(--space-9) var(--space-8);
+    padding-block: var(--space-8) var(--space-7);
   }
 }
 
@@ -526,46 +527,20 @@ hr {
   max-width: var(--measure);
 }
 
-.case__facts {
-  margin-top: var(--space-4);
-  display: grid;
-  gap: var(--space-2) var(--space-4);
-  max-width: 46rem;
-}
-
-.case__facts dt {
-  font-family: var(--font-mono);
-  font-size: var(--step--1);
-  color: var(--text-dim);
-  text-transform: lowercase;
-}
-
-.case__facts dd {
-  margin: 0 0 var(--space-2);
-}
-
-.case__stack {
+.case__outcome {
   margin-top: var(--space-3);
+  max-width: var(--measure);
+}
+
+.case__outcome-label {
   color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-right: 0.5em;
 }
 
 .case__more {
-  margin-top: var(--space-4);
-}
-
-@media (min-width: 40rem) {
-  .case__facts {
-    grid-template-columns: 5rem minmax(0, 1fr);
-    align-items: baseline;
-  }
-
-  .case__facts dt {
-    padding-top: 0.15em;
-  }
-
-  .case__facts dd {
-    margin-bottom: 0;
-  }
+  margin-top: var(--space-3);
 }
 
 /* ==========================================================================
@@ -623,6 +598,12 @@ hr {
   margin-bottom: var(--space-6);
 }
 
+/* Prose pages: the title block was costing ~400px before any body text. */
+.page-head--compact {
+  padding-block: var(--space-5) var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
 .page-head__kicker {
   color: var(--text-dim);
   margin-bottom: var(--space-3);
@@ -671,7 +652,7 @@ hr {
 
 /* Case study factsheet */
 .factsheet {
-  margin-top: var(--space-5);
+  margin-top: var(--space-4);
   display: grid;
   gap: var(--space-4);
 }
@@ -699,28 +680,66 @@ hr {
 }
 
 /* ==========================================================================
-   Table of contents
+   Prose layout and table of contents
    ========================================================================== */
 
+/* One column up to the sidebar breakpoint. DOM order is head, toc, body, nav,
+   which is the right reading order on a phone. */
+.prose-layout {
+  max-width: var(--wrap-narrow);
+}
+
 .toc {
-  margin-bottom: var(--space-7);
-  padding: var(--space-4) var(--space-5);
+  margin-bottom: var(--space-6);
+  padding: var(--space-3) var(--space-4);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
 }
 
+.toc__summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.toc__summary::-webkit-details-marker {
+  display: none;
+}
+
+.toc__summary::after {
+  content: "";
+  width: 0.45em;
+  height: 0.45em;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-0.1em);
+  color: var(--text-dim);
+  transition: transform var(--transition);
+}
+
+.toc__details[open] > .toc__summary::after {
+  transform: rotate(-135deg) translateY(-0.1em);
+}
+
+.toc__summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
 .toc__title {
   color: var(--text-dim);
-  font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-bottom: var(--space-3);
 }
 
 .toc ul {
   list-style: none;
   padding: 0;
+  margin-top: var(--space-3);
   display: grid;
   gap: var(--space-2);
 }
@@ -741,6 +760,109 @@ hr {
   text-decoration: underline;
 }
 
+/* Sidebar. 72rem is where a 42rem reading column plus a 13rem rail both fit
+   without squeezing the measure. */
+@media (min-width: 72rem) {
+  .prose-layout {
+    max-width: 62rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 13rem;
+    column-gap: var(--space-7);
+  }
+
+  .prose-layout > .page-head {
+    grid-column: 1;
+  }
+
+  .prose-layout > .prose {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .prose-layout > .page-nav {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .prose-layout > .toc {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    position: sticky;
+    top: var(--space-5);
+    align-self: start;
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+    /* Line the rail up with the title block rather than the header rule. */
+    margin-top: var(--space-5);
+    margin-bottom: 0;
+    padding: 0 0 0 var(--space-4);
+    background: none;
+    border: 0;
+    border-left: 1px solid var(--border);
+    border-radius: 0;
+  }
+
+  /* Always expanded here, so the control would do nothing. */
+  .prose-layout > .toc .toc__summary {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .prose-layout > .toc .toc__summary::after {
+    display: none;
+  }
+
+  .prose-layout > .toc ul {
+    font-size: var(--step--1);
+  }
+}
+
+/* Case study factsheet, collapsible on small screens */
+.factsheet-wrap {
+  margin-top: var(--space-4);
+}
+
+.factsheet-wrap__summary {
+  cursor: pointer;
+  list-style: none;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.factsheet-wrap__summary::-webkit-details-marker {
+  display: none;
+}
+
+.factsheet-wrap__summary::after {
+  content: "";
+  width: 0.45em;
+  height: 0.45em;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(45deg) translateY(-0.1em);
+  transition: transform var(--transition);
+}
+
+.factsheet-wrap[open] > .factsheet-wrap__summary::after {
+  transform: rotate(-135deg) translateY(-0.1em);
+}
+
+.factsheet-wrap__summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+@media (min-width: 48rem) {
+  .factsheet-wrap__summary {
+    display: none;
+  }
+}
+
 /* ==========================================================================
    Long-form prose
    ========================================================================== */
@@ -756,6 +878,10 @@ hr {
 .prose h2 {
   font-size: var(--step-3);
   margin-top: var(--space-8);
+}
+
+.prose > :first-child {
+  margin-top: 0;
 }
 
 .prose h3 {
@@ -1117,5 +1243,120 @@ main > .section:last-of-type {
 
   .link-arrow:hover::after {
     transform: none;
+  }
+}
+
+/* ==========================================================================
+   Architecture diagram (the `stack` shortcode)
+   ========================================================================== */
+
+/* Semantic HTML rather than an SVG or an image: it reflows at 390px, follows
+   the theme tokens, stays selectable and searchable, and is read in document
+   order by a screen reader with no separate text alternative to maintain. */
+.diagram {
+  margin-top: var(--space-6);
+}
+
+.diagram__label {
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: var(--space-3);
+}
+
+/* Scoped under .prose because `.prose ol` and `.prose li + li` are more
+   specific than a bare class and were adding a left gutter and row margins. */
+.prose .diagram__stack,
+.diagram__stack {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 2px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--border);
+}
+
+.prose .diagram__layer,
+.diagram__layer {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  margin: 0;
+  background: var(--surface);
+}
+
+.diagram__layer-name {
+  font-weight: 600;
+  font-size: var(--step-0);
+  letter-spacing: -0.01em;
+}
+
+.diagram__layer-concern {
+  color: var(--text-dim);
+  font-size: var(--step-0);
+}
+
+.diagram__layer-parts {
+  color: var(--accent);
+}
+
+.diagram figcaption {
+  margin-top: var(--space-3);
+  font-size: var(--step--1);
+  color: var(--text-dim);
+}
+
+/* Name, concern and components side by side once there is room for them. */
+@media (min-width: 40rem) {
+  .diagram__layer {
+    grid-template-columns: 9rem minmax(0, 1fr);
+    gap: var(--space-1) var(--space-4);
+    align-items: baseline;
+  }
+
+  .diagram__layer-name {
+    grid-row: span 2;
+  }
+}
+
+/* ==========================================================================
+   Home page closing block
+   ========================================================================== */
+
+/* About and Contact were two stacked sections carrying four lines between
+   them, which cost two screens of padding on a phone. */
+.closing {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.closing__about,
+.closing__contact {
+  display: grid;
+  gap: var(--space-3);
+  align-content: start;
+}
+
+.closing .section__title {
+  margin-bottom: 0;
+}
+
+.closing .about-preview,
+.closing__contact p {
+  margin: 0;
+  max-width: var(--measure);
+}
+
+.closing .contact__links {
+  margin-top: var(--space-2);
+}
+
+@media (min-width: 48rem) {
+  .closing {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--space-8);
   }
 }

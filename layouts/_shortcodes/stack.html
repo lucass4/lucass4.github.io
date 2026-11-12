@@ -1,0 +1,42 @@
+{{/* Architecture diagram as a layer stack.
+
+     Usage:
+
+       {{< stack caption="..." label="..." >}}
+       Layer name :: concern :: component, component
+       {{< /stack >}}
+
+     One layer per line. Rendered as an ordered list, not an SVG or an image,
+     so it reflows at 390px, inherits the theme tokens, is selectable and
+     searchable, and is read in order by a screen reader without needing a
+     separate text description.
+
+     `label` becomes the figure's accessible name. Only the layers themselves
+     carry content, so a diagram can only state what the author wrote.
+*/}}
+{{- $lines := slice -}}
+{{- range split (trim .Inner "\n ") "\n" -}}
+  {{- with trim . " \t" }}{{ $lines = $lines | append . }}{{ end -}}
+{{- end -}}
+{{- $id := printf "stack-%s" (substr (sha1 .Inner) 0 8) -}}
+
+<figure class="diagram" role="group" aria-labelledby="{{ $id }}-label">
+  <p class="diagram__label mono" id="{{ $id }}-label">{{ .Get "label" | default "Architecture" }}</p>
+  <ol class="diagram__stack">
+    {{- range $lines }}
+    {{- $parts := split . "::" }}
+    <li class="diagram__layer">
+      <span class="diagram__layer-name">{{ trim (index $parts 0) " " }}</span>
+      {{- if gt (len $parts) 1 }}
+      <span class="diagram__layer-concern">{{ trim (index $parts 1) " " }}</span>
+      {{- end }}
+      {{- if gt (len $parts) 2 }}
+      <span class="diagram__layer-parts mono">{{ trim (index $parts 2) " " }}</span>
+      {{- end }}
+    </li>
+    {{- end }}
+  </ol>
+  {{- with .Get "caption" }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>

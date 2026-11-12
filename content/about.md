@@ -13,11 +13,12 @@ decade.
 
 ## Leading the function
 
-At Fortis Games I built DevOps Engineering from nothing. By the end it ran through four
-area leaders, one each for CI/CD, SRE, platform and AI infrastructure, and I kept platform
-architecture and technical direction alongside that. The team was spread across Brazil,
-Portugal, England and Canada, an eight-hour spread, so almost nothing could depend on
-everyone being awake at once.
+At Fortis Games I built DevOps Engineering from nothing and ran it for the three years I
+was there. By the end it was ten engineers through four area leaders, one each for
+CI/CD, SRE, platform and AI infrastructure, and I kept platform architecture and
+technical direction alongside that. The team was spread across Brazil, Portugal, England
+and Canada, an eight-hour spread, so almost nothing could depend on everyone being awake
+at once.
 
 That constraint shaped how I lead. I wrote the RFC and ADR process so decisions got argued
 in writing and stayed findable afterwards. I wrote the service ownership model that set out

@@ -3,11 +3,11 @@ title: "One Engineer Takes the Interrupts So Seven Can Build"
 draft: true
 weight: 4
 featured: true
-metric: "1 week in 8"
+metric: "1 week in 10"
 metric_note: "every engineer rotates through every area"
 problem: "Infrastructure requests, alerts and dependency upgrades arrived continuously and landed on whoever saw them first, so project work was interrupted constantly and each area's knowledge stayed with its specialist."
-role: "Designed the rotation and wrote the process"
-scale: "Eight engineers, four countries, every Infrastructure-owned repository"
+role: "Designed it, wrote the process, implemented it and rolled it out"
+scale: "Grew to ten engineers across four countries, every Infrastructure-owned repository"
 outcome: "Interrupts have one owner per week; the other seven keep their project time, and everyone passes through every area in turn"
 stack: ["Argo CD", "Renovate", "ClickUp", "Slack", "Kanban"]
 description: "A weekly support engineer rotation at Fortis Games: one person absorbs requests, alerts and dependency upgrades, which protects everyone else's project time and spreads knowledge across every area of the platform."
@@ -43,7 +43,8 @@ knowledge problem worse, by giving one engineer the interrupts permanently.
 
 ## My role
 
-I designed the rotation and wrote the process.
+I designed the rotation, wrote the process, implemented it and rolled it out. The roster
+started at eight engineers and grew to ten.
 
 ## The design
 
@@ -113,10 +114,10 @@ The direct effect is the one it was designed for. Seven engineers get a week whe
 interrupts are somebody else's job.
 
 The second effect wasn't something I designed for, and it's the one I'd point at now. Every
-engineer passes through every area, roughly a week in eight. The SRE specialist spends a
+engineer passes through every area, roughly a week in ten. The SRE specialist spends a
 week merging CI/CD dependency upgrades. The CI/CD specialist spends a week inside Argo CD
 sync failures. Nobody can route an area's questions permanently to the person who owns that
-area, because in eight weeks they'll be answering them.
+area, because within a couple of months they'll be answering them.
 
 It moved more knowledge between areas than the documentation work I ran, because it put
 people inside areas they wouldn't have picked.
@@ -129,9 +130,9 @@ request had got to.
 
 ## Trade-offs
 
-One engineer in eight on support is around twelve percent of capacity going to work that
-never appears on a roadmap. That cost was already being paid, spread across everyone, where
-it couldn't be planned around or measured.
+One engineer in ten on support is around ten percent of capacity going to work that never
+appears on a roadmap. That cost was already being paid, spread across everyone, where it
+couldn't be planned around or measured.
 
 A specialist having a slow week in somebody else's area is a real cost too. Requests take
 longer to resolve while the person holding them is learning, and that's part of how the
@@ -162,7 +163,6 @@ improvement above is exactly the kind of claim that needed a number.
 
 ## Open before this publishes
 
-1. **Numbers.** Anything measured before or after: request volume, time to acknowledge,
-   Renovate backlog depth, interrupts reaching non-support engineers.
-2. **Rotation size.** Eight is what the roster showed. Eight throughout, or did it grow?
-3. **Attribution.** Is the process document yours alone, or written with the area leads?
+One thing, and it will not be resolved: there are no numbers. Request volume, time to
+acknowledge and Renovate backlog depth were all available and none was tracked, which the
+section above says plainly. Nothing else here needs checking.

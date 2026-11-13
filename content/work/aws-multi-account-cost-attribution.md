@@ -24,8 +24,7 @@ billing console can give you.
 
 ## Constraints
 
-Per-game margin was a real reporting requirement, not an internal curiosity, so the answer
-couldn't be "estimate it."
+Per-game margin was a real reporting requirement, so the answer couldn't be "estimate it."
 
 The replacement had to work on resources that already existed and on everything created
 afterwards, by teams who weren't going to enjoy a tagging mandate.
@@ -42,15 +41,14 @@ below applies to stateful resources, so ephemeral work can run untagged, and sha
 compute needed its own rule.
 
 Service Control Policies enforce it by denying untagged stateful resources. The common
-approach scans for untagged resources and chases
-the owners, which leaves the data wrong between the mistake and the sweep, and there's
-always somewhere it's wrong. An SCP that refuses to create an untagged stateful resource
+approach scans for untagged resources and chases the owners, which leaves the data wrong
+between the mistake and the sweep, and there's always somewhere it's wrong. An SCP that refuses to create an untagged stateful resource
 keeps bad data out from the start. The cost is that somebody's Terraform plan fails, which
 is a much better place to find out.
 
 I scoped the deny to stateful resources deliberately. Applying it to everything would have
-blocked ephemeral and experimental work for no accounting benefit, and a guardrail that blocks work for
-no visible reason collects exceptions until it stops meaning anything.
+blocked ephemeral and experimental work for no accounting benefit, and a guardrail that
+blocks work for no visible reason collects exceptions until it stops meaning anything.
 
 Shared compute uses a landlord-and-tenant split, built on Datadog container cost
 allocation. Tenants are charged for the pod resources they request. Idle capacity is

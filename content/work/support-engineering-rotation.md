@@ -144,7 +144,7 @@ My last piece of work at Fortis was a proof-of-concept evaluation of kagent, whi
 agents as Kubernetes resources with sandboxed execution. The fit here is what interested
 me: an agent that picks up an alert, gathers the context a human would gather and attaches
 it to the ticket changes what the support engineer starts from. The propose-and-approve
-boundary from the Slack provisioning agent applies, because triage that writes to a cluster
+boundary from the provisioning agent applies, because triage that writes to a cluster
 on its own is a much worse idea.
 
 That stayed a proof of concept, so this is a direction I'd started on and not a result.

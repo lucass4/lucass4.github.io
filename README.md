@@ -5,8 +5,8 @@ Personal site. Hugo with a custom theme, deployed to GitHub Pages from `main` by
 
 ## Running it
 
-Requires Hugo 0.169 or later (extended not strictly needed — the stylesheet is plain
-CSS — but the workflow installs extended and `brew install hugo` gives it to you).
+Requires Hugo 0.169 or later. Extended is not strictly needed, since the stylesheet is
+plain CSS, but the workflow installs extended and `brew install hugo` gives it to you.
 
 ```sh
 hugo server          # http://localhost:1313, drafts hidden
@@ -91,7 +91,7 @@ as `article:published_time` as though it were a publication date. Articles in
 ### Architecture diagrams
 
 Two shortcodes. Both follow the theme tokens, so a theme change restyles them, and both
-state responsibilities and relationships rather than topology.
+state responsibilities and relationships, not topology.
 
 `stack` is a layer diagram: what each layer is responsible for and which component does
 it. One row per line, fields separated by `::`. Semantic HTML throughout, so it reflows
@@ -130,9 +130,9 @@ details are verified, and say in the caption what the diagram deliberately leave
 #### Authoring an SVG
 
 The drawing is hand-placed. There is no layout engine, so coordinates, label positions
-and collisions are yours to get right. Both existing diagrams use a viewBox around
-920–980 by 600–620 and scale to 100% width, which at the prose column's 672px renders
-10px type at roughly 7px.
+and collisions are yours to get right. Both existing diagrams use a viewBox of roughly
+920x600 to 980x620 and scale to 100% width, which at the prose column's 672px renders
+10px type at about 7px.
 
 | Class | Goes on | Does |
 |---|---|---|
@@ -148,27 +148,25 @@ and collisions are yours to get right. Both existing diagrams use a viewBox arou
 
 Four rules that are not obvious from reading one diagram:
 
-1. **A connector belongs to the node it leaves, as a direct child of that `anode`
-   group.** The highlight rules are `.anode:hover > .ac` and `.anode:focus-visible > .ac`,
-   which is what gives keyboard users the emphasis a mouse gets without any script. Nest
-   a connector deeper and it stops lighting up; park it at the top level and it never
-   lights up at all.
-2. **No presentation attributes.** Every colour and width resolves to a token in
-   `diagram-system.css`, which is what makes the theme toggle restyle the drawing. A
-   `fill="#1f2328"` in the SVG survives the switch and is wrong in one of the two themes.
-3. **Arrow markers are shared.** `#arrow` and `#arrow-accent` come from
+1. A connector has to be a direct child of the `anode` it leaves. The highlight rules
+   are `.anode:hover > .ac` and `.anode:focus-visible > .ac`, which is how a keyboard
+   user gets the emphasis a mouse gets, with no script. Nest a connector deeper and it
+   stops lighting up; park it at the top level and it never lights up at all.
+2. Keep presentation attributes out of the markup. Every colour and width resolves to a
+   token in `diagram-system.css`, so the theme toggle restyles the drawing. A
+   `fill="#1f2328"` in the SVG survives the toggle and is wrong in one of the two themes.
+3. Arrow markers are shared. `#arrow` and `#arrow-accent` come from
    `layouts/_partials/svg-defs.html`, emitted once per document. A diagram that defines
    its own `<marker id="arrow">` duplicates the id as soon as a page carries two
    diagrams.
-4. **Group boxes are deployment boundaries, not labels.** If a component runs on the
-   cluster, draw it inside the cluster box, even when it spends its time talking to
-   things outside. The in-cluster controllers in `kubernetes-platform.svg` are the
-   worked example.
+4. A group box is a deployment boundary. If a component runs on the cluster, draw it
+   inside the cluster box, even when it spends its time talking to things outside. The
+   in-cluster controllers in `kubernetes-platform.svg` are the worked example.
 
-A node whose connector points at another connector rather than at a node is saying the
-thing it names is a gate on that edge, not a stop along it. Kyverno is drawn that way:
-Argo CD applies to the API server, which calls the admission webhook and refuses the
-request itself on a deny, so nothing routes through Kyverno.
+When a connector points at another connector instead of at a node, the component it
+leaves is a gate on that edge. Kyverno is drawn that way: Argo CD applies to the API
+server, which calls the admission webhook and refuses the request itself on a deny, so
+nothing routes through Kyverno.
 
 Articles go in `content/writing/`. The section, its nav entry and the home page's Writing
 block all appear only once at least one article is published. There is no flag to set:

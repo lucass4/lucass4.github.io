@@ -29,9 +29,8 @@ Whatever I built would hold credentials for real infrastructure. An agent with c
 write access can make a bad change to production, and that's the failure mode worth
 designing around.
 
-It also had to be usable without anyone learning a new tool. That pointed at MCP: the
-tools show up inside the client an engineer already has open, so there was no interface of
-mine for anyone to adopt.
+It also had to work for people who weren't going to learn a new tool. That pointed at
+MCP: the tools appear inside the client an engineer already has open.
 
 ## My role
 
@@ -44,17 +43,16 @@ One request produces the repository, provisions the infrastructure, and deploys 
 baseline service on EKS with observability and Okta SSO already wired up. That takes
 about 30 seconds. It ran 50 times in three months.
 
-Underneath it's a LangGraph graph, and MCP is how you reach it. The agent runs as a
-FastAPI service with an MCP server mounted on it, so an MCP client (Claude Code, in
-practice) calls a tool and the tool runs the graph in the same process. A plain HTTP route
-reaches the same runner for anything that isn't an MCP client. Both paths share one entry
-point, so neither can acquire its own idea of who the caller is.
+Underneath it's a LangGraph graph. The agent runs as a FastAPI service with an MCP
+server mounted on it, so an MCP client (Claude Code, in practice) calls a tool and the
+tool runs the graph in the same process. There's a plain HTTP route onto the same runner
+for anything that isn't an MCP client. The caller's identity is read from the verified
+token and never from the request body, so it comes out the same on both paths.
 
-Describing the surface once in MCP terms is what makes that worth doing: the tools are
-declared with their schemas and consumed by the model directly, so no integration is
-hand-written glue that drifts from the thing it wraps. The tools split by blast radius,
-a read-only preview that plans and opens nothing, and an apply that opens the pull
-request.
+The tools carry their own schemas, so each integration is described once and the model
+consumes that description instead of glue code that drifts from the thing it wraps. They
+split by blast radius: a preview that plans and opens nothing, and an apply that opens the
+pull request.
 
 {{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Solid lines are the agent acting, dashed lines carry content, and the accent dotted line is a security control that sits outside the request path. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}
 [Request] MCP client*, Claude Code
@@ -73,8 +71,9 @@ request.
 An MCP client calls a tool on the MCP server mounted on the agent's own API. The server
 verifies the caller's token, checks the required scope, and writes an audit record for
 every call including the ones it refuses. The tool then runs the LangGraph provision
-graph in the same process, which is also what the plain HTTP route onto that graph does,
-so the caller's identity cannot differ between the two paths. Each tool carries a strict
+graph in the same process, which is what the plain HTTP route onto that graph also does.
+The caller's identity is read from the verified token and never from the request body, so
+it is the same on both paths. Each tool carries a strict
 schema, so the agent cannot invent a call, and they are split by blast radius: a
 read-only preview that plans and opens nothing, and an apply that opens the pull request.
 The pull request is opened by a GitHub App that cannot merge or bypass branch protection,

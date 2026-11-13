@@ -20,8 +20,8 @@ without somewhere shared to get those, each team would have solved them separate
 differently. I joined as infrastructure technical lead and the platform was the first
 thing to design.
 
-The requirement wasn't "run Kubernetes." It was that a studio team should be able to ship
-a service without having to learn how the infrastructure underneath it is wired.
+The requirement was that a studio team should be able to ship a service without having to
+learn how the infrastructure underneath it is wired.
 
 ## Constraints
 
@@ -45,7 +45,7 @@ leaders, covering CI/CD, SRE, platform and AI infrastructure.
 The platform is EKS, with each layer chosen to be something a product team never has to
 think about.
 
-{{< architecture svg="kubernetes-platform" label="Platform architecture" caption="Grouped by domain, with every line labelled. Kyverno's accent line is a decision applied to what Argo CD ships, not a hop the manifests take. The diagram states responsibilities and relationships, not topology: cluster counts, network layout and addressing are not published." >}}
+{{< architecture svg="kubernetes-platform" label="Platform architecture" caption="Grouped by domain, with every line labelled. Kyverno's accent line is a decision applied to what Argo CD ships; the manifests never route through it. The diagram states responsibilities and relationships, not topology: cluster counts, network layout and addressing are not published." >}}
 [Delivery] Git, Argo CD*
 -> applies, through admission
 [Cluster, on EKS] Kyverno*, Application workloads*, Istio ambient, KEDA, Karpenter, Crossplane*
@@ -109,7 +109,7 @@ the cluster, which is more work than any size of team absorbs.
 ## Trade-offs
 
 Ambient mode was newer than the sidecar model when I picked it. The migration argument
-won, but it meant taking the less-travelled path through a service mesh that's already a
+won, but it meant taking the less common path through a service mesh that's already a
 large piece of machinery.
 
 A platform that abstracts this much is also one more thing to learn. Someone comfortable
@@ -123,5 +123,4 @@ The RFC and ADR practice outlasted the projects that prompted it and became how 
 made decisions.
 
 What I'd carry forward: write the ownership model at the same time as the architecture.
-The technical design was ready before there was an agreed answer to who gets paged, and
-the gap between those two is where a platform team quietly turns into a support desk.
+The technical design was ready before there was an agreed answer to who gets paged.

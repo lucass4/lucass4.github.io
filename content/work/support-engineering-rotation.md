@@ -66,7 +66,7 @@ The order is written down because an undirected support engineer will work on wh
 thing is making the most noise, and that isn't reliably the thing that matters most.
 
 Project work is explicitly allowed to be large. The constraint is that it has to be
-pausable, not that it has to be small. If the week forbids real work, the team loses
+pausable. If the week forbids real work, the team loses
 capacity it had planned for.
 
 ## One channel, and a ticket behind every message
@@ -80,8 +80,8 @@ them, so keeping requesters informed of progress and blockers is written into th
 the ticket gives those updates somewhere to live.
 
 The support engineer coordinates each request to completion even when somebody else
-implements the fix. Ownership follows the request and not the implementation, so one that
-gets handed off still has someone answerable for it.
+implements the fix. Ownership follows the request, so one that gets handed off
+still has someone answerable for it.
 
 ## No broken windows
 
@@ -143,11 +143,10 @@ of them are alerts needing the same first twenty minutes of investigation every 
 My last piece of work at Fortis was a proof-of-concept evaluation of kagent, which runs
 agents as Kubernetes resources with sandboxed execution. The fit here is what interested
 me: an agent that picks up an alert, gathers the context a human would gather and attaches
-it to the ticket changes what the support engineer starts from. The propose-and-approve
-boundary from the provisioning agent applies, because triage that writes to a cluster
-on its own is a much worse idea.
+it to the ticket changes what the support engineer starts from. The propose-and-approve boundary from the provisioning
+agent applies, because triage that writes to a cluster on its own is a much worse idea.
 
-That stayed a proof of concept, so this is a direction I'd started on and not a result.
+That stayed a proof of concept, so there's no result to report.
 
 ## What I would do differently
 

@@ -88,9 +88,8 @@ agent's inputs and its releases and is not a stage a request passes through.
 I documented six alternatives before building, including Google ADK, CrewAI, and doing
 nothing.
 
-Doing nothing deserved to be on the list. Two days of toil is a cost but not an emergency,
-and the comparison worth making was against scripting the same sequence with no model in
-the loop. What tipped it was the request side: the inputs arrive as prose with missing
+Doing nothing deserved to be on the list. The comparison worth making was against
+scripting the same sequence with no model in the loop. What tipped it was the request side: the inputs arrive as prose with missing
 details, and the part that actually consumed human time was interpreting the request, not
 running the steps.
 
@@ -113,8 +112,8 @@ tool invocations will eventually emit one that reads as plausible English and is
 API.
 
 Secrets are scanned and redacted before anything is embedded, and the release gate fails
-closed on a leaked credential. It fails closed because the alternative is a
-gate that passes a leak through whenever it errors, and reports success while doing it.
+closed on a leaked credential. It fails closed because the alternative is a gate that passes a leak through whenever it
+errors, and reports success while doing it.
 
 ## Evaluation and cost
 

@@ -19,17 +19,17 @@ four area leaders, one each for CI/CD, SRE, platform and AI infrastructure. The 
 spread across Brazil, Portugal, England and Canada, an eight-hour spread, so almost
 nothing could depend on everyone being awake at once.
 
-That constraint shaped how I lead. I wrote the RFC and ADR process so decisions got argued
-in writing and stayed findable afterwards. I wrote the service ownership model that set out
-what platform owes product teams and what they own themselves, and the incident management
-model that goes with it. All three exist so engineers can decide without waiting for me.
+Because of that I wrote the RFC and ADR process so decisions got argued in writing and
+stayed findable afterwards. I wrote the service ownership model that set out what platform
+owes product teams and what they own themselves, and the incident management model that
+goes with it. All three exist so engineers can decide without waiting for me.
 
 Earlier I managed nine distributed engineers at ChatFood through an AWS and Kubernetes
 migration, and was technical lead for four engineers at Wrapbook.
 
 ## Hands on
 
-I've never stopped building. At Fortis I designed the Kubernetes platform end to end:
+At Fortis I designed the Kubernetes platform end to end:
 networking, GitOps, autoscaling, service mesh, secrets, policy, observability, DNS and
 ingress. I implemented Istio Ambient Mode with waypoint proxies, which is what made
 zero-downtime cutovers from ECS to EKS possible. I built a LangGraph agent, reached over

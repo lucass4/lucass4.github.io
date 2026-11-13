@@ -32,8 +32,8 @@ migration, and was technical lead for four engineers at Wrapbook.
 I've never stopped building. At Fortis I designed the Kubernetes platform end to end:
 networking, GitOps, autoscaling, service mesh, secrets, policy, observability, DNS and
 ingress. I implemented Istio Ambient Mode with waypoint proxies, which is what made
-zero-downtime cutovers from ECS to EKS possible. I built a LangGraph and MCP agent that
-provisions a complete game environment from Slack.
+zero-downtime cutovers from ECS to EKS possible. I built a LangGraph agent, reached over
+MCP, that provisions a complete game environment.
 
 At Prodigy Education I owned platform architecture, reliability and cost for infrastructure
 serving around 10 million monthly users with peaks above 150,000 concurrent. I led the

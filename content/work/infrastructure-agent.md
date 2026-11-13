@@ -8,8 +8,8 @@ problem: "Standing up a new game environment took about two days of coordinated 
 role: "Designed and built it, including the security model and the release gate"
 scale: "50 environments provisioned in three months"
 outcome: "About 30 seconds end to end, at roughly twelve cents per run on a warm cache"
-stack: ["LangGraph", "MCP", "Slack", "EKS", "GitHub Apps", "Okta"]
-description: "A LangGraph and MCP agent that provisions a complete game environment from Slack in about 30 seconds, and the security model that makes it safe to point at production."
+stack: ["LangGraph", "MCP", "FastAPI", "EKS", "GitHub Apps", "Okta"]
+description: "A LangGraph agent, reached over MCP, that provisions a complete game environment in about 30 seconds, and the security model that makes it safe to point at production."
 ---
 
 ## Context
@@ -29,8 +29,8 @@ Whatever I built would hold credentials for real infrastructure. An agent with c
 write access can make a bad change to production, and that's the failure mode worth
 designing around.
 
-It also had to be used by people who weren't going to learn a new tool. That pointed at
-Slack, where the requests were already being made in prose.
+It also had to work for people who weren't going to learn a new tool. That pointed at
+MCP: the tools appear inside the client an engineer already has open.
 
 ## My role
 
@@ -39,38 +39,48 @@ harness, and the cost model.
 
 ## What it does
 
-A request in Slack produces the repository, provisions the infrastructure, and deploys a
-working baseline service on EKS with observability and Okta SSO already wired up. That
-takes about 30 seconds. It ran 50 times in three months.
+One request produces the repository, provisions the infrastructure, and deploys a working
+baseline service on EKS with observability and Okta SSO already wired up. That takes
+about 30 seconds. It ran 50 times in three months.
 
-Underneath it's a LangGraph graph reaching internal systems over MCP. MCP is doing real
-work there: the tools the agent can call are described once and consumed by the model, so
-each integration isn't hand-written glue that drifts from the thing it wraps.
+Underneath it's a LangGraph graph. The agent runs as a FastAPI service with an MCP
+server mounted on it, so an MCP client (Claude Code, in practice) calls a tool and the
+tool runs the graph in the same process. There's a plain HTTP route onto the same runner
+for anything that isn't an MCP client. The caller's identity is read from the verified
+token and never from the request body, so it comes out the same on both paths.
+
+The tools carry their own schemas, so each integration is described once and the model
+consumes that description instead of glue code that drifts from the thing it wraps. They
+split by blast radius: a preview that plans and opens nothing, and an apply that opens the
+pull request.
 
 {{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Solid lines are the agent acting, dashed lines carry content, and the accent dotted line is a security control that sits outside the request path. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}
-[Request] Slack
--> prose request
-[Orchestration] LangGraph*
--> invokes
-[Tools] MCP tools*, strict schemas
+[Request] MCP client*, Claude Code
+-> tool call
+[Surface] MCP server*, /mcp, JWT verified, scope checked, audited
+-> runs in process
+[Orchestration] LangGraph*, provision graph
 !! Secret redaction :: Guards what the agent reads into context and what its releases ship. Not a stage a request passes through.
--> opens a branch
-[Repository] GitHub App, branch only, cannot merge
+-> opens a PR
+[Repository] GitHub App, PR only, cannot merge
 -> proposes
 [Production write boundary] Human approval*
 -> applies
 [Behind the gate] Infrastructure, EKS service, observability, Okta SSO
 ---
-Slack carries a prose request to the LangGraph orchestration graph, which decides
-which tools to call and in what order. The MCP tools reach internal systems and each
-carries a strict schema, so the agent cannot invent a call. Tool calls open a branch
-through a GitHub App that can create branches but cannot merge or bypass branch
-protection, which is why it sits outside the production write boundary. The agent then
-proposes a change to the human approval gate on that boundary; a person approves, and
-only then does the change reach infrastructure, followed by the baseline service
-deployment on EKS with observability and Okta SSO. Secret redaction guards the
-orchestration layer's inputs and its releases and is not a stage a request passes
-through.
+An MCP client calls a tool on the MCP server mounted on the agent's own API. The server
+verifies the caller's token, checks the required scope, and writes an audit record for
+every call including the ones it refuses. The tool then runs the LangGraph provision
+graph in the same process, which is what the plain HTTP route onto that graph also does.
+The caller's identity is read from the verified token and never from the request body, so
+it is the same on both paths. Each tool carries a strict
+schema, so the agent cannot invent a call, and they are split by blast radius: a
+read-only preview that plans and opens nothing, and an apply that opens the pull request.
+The pull request is opened by a GitHub App that cannot merge or bypass branch protection,
+which is why it sits outside the production write boundary. The agent proposes, a person
+approves, and only then does the change reach infrastructure, followed by the baseline
+service deployment on EKS with observability and Okta SSO. Secret redaction guards the
+agent's inputs and its releases and is not a stage a request passes through.
 {{< /architecture >}}
 
 ## Choosing the framework

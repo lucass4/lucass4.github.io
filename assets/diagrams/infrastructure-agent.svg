@@ -1,10 +1,15 @@
-<svg class="arch__svg" viewBox="0 0 920 600" role="group"
-     aria-label="Infrastructure agent architecture. Eight components; use Tab to step through them."
+<svg class="arch__svg" viewBox="0 96 920 504" role="group"
+     aria-label="Infrastructure agent architecture. Eight components, with the MCP surface in front of the graph; use Tab to step through them."
      xmlns="http://www.w3.org/2000/svg">
 
   <!-- Each node owns the connectors that leave it, which is what lets hover
        and keyboard focus emphasise a component and its outgoing edges with no
-       script. Boundary and legend sit outside, since they are not components. -->
+       script. Boundary and legend sit outside, since they are not components.
+
+       MCP is the inbound surface, not an outbound integration layer. A client
+       calls a tool on the MCP server mounted on the agent's own API; the tool
+       runs the graph in process. Drawing MCP behind the graph, as though the
+       graph reached internal systems through it, is the wrong way round. -->
 
   <!-- Trust boundary, drawn first so node surfaces sit above it -->
   <g class="ab">
@@ -12,69 +17,55 @@
     <text class="ab__label" x="672" y="258">Production write</text>
   </g>
 
-  <!-- Security control, off the request path on purpose: secret redaction
-       guards what the agent reads and what it ships. -->
+  <!-- Request interface: an MCP client, not a chat app -->
   <g class="anode" tabindex="0" role="img"
-     aria-label="Secret redaction. Guards the agent's context and its releases. Not a stage a request passes through.">
-    <rect class="an__focus-ring" x="228" y="142" width="196" height="84" rx="12" />
-    <g class="an an--security">
-      <rect class="an__box" x="236" y="150" width="180" height="68" rx="8" />
-      <text class="an__label" x="326" y="179" text-anchor="middle">Secret redaction</text>
-      <text class="an__sub" x="326" y="198" text-anchor="middle">context and releases</text>
-    </g>
-    <path class="ac ac--security" d="M326,218 V324" />
-    <text class="ac__verb" x="334" y="276">guards</text>
-  </g>
-
-  <!-- Request interface -->
-  <g class="anode" tabindex="0" role="img"
-     aria-label="Slack, the request interface. Requests arrive as prose. Carries the request to LangGraph.">
+     aria-label="MCP client, such as Claude Code. Calls a tool on the agent's MCP server.">
     <rect class="an__focus-ring" x="8" y="332" width="166" height="84" rx="12" />
     <g class="an">
       <rect class="an__box" x="16" y="340" width="150" height="68" rx="8" />
-      <text class="an__label" x="91" y="369" text-anchor="middle">Slack</text>
-      <text class="an__sub" x="91" y="388" text-anchor="middle">prose request</text>
+      <text class="an__label" x="91" y="369" text-anchor="middle">MCP client</text>
+      <text class="an__sub" x="91" y="388" text-anchor="middle">Claude Code</text>
     </g>
     <path class="ac ac--data" d="M166,374 H230" />
-    <text class="ac__verb" x="198" y="366" text-anchor="middle">request</text>
+    <text class="ac__verb" x="198" y="366" text-anchor="middle">tool call</text>
+  </g>
+
+  <!-- The authenticated surface, mounted on the agent's own API -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="MCP server, mounted at slash mcp on the agent's own API. Verifies the caller's JWT, checks scope, and audits every call. Runs the graph in process.">
+    <rect class="an__focus-ring" x="228" y="332" width="196" height="84" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="236" y="340" width="180" height="68" rx="8" />
+      <text class="an__label" x="326" y="369" text-anchor="middle">MCP server</text>
+      <text class="an__sub" x="326" y="388" text-anchor="middle">/mcp, JWT verified</text>
+    </g>
+    <path class="ac ac--control" d="M416,374 H480" />
+    <text class="ac__verb" x="448" y="366" text-anchor="middle">in process</text>
   </g>
 
   <!-- Orchestration: the tier that decides -->
   <g class="anode" tabindex="0" role="img"
-     aria-label="LangGraph, the orchestration graph. Decides which tools to call and in what order. Invokes the MCP tools.">
-    <rect class="an__focus-ring" x="228" y="322" width="196" height="104" rx="12" />
+     aria-label="LangGraph, the orchestration graph. Decides which steps to run and in what order. Opens a pull request through the GitHub App, and proposes the change to the human approval gate.">
+    <rect class="an__focus-ring" x="478" y="322" width="176" height="104" rx="12" />
     <g class="an an--orchestration">
-      <rect class="an__box" x="236" y="330" width="180" height="88" rx="8" />
-      <text class="an__label" x="326" y="371" text-anchor="middle">LangGraph</text>
-      <text class="an__sub" x="326" y="391" text-anchor="middle">orchestration graph</text>
+      <rect class="an__box" x="486" y="330" width="160" height="88" rx="8" />
+      <text class="an__label" x="566" y="371" text-anchor="middle">LangGraph</text>
+      <text class="an__sub" x="566" y="391" text-anchor="middle">provision graph</text>
     </g>
-    <path class="ac ac--control" d="M416,374 H480" />
-    <text class="ac__verb" x="448" y="366" text-anchor="middle">invokes</text>
-  </g>
-
-  <!-- Tool layer -->
-  <g class="anode" tabindex="0" role="img"
-     aria-label="MCP tools, each carrying a strict schema so the agent cannot invent a call. Opens a branch through the GitHub App, and proposes a change to the human approval gate.">
-    <rect class="an__focus-ring" x="478" y="332" width="176" height="84" rx="12" />
-    <g class="an">
-      <rect class="an__box" x="486" y="340" width="160" height="68" rx="8" />
-      <text class="an__label" x="566" y="369" text-anchor="middle">MCP tools</text>
-      <text class="an__sub" x="566" y="388" text-anchor="middle">strict schemas</text>
-    </g>
-    <path class="ac ac--control" d="M566,340 C566,248 628,158 694,158" />
-    <text class="ac__verb" x="600" y="232">opens branch</text>
+    <path class="ac ac--control" d="M566,330 C566,248 628,158 694,158" />
+    <text class="ac__verb" x="600" y="232">opens PR</text>
     <path class="ac ac--control" d="M646,382 C668,382 668,322 690,322" />
-    <text class="ac__verb" x="664" y="406" text-anchor="end">proposes</text>
+    <text class="ac__verb" x="646" y="434" text-anchor="end">proposes</text>
   </g>
 
-  <!-- Repository work sits outside the boundary: the App may open a branch -->
+  <!-- Repository work sits outside the boundary: the App may open a PR -->
   <g class="anode" tabindex="0" role="img"
-     aria-label="GitHub App. Can open a branch, cannot merge or bypass branch protection, so it sits outside the production write boundary.">
+     aria-label="GitHub App. Opens a pull request, cannot merge or bypass branch protection, so it sits outside the production write boundary.">
     <rect class="an__focus-ring" x="692" y="112" width="202" height="92" rx="12" />
     <g class="an">
       <rect class="an__box" x="700" y="120" width="186" height="76" rx="8" />
       <text class="an__label" x="793" y="152" text-anchor="middle">GitHub App</text>
-      <text class="an__sub" x="793" y="171" text-anchor="middle">branch, cannot merge</text>
+      <text class="an__sub" x="793" y="171" text-anchor="middle">PR, cannot merge</text>
     </g>
   </g>
 
@@ -111,6 +102,21 @@
       <text class="an__label" x="793" y="497" text-anchor="middle">EKS service</text>
       <text class="an__sub" x="793" y="516" text-anchor="middle">observability, SSO</text>
     </g>
+  </g>
+
+  <!-- Security control, off the request path on purpose: secret redaction
+       guards what the agent reads and what it ships. Drawn below the graph it
+       guards, so the arrow up to the graph crosses nothing. -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Secret redaction. Guards the agent's context and its releases. Not a stage a request passes through.">
+    <rect class="an__focus-ring" x="468" y="452" width="196" height="84" rx="12" />
+    <g class="an an--security">
+      <rect class="an__box" x="476" y="460" width="180" height="68" rx="8" />
+      <text class="an__label" x="566" y="489" text-anchor="middle">Secret redaction</text>
+      <text class="an__sub" x="566" y="508" text-anchor="middle">context and releases</text>
+    </g>
+    <path class="ac ac--security" d="M566,456 V424" />
+    <text class="ac__verb" x="558" y="442" text-anchor="end">guards</text>
   </g>
 
   <!-- Legend -->

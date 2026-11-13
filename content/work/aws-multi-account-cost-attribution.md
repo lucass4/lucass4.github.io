@@ -62,7 +62,7 @@ team that can act on it.
 
 ## Trade-offs
 
-Charging for requested resources rather than consumed ones is an approximation, and a team
+Charging for requested resources instead of consumed ones is an approximation, and a team
 that over-requests pays for the over-request. I consider that the correct incentive, but it
 does mean the numbers are an allocation model and not a measurement, which matters when
 finance asks.

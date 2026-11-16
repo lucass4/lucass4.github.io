@@ -54,7 +54,7 @@ split by blast radius: a preview that plans and opens nothing, and an apply that
 pull request.
 
 {{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Solid lines are the agent acting, dashed lines carry content, and the accent dotted line is a security control that sits outside the request path. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}
-[Request] MCP client*, any MCP client
+[Request] MCP client*, any client
 -> tool call
 [Surface] MCP server*, /mcp, JWT verified, scope checked, audited
 -> runs in process

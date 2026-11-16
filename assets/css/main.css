@@ -527,6 +527,13 @@ hr {
   max-width: var(--measure);
 }
 
+.case__role {
+  margin-top: var(--space-3);
+  color: var(--text-dim);
+  font-size: var(--step--1);
+  max-width: var(--measure);
+}
+
 /* The headline figure. Larger and in the accent so the measurable result is
    the thing the eye lands on, without a card or a panel around it. */
 .case__metric {
@@ -828,59 +835,6 @@ hr {
 
   .prose-layout > .toc ul {
     font-size: var(--step--1);
-  }
-}
-
-/* Case study factsheet, collapsible on small screens */
-.factsheet-wrap {
-  margin-top: var(--space-4);
-}
-
-.factsheet-wrap__summary {
-  cursor: pointer;
-  list-style: none;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.factsheet-wrap__summary::-webkit-details-marker {
-  display: none;
-}
-
-.factsheet-wrap__summary::after {
-  content: "";
-  width: 0.45em;
-  height: 0.45em;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  transform: rotate(45deg) translateY(-0.1em);
-  transition: transform var(--transition);
-}
-
-.factsheet-wrap[open] > .factsheet-wrap__summary::after {
-  transform: rotate(-135deg) translateY(-0.1em);
-}
-
-.factsheet-wrap__summary:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
-@media (min-width: 48rem) {
-  @supports selector(details::details-content) {
-    .factsheet-wrap::details-content {
-      content-visibility: visible;
-      block-size: auto;
-    }
-
-    .factsheet-wrap__summary {
-      display: none;
-    }
   }
 }
 

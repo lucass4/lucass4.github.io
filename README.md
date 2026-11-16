@@ -66,7 +66,7 @@ A case study goes in `content/work/`. Front matter it understands:
 | Key | Purpose |
 |---|---|
 | `problem` | One or two sentences, shown on the index and as the page standfirst |
-| `role` | What you actually did |
+| `role` | What you actually did, shown on the index and the case study page |
 | `scale` | Size or reach, when there is a verified figure |
 | `outcome` | A sentence, shown in the factsheet on the case study page |
 | `metric` | The headline figure, e.g. `2 days → 30 seconds`. Shown large in indexes |
@@ -77,9 +77,9 @@ A case study goes in `content/work/`. Front matter it understands:
 | `description` | Meta description, `og:description` and `twitter:description` |
 | `period` | Date range on the factsheet. The template reads it; no case study sets one |
 
-Indexes show title, problem and `metric`. The prose `outcome`, plus `role`, `scale` and
-`stack`, appear on the case study itself, in a block that is collapsed on mobile. A
-sentence reads past in a list; a figure lands.
+Indexes show title, problem, `role` and `metric`. The prose `outcome`, plus `scale` and
+`stack`, appear only on the case study itself, in a factsheet that's always visible,
+never collapsed behind a tap. A sentence reads past in a list; a figure lands.
 
 Elsewhere: `preview` is the About page's standfirst on the home page, `tags` renders on
 articles in `content/writing/`, and `noindex` adds a robots meta tag.

@@ -52,7 +52,7 @@ arrangement that allowed them.
 
 Charity Majors has a name for the career version of this, the
 [engineer/manager pendulum](https://charity.wtf/p/the-engineer-manager-pendulum). You swing
-between building and managing across a career. Her argument is that the best frontline
+between building and managing across a career. Their argument is that the best frontline
 managers are never far from hands-on work, and the strongest individual contributors have
 done time managing.
 
@@ -79,9 +79,10 @@ doesn't need four countries awake at once.
 
 ## What I got wrong
 
-Majors also says you can only really improve at one of these things at a time, and she's
-right that they compete for the same attention. I kept platform architecture and technical
-direction after moving into management, and I can tell you exactly where that cost me.
+Majors also says you can only really improve at one of these things at a time. That
+matches what I found, because the two compete for the same attention. I kept platform
+architecture and technical direction after moving into management, and I can tell you
+exactly where that cost me.
 
 I never instrumented any of it. I can describe what each process changed and I have no
 numbers for a single one. Request volume and time to acknowledge were both sitting right

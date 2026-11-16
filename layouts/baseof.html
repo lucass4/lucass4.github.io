@@ -23,7 +23,7 @@
   {{ partial "svg-defs.html" . }}
   <a class="skip-link" href="#main">Skip to content</a>
   {{ partial "header.html" . }}
-  <main id="main">
+  <main id="main" tabindex="-1">
     {{ block "main" . }}{{ end }}
   </main>
   {{ partial "footer.html" . }}

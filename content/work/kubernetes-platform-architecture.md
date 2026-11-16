@@ -117,10 +117,10 @@ VirtualService can carry weighted routes to both ECS and the pods in the cluster
 traffic is a weight change in a values file, and so is rolling back. That is how the
 cutovers happened without a maintenance window.
 
-The onboarding chart, which I wrote, turns a new team into a values file: namespaces with the labels the
-platform expects, the Argo CD project that limits what the team can deploy and where, an
-Istio ambient waypoint per namespace with optional KEDA scaling, and a leaf ingress on the
-shared load balancer with one certificate per team. The Argo CD project moved into the
+The onboarding chart, which I wrote, turns a new team into a values file: namespaces with
+the labels the platform expects, the Argo CD project that limits what the team can deploy
+and where, an Istio ambient waypoint per namespace with optional KEDA scaling, and a leaf
+ingress on the shared load balancer with one certificate per team. The Argo CD project moved into the
 chart after onboarding kept needing hand-edits to central files.
 
 ## The operating model

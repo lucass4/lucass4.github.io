@@ -3,7 +3,7 @@ title: "Infrastructure Automation with an Agent"
 weight: 2
 metric: "2 days → 30 seconds"
 metric_note: "50 environments in three months"
-problem: "Standing up a new game environment took about two days of coordinated work across several people, which made experiments expensive enough that teams avoided them."
+problem: "A company that incubates game ideas needs an environment for each one. Standing one up took about two days of coordinated work across several people, which made experiments expensive enough that teams avoided them."
 role: "Designed and built it, including the security model and the release gate"
 scale: "50 environments provisioned in three months"
 outcome: "About 30 seconds end to end, at roughly twelve cents per run on a warm cache"
@@ -12,6 +12,10 @@ description: "A LangGraph agent, reached over MCP, that provisions a complete ga
 ---
 
 ## Context
+
+Fortis incubates games. Ideas get built, tested, and either continued or dropped, and every
+one of them needs somewhere to run. The cost of standing up an environment is therefore a
+cap on how many ideas the company can afford to try.
 
 A new game environment at Fortis meant a repository, the infrastructure to run it, a
 baseline service on EKS, observability wired up, and SSO configured. Each piece was

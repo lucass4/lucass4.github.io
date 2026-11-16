@@ -20,7 +20,6 @@ wrote it" for a Terraform module that drops a database or a migration that locks
 production. You committed it, so it's yours to explain and yours to fix. Generated prose
 isn't a different category. If it goes out under your name, you own every claim in it.
 
-
 ## Why I don't generate the first draft
 
 When I write a technical document, most of the value is in the part nobody reads: finding

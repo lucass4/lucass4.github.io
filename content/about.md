@@ -15,7 +15,8 @@ decade.
 
 Before Kubernetes I spent years on distributed systems and event-driven architecture: Kafka
 and Kafka Streams at Receptiviti, RabbitMQ and Java APIs at NS90, enterprise integrations
-for airline and property clients at Grupo Mult.
+for airline and property clients at Grupo Mult. The languages across that work and since
+have been Java, Clojure, Go and Python.
 
 At Prodigy Education I owned platform architecture, reliability and cost for
 infrastructure serving around 10 million monthly users with peaks above 150,000

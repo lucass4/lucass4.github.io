@@ -8,7 +8,7 @@ problem: "A game company with no internal platform needed one that studio teams 
 role: "Designed the architecture end to end, then led the function that ran it"
 scale: "Multiple game studios, teams across four countries"
 outcome: "Zero-downtime cutovers from ECS to EKS; a documented decision process that outlived individual projects"
-stack: ["EKS", "Istio Ambient", "ArgoCD", "Karpenter", "KEDA", "Kyverno", "Crossplane", "Terraform"]
+stack: ["EKS", "Istio Ambient", "ArgoCD", "Helm", "Karpenter", "KEDA", "Kyverno", "Crossplane", "Terraform"]
 description: "Designing a production Kubernetes platform from nothing at Fortis Games: EKS, GitOps, service mesh, autoscaling, policy, and the operating model that made it usable."
 ---
 
@@ -95,6 +95,55 @@ Secrets, DNS, certificates and observability all follow the same pattern: Extern
 Secrets, ExternalDNS, cert-manager, Datadog. The platform owns the integration and the
 team owns a declaration.
 
+## The interface teams use
+
+Everything above is what a team never has to touch. What they do touch is two Helm charts
+and a values file each: one chart for shipping a service, one for onboarding a team.
+
+The application chart is generic across workload kinds. A Deployment, a Job and a CronJob
+all come out of the same chart, and a team turns on what it needs. The chart renders the
+workload, its service and its Istio routing, its scaling through KEDA, and the platform
+integrations around it: External Secrets, network policy, a pod disruption budget, RBAC,
+volumes, and Datadog logs, metrics and dogstatsd tagging. A team declares the image, the
+port, the hostname it answers on and the signal it scales on. How those pieces connect
+stays in the templates.
+
+The chart is also deliberately bounded. It renders namespace-scoped, non-privileged
+workloads and nothing else, so what a team can express through it already sits inside what
+Kyverno admits. Admission is the backstop rather than a step in everyone's day.
+
+Defaults in the chart carry decisions nobody should have to relearn per service. Memory
+requests equal memory limits, and CPU is requested without a limit, because a CPU limit on
+these workloads buys throttling rather than protection.
+
+The ECS cutovers ran through the chart too. With migration enabled it renders a
+ServiceEntry for the existing ECS host and a DestinationRule that terminates TLS to it, so
+the ECS service becomes a routable destination inside the mesh and the team's
+VirtualService can hold weighted routes to both it and the in-cluster version. Shifting
+traffic is an edit to weights in a values file; rolling back is the same edit in reverse.
+That is why there was no maintenance window: nothing had to move at once.
+
+Both charts are versioned and published to an internal Helm repository, and each consumer
+pins a version. A platform change is a chart release that teams adopt on their own
+schedule, not a message asking everyone to go edit their manifests. The application chart
+carries its own unit tests and rendered snapshots in CI, which is the cost of templates
+every service renders through.
+
+The onboarding chart makes a team a values file. It creates the team's namespaces with the
+labels the platform expects, the Argo CD project that scopes what that team can deploy and
+where, and the Istio ambient waypoint for each namespace, with sizing and KEDA autoscaling
+for the waypoint where a namespace needs it. A team can claim its public entry point there
+too: a leaf ingress joined to the shared load balancer group, with one certificate per team
+carrying its environment hostnames as subject alternative names.
+
+The part that needed a second pass was what the chart did not cover. Onboarding still meant
+hand-editing two shared files, an Argo CD project kept in a central directory and a secret
+store's list of permitted namespaces, and a self-service path with a hand-edit left in it
+is not self-service. The fix in both cases was to take the shared file out of the path. The
+project became a chart template, and the secret store's allowlist of team namespaces became
+a denylist of infrastructure ones, which is correct for every team added later without
+anyone touching it.
+
 ## The operating model
 
 I wrote an RFC and ADR process so decisions were argued in writing and stayed findable
@@ -115,6 +164,11 @@ large piece of machinery.
 A platform that abstracts this much is also one more thing to learn. Someone comfortable
 with raw Kubernetes has to work through the platform's interface. That cost is real. I took it
 because it lands on one team and then stops.
+
+A shared chart is a shared dependency. Every service renders through the same templates, so
+a regression in them is not one team's problem, and a team with a genuinely unusual
+requirement either gets the chart extended or ends up outside it. Keeping it general
+without letting it turn into a configuration language of its own is continuous work.
 
 ## Results and lessons
 

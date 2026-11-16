@@ -53,8 +53,8 @@ for anything that isn't an MCP client. The caller's identity is read from the ve
 token and never from the request body, so it comes out the same on both paths.
 
 The tools carry their own schemas, so each integration is described once and the model
-consumes that description instead of glue code that drifts from the thing it wraps. They
-split by blast radius: a preview that plans and opens nothing, and an apply that opens the
+reads that description. There is no glue code in between to drift from the thing it wraps.
+They split by blast radius: a preview that plans and opens nothing, and an apply that opens the
 pull request.
 
 {{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Solid lines are the agent acting, dashed lines carry content, and the accent dotted line is a security control that sits outside the request path. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}

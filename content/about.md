@@ -62,8 +62,17 @@ I'd give engineers context and guardrails before I'd give them answers. Earlier 
 career I went deep enough on problems that I became part of the critical path, and the
 decision processes I've built since are partly a correction for that.
 
-I focus on cost, latency, throughput, and the time it takes to get from a request to a
-running environment.
+The work usually starts as a business problem, and infrastructure is what I solve it with.
+Standing up a game environment took about two days of coordinated work across several
+people, which made experiments expensive enough that teams avoided them, so
+[an agent does it in thirty seconds](/work/infrastructure-agent/) and fifty environments
+went up in three months. Consolidating thirty-eight AWS accounts into six removed the
+boundary per-game cost reporting had been relying on, so
+[attribution moved into admission](/work/aws-multi-account-cost-attribution/) and the
+reporting survived the consolidation.
+
+Cost, latency, throughput and the time it takes to get from a request to a running
+environment are what I measure.
 
 For my own development work I use oh-my-pi across commercial and open-source models,
 picking per task.

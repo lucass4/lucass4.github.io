@@ -8,7 +8,7 @@ role: "Built the function, then moved into managing it: four area leads, the dec
 scale: "Ten engineers across Brazil, Portugal, England and Canada, an eight-hour spread"
 outcome: "Area leads own their technical decisions; the RFC, ADR, service ownership and incident models are what they decide against"
 stack: ["RFC", "ADR", "Service ownership model", "Incident management", "Kanban"]
-description: "Building and then leading DevOps Engineering at Fortis Games: how a platform technical lead role became a ten-person function, and the decision processes that let it run without routing through one person."
+description: "Building and then leading DevOps Engineering at Fortis Games: how the function grew to ten engineers, and the decision processes that let it run without routing through me."
 ---
 
 ## What was there when I joined

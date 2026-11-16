@@ -39,7 +39,7 @@ Engineering function that had to own it alongside the platform.
 
 I was setting that function's technical direction before I had the management title. When
 it caught up I became Sr. Manager, DevOps Engineering, and I kept platform architecture and
-technical direction alongside it. By the end I led ten engineers through four area leaders,
+technical direction alongside it. The team grew to ten engineers through four area leads,
 one each for CI/CD, SRE, platform and AI infrastructure. The team was spread across Brazil,
 Portugal, England and Canada, an eight-hour spread, so almost nothing could depend on
 everyone being awake at once.

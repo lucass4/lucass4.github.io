@@ -15,7 +15,7 @@ areas:
     body: "I built DevOps Engineering at Fortis from nothing: four area leads who decide without routing through me, decision processes written down instead of carried in my head, and a support rotation that gives interrupts one owner a week so everyone else keeps their project time."
   - title: "Platform Architecture"
     href: "/work/"
-    body: "I design Kubernetes platforms end to end on AWS, then run them: cutting production over from ECS to EKS without downtime, and a provisioning agent that turned a two-day environment setup into about thirty seconds."
+    body: "I design Kubernetes platforms end to end on AWS, then run them: cutting production over from ECS to EKS without downtime, and automating the provisioning that used to take days."
 ---
 
 Eighteen years on backend and distributed systems, the last nine on AWS. I've owned

@@ -32,8 +32,8 @@ content/leadership/            management case studies
 content/work/                  architecture case studies
 drafts/                        articles not ready to publish; Hugo never reads this
 layouts/                       the theme; layouts/case/ renders both content/leadership/
-                                and content/work/, selected by `type: "case"` on each
-                                section's _index.md
+                                and content/work/, selected by `type: "case"` plus
+                                `cascade: { type: "case" }` on each section's _index.md
 static/favicon.svg
 tools/gen-chroma.py            regenerates assets/css/chroma.css
 .github/screenshots/           review screenshots, not referenced by the site
@@ -66,7 +66,12 @@ block disappears.
 ## Adding content
 
 A case study goes in `content/work/` (architecture) or `content/leadership/`
-(management); both sections share the same templates. Front matter it understands:
+(management); both sections share the same templates. A section's `_index.md` sets
+`type: "case"` for its own index page, but that alone doesn't reach the case studies
+inside it: without a matching `cascade: { type: "case" }`, each child page falls back
+to the generic `layouts/page.html`, silently and with no build error, so set both. A
+page that genuinely isn't a case study can opt back out of the cascade with its own
+`type: page`. Front matter it understands:
 
 | Key | Purpose |
 |---|---|

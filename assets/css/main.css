@@ -550,7 +550,7 @@ hr {
   gap: 0 var(--space-3);
 }
 
-.case__metric-figure {
+.case__metric-figure, .impact__figure {
   font-size: var(--step-2);
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -1326,11 +1326,6 @@ main > .section:last-of-type {
 
 .impact__figure {
   display: block;
-  font-size: var(--step-2);
-  font-weight: 600;
-  letter-spacing: -0.015em;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
 }
 
 .impact__note {
@@ -1369,7 +1364,7 @@ main > .section:last-of-type {
   max-width: var(--measure);
 }
 
-.area p:last-child {
+.area__more {
   margin-top: var(--space-3);
 }
 

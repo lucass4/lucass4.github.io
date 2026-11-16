@@ -73,25 +73,25 @@ whenever somebody asks for one. Design reviews happen when a proposal needs one 
 on a schedule.
 
 Every recurring meeting is a loop that spends the team's attention each time it fires. So I
-keep few of them and make each one do several jobs. Technical arguments go to RFCs and
-ADRs, where they get settled in writing and stay findable, which also means a decision
-doesn't need four countries awake at once.
+keep few of them and make each one do several jobs.
 
-## What I got wrong
+## The version I had to apply to myself
 
-Majors also says you can only really improve at one of these things at a time. That
-matches what I found, because the two compete for the same attention. Measurement is where
-it showed.
+The hardest structure to look at is the one you're standing in. Early in my career I went
+deep enough on problems that I became part of the critical path. Decisions waited on me,
+and on a team spread across four countries that is not a small cost. An engineer in
+Portugal spends the afternoon blocked on a morning that hasn't started yet in Canada.
 
-The rotation I did instrument. I tracked open support requests, and that number is what
-told me whether the rotation was doing its job. It's the reason I can say the process
-worked and not only that people seemed happier.
+So I treated it the same way I treated the cluster. I moved where decisions enter. Four
+area leads own the technical decisions in their areas, and they have something to decide
+against: the RFC and ADR process for how an argument gets settled, the service ownership
+model for what the platform owes product teams, and the incident model for who holds an
+incident while it's open. A lead reaching a decision without waiting for me is the point of
+all three.
 
-The other two never got the same treatment. The RFC and ADR practice and the service
-ownership model both changed how the team works, and I have no measurement for either one.
-Instrumenting a process is cheap next to writing one, and it's the first thing to go when
-your attention is already split.
+Then I watched a number. I tracked open support requests week to week, and that number is
+what told me the rotation was holding.
 
-So the method needs both halves. Change the structure, then watch a number that tells you
-whether the change held. I did both for the rotation and only the first for the other
-two.
+That's the whole method. Find the structure producing the behaviour, change where the work
+enters, then watch a number that tells you the change held. It works on a cluster, on a
+week of interrupts, and on my own place in the team's critical path.

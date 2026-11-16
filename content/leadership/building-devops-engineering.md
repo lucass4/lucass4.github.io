@@ -18,8 +18,7 @@ Technical Lead. There was no internal platform.
 
 Designing one was the first job, and the architecture is
 [its own case study](/work/kubernetes-platform-architecture/). This page is about the other
-half, which nobody assigns you: the engineering function that had to exist to own the
-platform once it was running.
+half: the engineering function that had to exist to own the platform once it was running.
 
 ## The function grew before the title did
 
@@ -39,7 +38,7 @@ what I was accountable for. It did not change what the team did that week.
 The team reached ten engineers through four area leads, one each for CI/CD, SRE, platform
 and AI infrastructure.
 
-They sit in Brazil, Portugal, England and Canada, an eight-hour spread. Almost nothing can
+The team sits in Brazil, Portugal, England and Canada, an eight-hour spread. Almost nothing can
 depend on everyone being awake at once, and that rules out two ways of running a team.
 
 The first is the decision made live. The window where all four countries are working is too
@@ -65,8 +64,8 @@ There are three of them, and each settles a different question. I wrote the RFC 
 process, which settles where a technical argument happens: in writing, so the reasoning
 survives after the people in it have moved on to something else. I wrote the service
 ownership model, which settles what platform owes product teams and what those teams own
-themselves. And the incident management model that goes with it settles who holds an
-incident while it's open.
+themselves. And I wrote the incident management model that goes with it, which settles who
+holds an incident while it's open.
 
 I can't attach an improvement figure to any of the three. What I can say is what they are
 for: a lead reaching a decision without waiting for me.
@@ -86,9 +85,9 @@ trade-offs are in [its own case study](/leadership/support-engineering-rotation/
 
 ## Managing engineers before Fortis
 
-Fortis is not where I first led a team. At ChatFood I managed nine distributed engineers from May to
-December 2020, as Team Leader, through a migration onto AWS and Kubernetes. That was people
-management.
+Fortis is not where I first led a team. At ChatFood I managed nine distributed engineers
+from May to December 2020, as Team Leader, through a migration onto AWS and Kubernetes.
+That was people management.
 
 At Wrapbook, from February to August 2022, I was technical lead for four engineers as Staff
 Platform Systems Engineer. That was technical leadership and not people management, and the

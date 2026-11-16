@@ -13,15 +13,15 @@ they lead with.
 
 ## Engineering Manager
 
-This version leads with building and running DevOps Engineering at Fortis Games: hiring
-and managing ten engineers through four area leads, and the RFC, ADR, and incident
-management processes that let the team decide without routing through me.
+This version leads with building and running DevOps Engineering at Fortis Games: managing
+ten engineers through four area leads, and the RFC, ADR, and incident management processes
+that let the team decide without routing through me.
 
 ## Principal Engineer
 
-This version leads with the architecture itself: the Kubernetes platform at Fortis, the
-Karpenter migration and ECS-to-EKS cutover at Prodigy, and the distributed systems work
-with Kafka and RabbitMQ before that.
+This version leads with the architecture itself: the Kubernetes platform at Fortis,
+including the zero-downtime ECS-to-EKS cutover, the Karpenter migration at Prodigy, and the
+distributed systems work with Kafka and RabbitMQ before that.
 
 The current version of either is on [LinkedIn](https://linkedin.com/in/lucassantanna).
 Code is on [GitHub](https://github.com/lucass4).

@@ -1,7 +1,6 @@
 ---
 title: "Infrastructure Automation with an Agent"
 weight: 2
-featured: true
 metric: "2 days → 30 seconds"
 metric_note: "50 environments in three months"
 problem: "Standing up a new game environment took about two days of coordinated work across several people, which made experiments expensive enough that teams avoided them."

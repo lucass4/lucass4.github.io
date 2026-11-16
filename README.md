@@ -73,7 +73,6 @@ A case study goes in `content/work/`. Front matter it understands:
 | `metric_note` | Small print beside the figure |
 | `stack` | List, rendered as a monospace run |
 | `weight` | Order within the section, lowest first |
-| `featured` | `true` puts it on the home page, the first three by `weight` |
 | `description` | Meta description, `og:description` and `twitter:description` |
 | `period` | Date range on the factsheet. The template reads it; no case study sets one |
 
@@ -83,6 +82,18 @@ never collapsed behind a tap. A sentence reads past in a list; a figure lands.
 
 Elsewhere: `preview` is the About page's standfirst on the home page, `tags` renders on
 articles in `content/writing/`, and `noindex` adds a robots meta tag.
+
+### Home page
+
+The home page's selected work is `params.featured` in `hugo.toml`: an ordered list of
+content paths, rendered in that order regardless of section or `weight`. That's what lets
+it alternate leadership and architecture case studies, something a `weight` within one
+section can't express. Each path is read through `site.GetPage` and guarded with `with`,
+so a draft page or a typo is silently skipped rather than breaking the build.
+
+`impact` and `areas` are front matter on `content/_index.md` itself. `impact` is a list of
+`figure` / `note` pairs rendered as static text, no counters. `areas` is a list of
+`title` / `href` / `body`, rendered as the two areas of work above the case-study list.
 
 Case studies carry no `date`: they are ordered by `weight`, and a date would be published
 as `article:published_time` as though it were a publication date. Articles in

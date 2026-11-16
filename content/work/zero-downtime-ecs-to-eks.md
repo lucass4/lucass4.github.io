@@ -2,7 +2,6 @@
 title: "Zero-Downtime Migration from ECS to EKS"
 draft: true
 weight: 4
-featured: true
 metric: "No downtime"
 metric_note: "live game workloads, no maintenance window"
 problem: "Moving live game workloads from ECS to EKS without a maintenance window."

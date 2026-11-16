@@ -1298,6 +1298,96 @@ main > .section:last-of-type {
 }
 
 /* ==========================================================================
+   Home page impact and areas
+   ========================================================================== */
+
+/* Two link-affordances on one side of a flex section__head; keep them apart
+   without a new layout primitive. */
+.section__more-links {
+  display: flex;
+  gap: var(--space-4);
+}
+
+/* Static figures, no counters, no cards. Two-up on a phone so four numbers
+   don't squeeze into unreadable columns at 390px. */
+.impact {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.impact__figure {
+  display: block;
+  font-size: var(--step-2);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.impact__note {
+  color: var(--text-dim);
+  font-size: var(--step--1);
+}
+
+@media (min-width: 60rem) {
+  .impact {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* One column on a phone, two once there's room for them side by side. */
+.areas {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.area__title {
+  font-size: var(--step-2);
+}
+
+.area__title a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.area__title a:hover {
+  color: var(--accent);
+}
+
+.area__body {
+  margin-top: var(--space-3);
+  color: var(--text-dim);
+  max-width: var(--measure);
+}
+
+.area p:last-child {
+  margin-top: var(--space-3);
+}
+
+@media (min-width: 48rem) {
+  .areas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Wraps at 390px rather than overflowing: no white-space: nowrap here. */
+.progression {
+  color: var(--text-dim);
+}
+
+.progression-note {
+  margin-top: var(--space-3);
+  color: var(--text-dim);
+}
+
+.progression-note .link-arrow {
+  margin-left: var(--space-2);
+}
+
+/* ==========================================================================
    Home page closing block
    ========================================================================== */
 

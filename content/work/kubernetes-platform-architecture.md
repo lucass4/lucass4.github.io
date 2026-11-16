@@ -5,10 +5,10 @@ featured: true
 metric: "No downtime"
 metric_note: "ECS to EKS, no maintenance window"
 problem: "A game company with no internal platform needed one that studio teams could ship on without each team rebuilding infrastructure from scratch."
-role: "Designed the architecture end to end, then led the function that ran it"
+role: "Designed and built the platform, then led the function that ran it"
 scale: "Multiple game studios, teams across four countries"
 outcome: "Zero-downtime cutovers from ECS to EKS; a documented decision process that outlived individual projects"
-stack: ["EKS", "Istio Ambient", "ArgoCD", "Karpenter", "KEDA", "Kyverno", "Crossplane", "Terraform"]
+stack: ["EKS", "Istio Ambient", "ArgoCD", "Helm", "Karpenter", "KEDA", "Kyverno", "Crossplane", "Terraform"]
 description: "Designing a production Kubernetes platform from nothing at Fortis Games: EKS, GitOps, service mesh, autoscaling, policy, and the operating model that made it usable."
 ---
 
@@ -17,8 +17,8 @@ description: "Designing a production Kubernetes platform from nothing at Fortis 
 Fortis Games was building game studios and had no internal platform. Every team that
 needed a service running needed networking, deployment, secrets, monitoring and DNS, and
 without somewhere shared to get those, each team would have solved them separately and
-differently. I joined as infrastructure technical lead and the platform was the first
-thing to design.
+differently. I joined as principal software engineer and infrastructure
+technical lead, and the platform was the first thing to design.
 
 The requirement was that a studio team should be able to ship a service without having to
 learn how the infrastructure underneath it is wired.
@@ -35,10 +35,11 @@ convenient quiet hour.
 
 ## My role
 
-I designed the architecture: networking, GitOps, autoscaling, service mesh, secrets,
-policy, observability, DNS and ingress. After being promoted to run DevOps Engineering I
-kept platform architecture and technical direction while the function grew to four area
-leaders, covering CI/CD, SRE, platform and AI infrastructure.
+I designed the architecture and implemented it: networking, GitOps, autoscaling, service
+mesh, secrets, policy, observability, DNS and ingress. Most of the platform's own
+components I built myself. After being promoted to run DevOps Engineering I kept platform
+architecture and technical direction while the function grew to four area leaders,
+covering CI/CD, SRE, platform and AI infrastructure.
 
 ## Architecture and decisions
 
@@ -95,6 +96,33 @@ Secrets, DNS, certificates and observability all follow the same pattern: Extern
 Secrets, ExternalDNS, cert-manager, Datadog. The platform owns the integration and the
 team owns a declaration.
 
+## The interface teams use
+
+Two Helm charts are what a team actually writes. Both are versioned and published to the
+internal Helm repository, and each consumer pins a version, so a platform change ships as
+a chart release and teams pick it up on their own schedule.
+
+The application chart covers Deployments, Jobs and CronJobs from one set of templates. A
+team supplies an image, ports, a hostname and what to scale on. The chart renders the
+workload, the Service, the Istio VirtualService, KEDA scaling, External Secrets, network
+policy, a pod disruption budget, RBAC and Datadog tagging. It only produces
+namespace-scoped, non-privileged workloads, which keeps everything it renders inside what
+Kyverno admits. The chart began as an open-source generic chart, and the platform-specific
+parts are mine: the Istio VirtualService interface, KEDA support, External Secrets v1,
+waypoint JWT auth, an oauth-proxy sidecar and the ECS migration wiring.
+
+The ECS cutovers went through the same chart. With migration enabled it adds a ServiceEntry
+for the existing ECS host and a DestinationRule that terminates TLS to it, so a single
+VirtualService can carry weighted routes to both ECS and the pods in the cluster. Moving
+traffic is a weight change in a values file, and so is rolling back. That is how the
+cutovers happened without a maintenance window.
+
+The onboarding chart, which I wrote, turns a new team into a values file: namespaces with
+the labels the platform expects, the Argo CD project that limits what the team can deploy
+and where, an Istio ambient waypoint per namespace with optional KEDA scaling, and a leaf
+ingress on the shared load balancer with one certificate per team. The Argo CD project
+moved into the chart after onboarding kept needing hand-edits to central files.
+
 ## The operating model
 
 I wrote an RFC and ADR process so decisions were argued in writing and stayed findable
@@ -115,6 +143,10 @@ large piece of machinery.
 A platform that abstracts this much is also one more thing to learn. Someone comfortable
 with raw Kubernetes has to work through the platform's interface. That cost is real. I took it
 because it lands on one team and then stops.
+
+A shared chart is a shared dependency. Every service renders through the same templates, so
+a bad release lands on all of them, and a team with an unusual requirement waits for the
+chart to grow a knob for it.
 
 ## Results and lessons
 

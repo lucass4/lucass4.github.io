@@ -22,14 +22,17 @@ Left alone, that work lands on whoever sees the message first, and it costs twic
 engineer who might be interrupted can't plan a day around deep work. And interrupts route
 themselves to whoever is known to answer them, so they keep reaching the same person.
 
-The second cost was the sharper one for us. The team was organised around four areas with a
-lead each: CI/CD, SRE, platform, AI infrastructure. Specialisation is why that works, and
+The second cost was the sharper one for us. The team worked across four areas: CI for
+games, AI infrastructure, SRE and platform/compute. A hands-on domain lead for each area
+was the direction of travel, not a completed reorganisation. Specialisation is why that
+works, and
 it's also how an area becomes one person's private knowledge. When every CI/CD question
 goes to the CI/CD people, nobody else learns CI/CD.
 
 ## Constraints
 
-Requests still had to be answered the same day. Pushing them into a backlog groomed next
+Daytime support requests still had to be acknowledged the same day. Pushing them into a
+backlog groomed next
 sprint leaves the people who filed them waiting on a platform that's meant to unblock them.
 
 The team spanned four countries, so nothing could depend on everyone being online at once.
@@ -60,9 +63,9 @@ The week has four claims on it, in a fixed order:
 
 {{< stack label="What the support week covers" caption="Taken from the team's support engineer process. The priority order is part of the design, not a guideline." >}}
 Requests :: Acknowledged, prioritised, followed up until closed or handed over :: first priority
-Monitoring and Argo CD :: Alerts and sync or health failures, fixed at the cause :: first priority
-Renovate :: Dependency PRs across every Infrastructure-owned repository, oldest first :: second priority
-Project work :: Anything from the Kanban board, any size, pausable :: third priority
+Monitoring and Argo CD :: Daytime checks and sync or health failures; active incidents follow the separate on-call process :: second priority
+Renovate :: Dependency PRs across Infrastructure-owned repositories, oldest first :: third priority
+Project work :: Anything from the Kanban board, any size, pausable :: fourth priority
 {{< /stack >}}
 
 The order is written down because an undirected support engineer will work on whichever
@@ -111,7 +114,8 @@ and not an attempt to reconstruct it.
 
 Nine engineers get a week where interrupts are somebody else's job.
 
-Every engineer also passes through every area, roughly a week in ten. The SRE specialist
+Every engineer also passes through the support work across the four areas, roughly a week
+in ten once the roster reached ten engineers (it began at eight). The SRE specialist
 spends a week merging CI/CD dependency upgrades. The CI/CD specialist spends a week inside
 Argo CD sync failures. Nobody can route an area's questions permanently to the person who
 owns that area, because within a couple of months they'll be answering them.
@@ -146,13 +150,16 @@ of them are alerts needing the same first twenty minutes of investigation every 
 My last piece of work at Fortis was a proof-of-concept evaluation of kagent, which runs
 agents as Kubernetes resources with sandboxed execution. The fit here is what interested
 me: an agent that picks up an alert, gathers the context a human would gather and attaches
-it to the ticket changes what the support engineer starts from. The propose-and-approve boundary from the provisioning
+it to the ticket changes what the support engineer starts from. The propose-and-approve
+boundary from the provisioning
 agent applies, because triage that writes to a cluster on its own is a much worse idea.
 
 That stayed a proof of concept, so there's no result to report.
 
 ## What I would do differently
 
-Measure it. I can describe what the rotation changed and I can't show it. Request volume
-and time to acknowledge were both available and neither was tracked, and the satisfaction
-improvement above is exactly the kind of claim that needed a number.
+Measure it. I can describe what the rotation changed and I can't show it. I tracked the
+weekly number of open support requests, and repeated issues became backlog items for
+longer-term toil reduction. New request arrivals and time to acknowledge were never
+recorded, and the satisfaction improvement above is feedback people gave me, with no
+measurement behind it.

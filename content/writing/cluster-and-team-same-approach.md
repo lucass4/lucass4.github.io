@@ -31,10 +31,12 @@ On the cluster that's [Kyverno](/work/kubernetes-platform-architecture/), runnin
 admission webhook. Submit a workload without a required label and it gets rejected on the
 spot. The cluster never holds that state, so nobody goes hunting for it later.
 
-On the team it's one engineer holding the week. Requests, alerts and dependency upgrades
-all route to whoever has the [support rotation](/leadership/support-engineering-rotation/),
-in that priority order, so the interrupts concentrate on one person instead of reaching
-nine. One week in ten each, and everyone passes through every area in turn.
+On the team it's one engineer holding the week. Daytime requests, monitoring checks, Argo
+CD failures and dependency upgrades all go to whoever has the [support
+rotation](/leadership/support-engineering-rotation/), with requests first. Active
+incidents and after-hours alerts run through a separate on-call process. Routine
+interrupts land on one person for the week, one week in ten each, and everyone passes
+through every area in turn.
 
 That last part is what moves knowledge between areas, and it depends on the week being
 handed over. The outgoing engineer walks the next one through open requests and blockers,
@@ -79,11 +81,13 @@ Decisions waited on me, and on a team spread across four countries that is not a
 cost. An engineer in Portugal spends the afternoon blocked on a morning that hasn't started
 yet in Canada.
 
-So I moved where decisions enter. Four area leads own the technical decisions in their
-areas, and they have something to decide against: the RFC and ADR process for how an
+So I moved where decisions enter. The team is organised in four areas: game CI, AI
+infrastructure, SRE and platform/compute. I was moving toward a hands-on lead for each
+one, and that reorganisation was still in progress. What a lead decides against is already
+in place: the RFC and ADR process for how an
 argument gets settled, the service ownership model for what the platform owes product
-teams, and the incident model for who holds an incident while it's open. A lead reaching a
-decision without waiting for me is the point of all three.
+teams, and the incident model for who holds an incident while it's open. Letting a lead
+reach a decision without waiting for me was the goal of all three.
 
-I tracked the number of open support requests each week to see whether work was starting to
-pile up again.
+I tracked the number of open support requests each week to see whether work was piling up,
+and recurring issues became backlog items for longer-term toil reduction.

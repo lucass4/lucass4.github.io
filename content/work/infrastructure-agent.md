@@ -4,16 +4,16 @@ weight: 2
 metric: "2 days → 30 seconds"
 metric_note: "50 environments in three months"
 problem: "A company that incubates game ideas needs an environment for each one. Standing one up took about two days of coordinated work across several people, which made experiments expensive enough that teams avoided them."
-role: "Designed and built it, including the security model and the release gate"
+role: "Designed and built the agent and separate approval paths for incubator sandboxes and service onboarding"
 scale: "50 environments provisioned in three months"
-outcome: "About 30 seconds end to end, at roughly twelve cents per run on a warm cache"
+outcome: "About 30 seconds for the standard incubator sandbox flow; service onboarding took a PR-review path"
 stack: ["LangGraph", "MCP", "FastAPI", "EKS", "GitHub Apps", "Okta"]
-description: "A LangGraph agent, reached over MCP, that provisions a complete game environment in about 30 seconds, and the security model that makes it safe to point at production."
+description: "A LangGraph agent with two paths: automated standard incubator sandboxes and PR-reviewed repository onboarding for services protected by Okta."
 ---
 
 ## Context
 
-Fortis incubates games. Ideas get built, tested, and either continued or dropped, and every
+Fortis incubated games. Ideas get built, tested, and either continued or dropped, and every
 one of them needs somewhere to run. The cost of standing up an environment is therefore a
 cap on how many ideas the company can afford to try.
 
@@ -28,9 +28,9 @@ something."
 
 ## Constraints
 
-Whatever I built would hold credentials for real infrastructure. An agent with cluster
-write access can make a bad change to production, and that's the failure mode worth
-designing around.
+Whatever I built would hold credentials for real infrastructure. An agent that can merge
+changes for a standardized sandbox must not automatically get the same authority over a
+separately onboarded team service. The trust boundary differed by workflow.
 
 It also had to work for people who weren't going to learn a new tool. That pointed at
 MCP: the tools appear inside the client an engineer already has open.
@@ -42,9 +42,12 @@ harness, and the cost model.
 
 ## What it does
 
-One request produces the repository, provisions the infrastructure, and deploys a working
-baseline service on EKS with observability and Okta SSO already wired up. That takes
-about 30 seconds. It ran 50 times in three months.
+There were two workflows. For incubator games, the environment followed a standard shape
+and the agent could review and merge the change automatically into a sandbox. The roughly
+30-second provisioning figure refers to that standardized incubator path; 50 environments
+were provisioned in three months. For onboarding a repository containing a team-built
+service, the agent instead opened a pull request for review before deploying the service
+behind an Okta integration. These two approval models should not be conflated.
 
 Underneath it's a LangGraph graph. The agent runs as a FastAPI service with an MCP
 server mounted on it, so an MCP client calls a tool and the
@@ -54,10 +57,10 @@ token and never from the request body, so it comes out the same on both paths.
 
 The tools carry their own schemas, so each integration is described once and the model
 reads that description. There is no glue code in between to drift from the thing it wraps.
-They split by blast radius: a preview that plans and opens nothing, and an apply that opens the
-pull request.
+The workflows had different write boundaries: the standardized incubator sandbox allowed
+automated review and merge; repository onboarding opened a pull request for human review.
 
-{{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Solid lines are the agent acting, dashed lines carry content, and the accent dotted line is a security control that sits outside the request path. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}
+{{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Repository-onboarding path only: the agent opens a reviewable PR before the team service is deployed. The standardized incubator sandbox path merges automatically and is not shown. Internal service names and repository details are omitted." >}}
 [Request] MCP client*, any client
 -> tool call
 [Surface] MCP server*, /mcp, JWT verified, scope checked, audited
@@ -65,9 +68,9 @@ pull request.
 [Orchestration] LangGraph*, provision graph
 !! Secret redaction :: Guards what the agent reads into context and what its releases ship. Not a stage a request passes through.
 -> opens a PR
-[Repository] GitHub App, PR only, cannot merge
--> proposes
-[Production write boundary] Human approval*
+[Repository onboarding] GitHub integration, reviewable PR
+-> requests review
+[Service onboarding boundary] Human approval*
 -> applies
 [Behind the gate] Infrastructure, EKS service, observability, Okta SSO
 ---
@@ -76,13 +79,8 @@ verifies the caller's token, checks the required scope, and writes an audit reco
 every call including the ones it refuses. The tool then runs the LangGraph provision
 graph in the same process, which is what the plain HTTP route onto that graph also does.
 The caller's identity is read from the verified token and never from the request body, so
-it is the same on both paths. Each tool carries a strict
-schema, so the agent cannot invent a call, and they are split by blast radius: a
-read-only preview that plans and opens nothing, and an apply that opens the pull request.
-The pull request is opened by a GitHub App that cannot merge or bypass branch protection,
-which is why it sits outside the production write boundary. The agent proposes, a person
-approves, and only then does the change reach infrastructure, followed by the baseline
-service deployment on EKS with observability and Okta SSO. Secret redaction guards the
+it is the same on both paths. Each tool carries a strict schema. In the repository-onboarding path depicted here, a read-only preview plans without changes and the application path opens a PR for review. The standardized incubator sandbox follows a different path with automated review and merge.
+For the repository-onboarding path shown here, a GitHub integration opens a pull request and a person reviews it before the team-built service is deployed behind Okta. The separate incubator sandbox path uses automated review and merge because its environments follow a constrained, repeatable shape. The diagram does not depict that sandbox path. Secret redaction guards the
 agent's inputs and its releases and is not a stage a request passes through.
 {{< /architecture >}}
 
@@ -92,7 +90,8 @@ I documented six alternatives before building, including Google ADK, CrewAI, and
 nothing.
 
 Doing nothing deserved to be on the list. The comparison worth making was against
-scripting the same sequence with no model in the loop. What tipped it was the request side: the inputs arrive as prose with missing
+scripting the same sequence with no model in the loop. What tipped it was the request
+side: the inputs arrive as prose with missing
 details, and the part that actually consumed human time was interpreting the request, not
 running the steps.
 
@@ -103,19 +102,19 @@ counts when the thing being automated writes to infrastructure.
 
 ## The security model
 
-The agent proposes and a human approves. No production write reaches a cluster unreviewed,
-and its output is a change to be looked at.
-
-Its GitHub App can create branches but can't merge or bypass branch protection. That
-boundary is enforced by GitHub, which is why it holds even if the model is talked into
-trying.
+The approval policy depends on the destination. Standardized incubator games were deployed
+to sandbox environments with automated review and merge. A separately onboarded
+repository, potentially containing a team-built service, received a reviewable pull
+request and was deployed behind Okta. The automated sandbox authority did not imply
+unattended production onboarding.
 
 Its tools carry strict schemas, so it can't invent a call. A model free to emit arbitrary
 tool invocations will eventually emit one that reads as plausible English and isn't a real
 API.
 
 Secrets are scanned and redacted before anything is embedded, and the release gate fails
-closed on a leaked credential. It fails closed because the alternative is a gate that passes a leak through whenever it
+closed on a leaked credential. It fails closed because the alternative is a gate that
+passes a leak through whenever it
 errors, and reports success while doing it.
 
 ## Evaluation and cost

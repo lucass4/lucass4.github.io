@@ -2,11 +2,11 @@
 title: "Consolidating 38 AWS Accounts Without Losing Cost Visibility"
 weight: 3
 metric: "38 accounts → 6"
-metric_note: "attribution enforced at admission"
+metric_note: "cost allocation preserved across shared accounts"
 problem: "Consolidating 38 AWS accounts into six removed the account boundary that per-game cost reporting had been relying on."
 role: "Designed the replacement attribution model and the enforcement behind it"
 scale: "38 accounts reduced to six shared accounts"
-outcome: "Tag coverage enforced at admission: an untagged stateful resource cannot be created"
+outcome: "Existing resources audited and tagged; creation-time tagging controls applied to covered stateful-resource APIs"
 stack: ["AWS Organizations", "Service Control Policies", "Datadog", "Terraform"]
 description: "When 38 AWS accounts became six, physical billing isolation disappeared. The five-tag schema, SCPs and container cost allocation that replaced it."
 ---
@@ -25,8 +25,8 @@ billing console can give you.
 
 Per-game margin was a real reporting requirement, so the answer couldn't be "estimate it."
 
-The replacement had to work on resources that already existed and on everything created
-afterwards, by teams who weren't going to enjoy a tagging mandate.
+The replacement had to address resources that already existed as well as new resources
+created afterwards, by teams who were not going to enjoy a tagging mandate.
 
 ## My role
 
@@ -39,10 +39,13 @@ lookup table living in someone's head. It does not cover everything on the bill:
 below applies to stateful resources, so ephemeral work can run untagged, and shared
 compute needed its own rule.
 
-Service Control Policies enforce it by denying untagged stateful resources. The common
+We first audited existing resources, used that report to run a campaign to tag them, and
+then applied Service Control Policies to require tags at creation for the covered
+stateful-resource operations. The common
 approach scans for untagged resources and chases the owners, which leaves the data wrong
-between the mistake and the sweep, and there's always somewhere it's wrong. An SCP that refuses to create an untagged stateful resource
-keeps bad data out from the start. The cost is that somebody's Terraform plan fails, which
+between the mistake and the sweep, and there's always somewhere it's wrong. A
+creation-time deny on the supported APIs stops the same class of omissions from recurring.
+The cost is that somebody's Terraform plan fails, which
 is a much better place to find out.
 
 I scoped the deny to stateful resources deliberately. Applying it to everything would have
@@ -70,7 +73,8 @@ security boundary, and that was a separate conversation.
 
 ## Results and lessons
 
-Attribution survived the consolidation, enforced at admission.
+Attribution survived the consolidation through an audit-and-tag campaign for existing
+resources, followed by creation-time controls on covered APIs.
 
 We hadn't documented all the functions those account boundaries served. Billing isolation
 was never why the 38 accounts existed, and it was still load-bearing by the time anyone

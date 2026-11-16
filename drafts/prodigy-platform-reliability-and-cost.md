@@ -45,20 +45,26 @@ I led the Karpenter migration and contributed upstream along the way.
 > **Needed:** what the upstream contribution was. A feature, a fix, or a provider gap, and
 > roughly what it addressed. One sentence, no link required.
 
-> **Needed:** whether spot capacity was part of the design, and how interruptions were
-> handled if so.
+> **Partly answered:** Spot was central to the cost work. Workload safeguards included
+> topology spreading, node affinity, disruption budgets and resource-sizing changes. Still
+> needed: the specific node-provisioning transition and interruption behavior during a
+> real Spot reclaim.
 
 ## Cost: a 35% reduction
 
-Cloud infrastructure cost came down 35%.
+Cloud infrastructure cost came down 35%, primarily by moving compute from On-Demand to
+Spot. That took more than changing an instance type: we prepared workloads for
+interruption through topology spread constraints, node affinity and pod disruption
+budgets; right-sized services; and aligned memory requests and limits where predictable
+scheduling and safe termination mattered.
 
 > **Needed:** what that 35% is measured against, and over what period. A percentage with no
 > baseline is the one number a reader discounts.
 
-> **Needed:** which changes produced it, and roughly in what proportion. The usual
-> candidates are node lifecycle and consolidation, spot capacity, right-sizing requests,
-> storage class changes, data transfer, and savings plans or reserved capacity. Two or three
-> named mechanisms turn the figure into evidence.
+> **Confirmed:** the dominant driver was moving compute from On-Demand to Spot; additional
+> work included resource sizing, memory requests and limits, topology spreading, node
+> affinity and disruption budgets. Do not attribute the entire 35% to Karpenter without
+> separately confirming the timing and baseline.
 
 ## Delivery: Flux v1 to Argo CD
 

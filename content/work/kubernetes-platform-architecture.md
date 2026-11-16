@@ -3,7 +3,7 @@ title: "Kubernetes Platform Architecture"
 weight: 1
 metric: "No downtime"
 metric_note: "ECS to EKS, no maintenance window"
-problem: "A game company with no internal platform needed one that studio teams could ship on without each team rebuilding infrastructure from scratch."
+problem: "A game company with loosely connected ECS services but no coherent shared platform needed one that studio teams could use without rebuilding infrastructure."
 role: "Designed and built the platform, then led the function that ran it"
 scale: "Multiple game studios, teams across four countries"
 outcome: "Zero-downtime cutovers from ECS to EKS; a documented decision process that outlived individual projects"
@@ -13,7 +13,8 @@ description: "Designing a production Kubernetes platform from nothing at Fortis 
 
 ## Context
 
-Fortis Games was building game studios and had no internal platform. Every team that
+Fortis Games was building game studios and had ECS services, but no coherent shared
+platform. Every team that
 needed a service running needed networking, deployment, secrets, monitoring and DNS, and
 without somewhere shared to get those, each team would have solved them separately and
 differently. I joined as principal software engineer and infrastructure
@@ -36,9 +37,10 @@ convenient quiet hour.
 
 I designed the architecture and implemented it: networking, GitOps, autoscaling, service
 mesh, secrets, policy, observability, DNS and ingress. Most of the platform's own
-components I built myself. After being promoted to run DevOps Engineering I kept platform
-architecture and technical direction while the function grew to four area leaders,
-covering CI/CD, SRE, platform and AI infrastructure.
+components I built myself. After moving into engineering management I retained platform
+architecture and technical direction. The function grew to ten engineers across game CI,
+AI infrastructure, SRE and platform/compute; the transition toward a hands-on domain lead
+for each area was still in progress.
 
 ## Architecture and decisions
 
@@ -62,9 +64,7 @@ are pending, and Istio in ambient mode connects the workloads with mTLS and L4 p
 per node and L7 at waypoint proxies. The platform services run in the cluster too:
 External Secrets, ExternalDNS and cert-manager supply secrets, DNS records and
 certificates to the workloads, and Datadog's Operator-managed agents observe them.
-Crossplane runs in the cluster as well, and workloads claim managed dependencies through
-it; its providers manage the AWS resources outside the cluster. Terraform runs outside
-and provisions the cluster itself and the accounts underneath it.
+Crossplane runs in production for incubator-game dependencies: DynamoDB tables, IAM roles and policies, and EKS Pod Identity associations. Its providers manage those AWS resources outside the cluster. Terraform stays responsible for the core infrastructure, including the cluster and accounts.
 {{< /architecture >}}
 
 Delivery runs through GitOps. ArgoCD reconciles cluster state from Git, so the cluster's
@@ -87,9 +87,9 @@ Policy is enforced at admission. Kyverno rejects a missing label or an unsafe se
 it's submitted, so the cluster can't drift into a state a later sweep has to find and
 chase down.
 
-Infrastructure outside the cluster is declared from inside it. Crossplane lets a team
-request a managed dependency through the same interface as everything else, with Terraform
-staying where it fits.
+Incubator-game dependencies are declared from inside the cluster. Crossplane manages the
+DynamoDB tables, IAM roles and policies, and EKS Pod Identity associations needed to
+bootstrap those games. Core infrastructure remains in Terraform.
 
 Secrets, DNS, certificates and observability all follow the same pattern: External
 Secrets, ExternalDNS, cert-manager, Datadog. The platform owns the integration and the
@@ -97,7 +97,8 @@ team owns a declaration.
 
 ## The interface teams use
 
-Two Helm charts are what a team actually writes. Both are versioned and published to the
+Two published Helm charts provide the interface for teams; teams supply their values. Both
+are versioned and published to the
 internal Helm repository, and each consumer pins a version, so a platform change ships as
 a chart release and teams pick it up on their own schedule.
 
@@ -110,9 +111,10 @@ Kyverno admits. The chart began as an open-source generic chart, and the platfor
 parts are mine: the Istio VirtualService interface, KEDA support, External Secrets v1,
 waypoint JWT auth, an oauth-proxy sidecar and the ECS migration wiring.
 
-The ECS cutovers went through the same chart. With migration enabled it adds a ServiceEntry
-for the existing ECS host and a DestinationRule that terminates TLS to it, so a single
-VirtualService can carry weighted routes to both ECS and the pods in the cluster. Moving
+The ECS cutovers went through the same chart. With migration enabled it adds a
+ServiceEntry for the ECS host and a DestinationRule that sets outbound TLS origination
+parameters (SIMPLE mode, trusted CA and SNI). The VirtualService can carry weighted routes
+to both ECS and EKS destinations. Moving
 traffic is a weight change in a values file, and so is rolling back. That is how the
 cutovers happened without a maintenance window.
 
@@ -140,7 +142,8 @@ won, but it meant taking the less common path through a service mesh that's alre
 large piece of machinery.
 
 A platform that abstracts this much is also one more thing to learn. Someone comfortable
-with raw Kubernetes has to work through the platform's interface. That cost is real. I took it
+with raw Kubernetes has to work through the platform's interface. That cost is real. I
+took it
 because it lands on one team and then stops.
 
 A shared chart is a shared dependency. Every service renders through the same templates, so

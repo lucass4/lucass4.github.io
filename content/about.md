@@ -17,10 +17,13 @@ Before Kubernetes I spent years on distributed systems and event-driven architec
 and Kafka Streams at Receptiviti, RabbitMQ and Java APIs at NS90, enterprise integrations
 for airline and property clients at Grupo Mult.
 
-At Prodigy Education I owned platform architecture, reliability and cost for infrastructure
-serving around 10 million monthly users with peaks above 150,000 concurrent. I led the
-Karpenter migration there, contributing upstream along the way, and moved deployments from
-Flux v1 to ArgoCD without downtime.
+At Prodigy Education I owned platform architecture, reliability and cost for
+infrastructure serving around 10 million monthly users with peaks above 150,000
+concurrent. I led the Karpenter migration there, contributing upstream along the way, and
+moved deployments from Flux v1 to Argo CD without downtime. Most of the 35% cloud-cost
+reduction came from moving compute from On-Demand to Spot, after preparing workloads for
+interruption with topology spreading, node affinity, disruption budgets and more
+deliberate resource sizing.
 
 ## From technical leadership to engineering management
 
@@ -32,22 +35,25 @@ direction of the work and not for the engineers themselves.
 Formal people management started at ChatFood, where I managed nine distributed engineers
 through an AWS and Kubernetes migration.
 
-I joined Fortis Games as infrastructure technical lead and designed the Kubernetes
-platform end to end; the architecture is
+I joined Fortis Games as infrastructure technical lead. Existing ECS services were loosely
+connected, but there was no coherent shared platform. I designed the Kubernetes platform
+end to end; the architecture is
 [its own case study](/work/kubernetes-platform-architecture/). I built the DevOps
 Engineering function that had to own it alongside the platform.
 
 I was setting that function's technical direction before I had the management title. When
 it caught up I became Sr. Manager, DevOps Engineering, and I kept platform architecture and
-technical direction alongside it. The team grew to ten engineers through four area leads,
-one each for CI/CD, SRE, platform and AI infrastructure. The team was spread across Brazil,
-Portugal, England and Canada, an eight-hour spread, so almost nothing could depend on
-everyone being awake at once.
+technical direction alongside it. The team grew to ten engineers across four areas: game
+CI, AI infrastructure, SRE and platform/compute. We were moving toward a hands-on domain
+lead for each area, but that reorganisation was still in progress. The team was spread
+across Brazil, Portugal, England and Canada, an eight-hour spread, so almost nothing could
+depend on everyone being awake at once.
 
 Because of the spread I wrote the RFC and ADR process, the service ownership model that set
 out what platform owes product teams and what they own themselves, and the incident
-management model that goes with it. All three exist so engineers can decide without waiting
-for me, and [how the function was built](/leadership/building-devops-engineering/) is the
+management model that goes with it. These practices helped engineers make decisions
+asynchronously, and [how the function was built](/leadership/building-devops-engineering/)
+is the
 longer account. Managing it didn't end the hands-on work: I built
 [a LangGraph agent](/work/infrastructure-agent/), reached over MCP, that provisions a
 complete game environment.
@@ -67,9 +73,9 @@ Standing up a game environment took about two days of coordinated work across se
 people, which made experiments expensive enough that teams avoided them, so
 [an agent does it in thirty seconds](/work/infrastructure-agent/) and fifty environments
 went up in three months. Consolidating thirty-eight AWS accounts into six removed the
-boundary per-game cost reporting had been relying on, so
-[attribution moved into admission](/work/aws-multi-account-cost-attribution/) and the
-reporting survived the consolidation.
+boundary per-game cost reporting had been relying on, so [we audited and tagged existing
+resources and enforced tagging on covered creation
+APIs](/work/aws-multi-account-cost-attribution/) to preserve per-game reporting.
 
 Cost, latency, throughput and the time it takes to get from a request to a running
 environment are what I measure.

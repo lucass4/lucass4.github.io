@@ -5,7 +5,7 @@ featured: true
 metric: "No downtime"
 metric_note: "ECS to EKS, no maintenance window"
 problem: "A game company with no internal platform needed one that studio teams could ship on without each team rebuilding infrastructure from scratch."
-role: "Designed the architecture end to end, then led the function that ran it"
+role: "Designed and built the platform, then led the function that ran it"
 scale: "Multiple game studios, teams across four countries"
 outcome: "Zero-downtime cutovers from ECS to EKS; a documented decision process that outlived individual projects"
 stack: ["EKS", "Istio Ambient", "ArgoCD", "Helm", "Karpenter", "KEDA", "Kyverno", "Crossplane", "Terraform"]
@@ -17,8 +17,8 @@ description: "Designing a production Kubernetes platform from nothing at Fortis 
 Fortis Games was building game studios and had no internal platform. Every team that
 needed a service running needed networking, deployment, secrets, monitoring and DNS, and
 without somewhere shared to get those, each team would have solved them separately and
-differently. I joined as infrastructure technical lead and the platform was the first
-thing to design.
+differently. I joined as principal software engineer and infrastructure
+technical lead, and the platform was the first thing to design.
 
 The requirement was that a studio team should be able to ship a service without having to
 learn how the infrastructure underneath it is wired.
@@ -35,8 +35,11 @@ convenient quiet hour.
 
 ## My role
 
-I designed the architecture: networking, GitOps, autoscaling, service mesh, secrets,
-policy, observability, DNS and ingress. After being promoted to run DevOps Engineering I
+I designed the architecture and implemented it: networking, GitOps, autoscaling, service
+mesh, secrets, policy, observability, DNS and ingress. I wrote most of the platform's own
+components, including the team-onboarding chart and the platform pieces of the application
+chart: the ECS migration wiring, the VirtualService interface, KEDA support, waypoint JWT
+auth and the oauth-proxy sidecar. After being promoted to run DevOps Engineering I
 kept platform architecture and technical direction while the function grew to four area
 leaders, covering CI/CD, SRE, platform and AI infrastructure.
 

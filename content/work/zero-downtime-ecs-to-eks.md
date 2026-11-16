@@ -31,8 +31,11 @@ possible.
 ## Architecture and decisions
 
 Ambient mode against the sidecar model, and why ambient was the migration-friendly
-choice: a workload joins the mesh without its pod spec changing. Where waypoints were
-placed and what L7 behaviour they were there to provide.
+choice. The application-chart migration template registered the ECS host in a ServiceEntry
+and configured SIMPLE outbound TLS, CA verification and SNI on its DestinationRule.
+Still needed: the actual VirtualService rules, where TLS terminated, waypoint placement,
+and what L7 behavior each proxy provided. Because the ServiceEntry template defaults to
+HTTPS on port 443, validate the traffic path for double TLS before claiming the details.
 
 ## Trade-offs and alternatives
 

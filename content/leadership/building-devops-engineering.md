@@ -4,9 +4,9 @@ weight: 1
 metric: "10 engineers"
 metric_note: "four areas, four countries"
 problem: "Fortis had no platform function. I joined as infrastructure technical lead to build the platform, and the engineering function that would own it had to be built alongside it."
-role: "Built the function, then moved into managing it: four area leads, the decision processes, the operating model"
+role: "Built the function, managed ten engineers, introduced the operating model and began the transition to four domain leads"
 scale: "Ten engineers across Brazil, Portugal, England and Canada, an eight-hour spread"
-outcome: "Area leads own their technical decisions; the RFC, ADR, service ownership and incident models are what they decide against"
+outcome: "Ten engineers across four areas; written decision and ownership processes adopted while the domain-lead transition was under way"
 stack: ["RFC", "ADR", "Service ownership model", "Incident management", "Kanban"]
 description: "Building and then leading DevOps Engineering at Fortis Games: how the function grew to ten engineers, and the decision processes that let it run without routing through me."
 ---
@@ -26,19 +26,23 @@ A platform creates operational ownership that doesn't end. Clusters to keep runn
 delivery pipeline, dependency upgrades, alerts, and a continuous stream of requests from
 studio teams. That work arrives whether or not anyone has been made responsible for it.
 
-Areas formed around it as it grew: CI/CD, SRE, platform and AI infrastructure. Each one is
+Areas formed around it as it grew: CI for games, AI infrastructure, SRE and
+platform/compute. Each one is
 work that someone has to hold by default rather than when asked.
 
 I was setting the function's technical direction well before I had a management title. In
 March 2026 that caught up and I became Sr. Manager, DevOps Engineering. The title changed
 what I was accountable for. It did not change what the team did that week.
 
-## Four areas, four leads
+## Four areas, leadership in transition
 
-The team reached ten engineers through four area leads, one each for CI/CD, SRE, platform
-and AI infrastructure.
+The team reached ten engineers across CI for games, AI infrastructure, SRE and
+platform/compute. I was moving toward one hands-on domain lead per area, with technical
+authority delegated closer to the work. This reorganisation was still in progress; I would
+not describe all four leads as fully established.
 
-The team sits in Brazil, Portugal, England and Canada, an eight-hour spread. Almost nothing can
+The team sits in Brazil, Portugal, England and Canada, an eight-hour spread. Almost
+nothing can
 depend on everyone being awake at once, and that rules out two ways of running a team.
 
 The first is the decision made live. The window where all four countries are working is too
@@ -52,7 +56,8 @@ eight-hour delay.
 
 ## Delegating decisions, not tasks
 
-Delegating tasks is easy and it solves neither problem. What unblocks an engineer eight hours
+Delegating tasks is easy and it solves neither problem. What unblocks an engineer eight
+hours
 away is delegating the decision, and a decision can only be delegated if there is something
 to decide against.
 
@@ -67,8 +72,9 @@ ownership model, which settles what platform owes product teams and what those t
 themselves. And I wrote the incident management model that goes with it, which settles who
 holds an incident while it's open.
 
-I can't attach an improvement figure to any of the three. What I can say is what they are
-for: a lead reaching a decision without waiting for me.
+I can't attach an improvement figure to any of the three. What I can say is what they were
+designed to do: let engineers make decisions without waiting for me. The domain-lead
+operating model was still being rolled out.
 
 ## Operations against projects
 
@@ -79,8 +85,9 @@ The support rotation is how we settled it: I designed, wrote and rolled out a we
 which one engineer holds requests, alerts and dependency upgrades in a fixed priority order,
 requests first and project work last.
 
-That is roughly ten percent of the team's capacity, and it is a cost the team was already
-paying before the rotation made it something we could plan around. The design and the
+At ten engineers that is roughly ten percent of capacity; when the roster had eight it was
+one in eight. The team was already paying that cost through scattered interruptions before
+the rotation made it something we could plan around. The design and the
 trade-offs are in [its own case study](/leadership/support-engineering-rotation/).
 
 ## Managing engineers before Fortis
@@ -96,14 +103,15 @@ not for the engineers themselves.
 
 ## What I would do differently
 
-Measure the operating model. I can describe what changed, and that's all I can do. Area
-leads decide without waiting for me and arguments are settled in writing, and I have no
-number for either.
+Measure the operating model. I can describe what changed, and that's all I can do. The
+intended autonomy of the domain leads was not fully realised before the reorganisation
+ended. The written decision process was in use, but I did not measure time saved by it.
 
 The rotation is the clearest case, because the measurements were sitting there. The teams
 filing requests were happier with us afterwards, which is what I observed and what they told
-me rather than something I can show. Request volume and time to acknowledge were both
-available and neither was tracked.
+me, and I can't show it. I tracked the number of open support requests each week and moved
+recurring issues into the backlog for longer-term toil reduction. New request arrivals,
+time to acknowledge and formal requester satisfaction were never tracked.
 
 The pattern I'd break is treating a process as finished once it was adopted. Instrumenting
 one is cheap next to writing it, and without it the only defence of a process is a

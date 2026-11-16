@@ -19,12 +19,12 @@
 
   <!-- Request interface: an MCP client, not a chat app -->
   <g class="anode" tabindex="0" role="img"
-     aria-label="MCP client, such as Claude Code. Calls a tool on the agent's MCP server.">
+     aria-label="MCP client, any client that calls a tool on the agent's MCP server.">
     <rect class="an__focus-ring" x="8" y="332" width="166" height="84" rx="12" />
     <g class="an">
       <rect class="an__box" x="16" y="340" width="150" height="68" rx="8" />
       <text class="an__label" x="91" y="369" text-anchor="middle">MCP client</text>
-      <text class="an__sub" x="91" y="388" text-anchor="middle">Claude Code</text>
+      <text class="an__sub" x="91" y="388" text-anchor="middle">any client</text>
     </g>
     <path class="ac ac--data" d="M166,374 H230" />
     <text class="ac__verb" x="198" y="366" text-anchor="middle">tool call</text>

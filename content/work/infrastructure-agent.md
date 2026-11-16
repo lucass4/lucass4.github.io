@@ -1,7 +1,6 @@
 ---
 title: "Infrastructure Automation with an Agent"
 weight: 2
-featured: true
 metric: "2 days → 30 seconds"
 metric_note: "50 environments in three months"
 problem: "Standing up a new game environment took about two days of coordinated work across several people, which made experiments expensive enough that teams avoided them."
@@ -44,7 +43,7 @@ baseline service on EKS with observability and Okta SSO already wired up. That t
 about 30 seconds. It ran 50 times in three months.
 
 Underneath it's a LangGraph graph. The agent runs as a FastAPI service with an MCP
-server mounted on it, so an MCP client (Claude Code, in practice) calls a tool and the
+server mounted on it, so an MCP client calls a tool and the
 tool runs the graph in the same process. There's a plain HTTP route onto the same runner
 for anything that isn't an MCP client. The caller's identity is read from the verified
 token and never from the request body, so it comes out the same on both paths.
@@ -55,7 +54,7 @@ split by blast radius: a preview that plans and opens nothing, and an apply that
 pull request.
 
 {{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Solid lines are the agent acting, dashed lines carry content, and the accent dotted line is a security control that sits outside the request path. Internal service names, the tool list and the repository and cluster naming are deliberately absent." >}}
-[Request] MCP client*, Claude Code
+[Request] MCP client*, any client
 -> tool call
 [Surface] MCP server*, /mcp, JWT verified, scope checked, audited
 -> runs in process

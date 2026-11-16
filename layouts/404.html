@@ -8,7 +8,7 @@
   <div class="prose">
     <ul>
       <li><a href="{{ "/" | relURL }}">Home</a></li>
-      {{- with site.GetPage "/work" }}{{ if .RegularPages }}<li><a href="{{ .RelPermalink }}">Work</a></li>{{ end }}{{ end }}
+      {{- with site.GetPage "/work" }}{{ if .RegularPages }}<li><a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a></li>{{ end }}{{ end }}
       {{- with site.GetPage "/writing" }}{{ if .RegularPages }}<li><a href="{{ .RelPermalink }}">Writing</a></li>{{ end }}{{ end }}
       {{- with site.GetPage "/about" }}<li><a href="{{ .RelPermalink }}">About</a></li>{{ end }}
     </ul>

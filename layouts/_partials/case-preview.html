@@ -3,9 +3,9 @@
      directly under the h1 on the work index; hard-coding either skips a level
      on the other page.
 
-     Title, problem and the headline figure. The prose `outcome` is a sentence
-     and stays on the case study itself, in the factsheet; in an index it reads
-     past rather than landing. `role` and `stack` are there too. */}}
+     Title, problem, role and the headline figure. The prose `outcome` is a
+     sentence and stays on the case study itself, in the factsheet; in an
+     index it reads past rather than landing. `stack` is there too. */}}
 {{- $page := . -}}
 {{- $level := 3 -}}
 {{- if reflect.IsMap . -}}
@@ -17,6 +17,9 @@
   <h{{ $level }} class="case__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h{{ $level }}>
   {{- with .Params.problem }}
   <p class="case__problem">{{ . }}</p>
+  {{- end }}
+  {{- with .Params.role }}
+  <p class="case__role mono">{{ . }}</p>
   {{- end }}
   {{- with .Params.metric }}
   <p class="case__metric">

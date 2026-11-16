@@ -1,7 +1,6 @@
 ---
 title: "Consolidating 38 AWS Accounts Without Losing Cost Visibility"
 weight: 3
-featured: true
 metric: "38 accounts → 6"
 metric_note: "attribution enforced at admission"
 problem: "Consolidating 38 AWS accounts into six removed the account boundary that per-game cost reporting had been relying on."

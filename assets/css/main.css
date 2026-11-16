@@ -217,6 +217,12 @@ hr {
   top: var(--space-3);
 }
 
+/* Its target. `tabindex="-1"` makes #main focusable so the link actually moves
+   focus there; a ring around the whole page is noise, not feedback. */
+#main:focus-visible {
+  outline: none;
+}
+
 .sep {
   color: var(--border-strong);
   padding: 0 0.15em;
@@ -527,6 +533,13 @@ hr {
   max-width: var(--measure);
 }
 
+.case__role {
+  margin-top: var(--space-3);
+  color: var(--text-dim);
+  font-size: var(--step--1);
+  max-width: var(--measure);
+}
+
 /* The headline figure. Larger and in the accent so the measurable result is
    the thing the eye lands on, without a card or a panel around it. */
 .case__metric {
@@ -537,7 +550,7 @@ hr {
   gap: 0 var(--space-3);
 }
 
-.case__metric-figure {
+.case__metric-figure, .impact__figure {
   font-size: var(--step-2);
   font-weight: 600;
   letter-spacing: -0.015em;
@@ -828,59 +841,6 @@ hr {
 
   .prose-layout > .toc ul {
     font-size: var(--step--1);
-  }
-}
-
-/* Case study factsheet, collapsible on small screens */
-.factsheet-wrap {
-  margin-top: var(--space-4);
-}
-
-.factsheet-wrap__summary {
-  cursor: pointer;
-  list-style: none;
-  color: var(--text-dim);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.factsheet-wrap__summary::-webkit-details-marker {
-  display: none;
-}
-
-.factsheet-wrap__summary::after {
-  content: "";
-  width: 0.45em;
-  height: 0.45em;
-  border-right: 1.5px solid currentColor;
-  border-bottom: 1.5px solid currentColor;
-  transform: rotate(45deg) translateY(-0.1em);
-  transition: transform var(--transition);
-}
-
-.factsheet-wrap[open] > .factsheet-wrap__summary::after {
-  transform: rotate(-135deg) translateY(-0.1em);
-}
-
-.factsheet-wrap__summary:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-  border-radius: 2px;
-}
-
-@media (min-width: 48rem) {
-  @supports selector(details::details-content) {
-    .factsheet-wrap::details-content {
-      content-visibility: visible;
-      block-size: auto;
-    }
-
-    .factsheet-wrap__summary {
-      display: none;
-    }
   }
 }
 
@@ -1341,6 +1301,91 @@ main > .section:last-of-type {
   .diagram__layer-name {
     grid-row: span 2;
   }
+}
+
+/* ==========================================================================
+   Home page impact and areas
+   ========================================================================== */
+
+/* Two link-affordances on one side of a flex section__head; keep them apart
+   without a new layout primitive. */
+.section__more-links {
+  display: flex;
+  gap: var(--space-4);
+}
+
+/* Static figures, no counters, no cards. Two-up on a phone so four numbers
+   don't squeeze into unreadable columns at 390px. */
+.impact {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-5);
+}
+
+.impact__figure {
+  display: block;
+}
+
+.impact__note {
+  color: var(--text-dim);
+  font-size: var(--step--1);
+}
+
+@media (min-width: 60rem) {
+  .impact {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* One column on a phone, two once there's room for them side by side. */
+.areas {
+  display: grid;
+  gap: var(--space-7);
+}
+
+.area__title {
+  font-size: var(--step-2);
+}
+
+.area__title a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.area__title a:hover {
+  color: var(--accent);
+}
+
+.area__body {
+  margin-top: var(--space-3);
+  color: var(--text-dim);
+  max-width: var(--measure);
+}
+
+.area__more {
+  margin-top: var(--space-3);
+}
+
+@media (min-width: 48rem) {
+  .areas {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Wraps at 390px rather than overflowing: no white-space: nowrap here. */
+.progression {
+  color: var(--text-dim);
+}
+
+.progression-note {
+  margin-top: var(--space-3);
+  color: var(--text-dim);
+}
+
+.progression-note .link-arrow {
+  margin-left: var(--space-2);
 }
 
 /* ==========================================================================

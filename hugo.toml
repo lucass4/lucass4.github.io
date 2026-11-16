@@ -14,13 +14,22 @@ enableGitInfo = false
 # Nothing here sets `theme`: the layouts in layouts/ are the theme.
 
 [params]
-  description = "Lucas Sant' Anna designs platforms and leads the teams that build them. Distributed systems, cloud infrastructure, Kubernetes and platform engineering."
+  description = "Lucas Sant' Anna works across engineering leadership and platform architecture, most recently building and leading DevOps Engineering at Fortis Games."
   authorName = "Lucas Sant' Anna"
   location = "Metro Vancouver, Canada"
   headline = "I design platforms and lead the teams that build them."
   # Deliberately no email address. It would be scraped out of the rendered HTML.
   linkedin = "https://linkedin.com/in/lucassantanna"
   github = "https://github.com/lucass4"
+  # The home page's selected work, in order. Deliberately mixed: leadership,
+  # architecture, leadership, architecture. A `weight` across one section
+  # cannot express that.
+  featured = [
+    "/leadership/building-devops-engineering",
+    "/work/kubernetes-platform-architecture",
+    "/leadership/support-engineering-rotation",
+    "/work/infrastructure-agent",
+  ]
 
 [markup]
   [markup.goldmark.renderer]

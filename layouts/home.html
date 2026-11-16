@@ -10,7 +10,10 @@
     </div>
     <p class="hero__actions">
       {{- with site.GetPage "/work" }}
-      <a class="btn btn--primary" href="{{ .RelPermalink }}">Explore my work</a>
+      <a class="btn btn--primary" href="{{ .RelPermalink }}">Technical work</a>
+      {{- end }}
+      {{- with site.GetPage "/leadership" }}
+      <a class="btn btn--primary" href="{{ .RelPermalink }}">Engineering leadership</a>
       {{- end }}
       <a class="btn btn--ghost" href="{{ site.Params.linkedin }}" rel="me noopener">LinkedIn</a>
     </p>
@@ -18,25 +21,78 @@
   </div>
 </section>
 
-{{- $work := where (where site.RegularPages "Section" "work") "Params.featured" true -}}
-{{- $work = $work | first 3 -}}
-{{- with $work }}
+{{/* Static figures, no counters. Traced to career material, not rendered logic. */}}
+{{- with .Params.impact }}
+<section class="section" aria-labelledby="impact-title">
+  <div class="wrap">
+    <h2 class="section__title" id="impact-title">Evidence</h2>
+    <ul class="impact">
+      {{- range . }}
+      <li>
+        <span class="impact__figure">{{ .figure }}</span>
+        <span class="impact__note mono">{{ .note }}</span>
+      </li>
+      {{- end }}
+    </ul>
+  </div>
+</section>
+{{- end }}
+
+{{- with .Params.areas }}
+<section class="section" aria-labelledby="areas-title">
+  <div class="wrap">
+    <h2 class="section__title" id="areas-title">Two sides of the same work</h2>
+    <div class="areas">
+      {{- range . }}
+      <div class="area">
+        <h3 class="area__title"><a href="{{ .href }}">{{ .title }}</a></h3>
+        <p class="area__body">{{ .body }}</p>
+        <p class="area__more"><a class="link-arrow" href="{{ .href }}">Explore<span class="sr-only">: {{ .title }}</span></a></p>
+      </div>
+      {{- end }}
+    </div>
+  </div>
+</section>
+{{- end }}
+
+{{/* Deliberately mixed order, set in hugo.toml's `featured`. The `with` guard
+     is what keeps a draft page, or a future typo, from breaking the build. */}}
+{{- with site.Params.featured }}
 <section class="section" aria-labelledby="work-title">
   <div class="wrap">
     <div class="section__head">
       <h2 class="section__title" id="work-title">Selected work</h2>
-      {{- with site.GetPage "/work" }}
-      <a class="section__more" href="{{ .RelPermalink }}">All work</a>
-      {{- end }}
+      <p class="section__more-links">
+        {{- with site.GetPage "/work" }}
+        <a class="section__more" href="{{ .RelPermalink }}">All work</a>
+        {{- end }}
+        {{- with site.GetPage "/leadership" }}
+        <a class="section__more" href="{{ .RelPermalink }}">All leadership</a>
+        {{- end }}
+      </p>
     </div>
     <ol class="case-list">
       {{- range . }}
+      {{- with site.GetPage . }}
       {{ partial "case-preview.html" (dict "page" . "level" 3) }}
+      {{- end }}
       {{- end }}
     </ol>
   </div>
 </section>
 {{- end }}
+
+{{/* Real titles only, from content/about.md's career timeline. */}}
+<section class="section">
+  <div class="wrap">
+    <p class="progression mono">Backend engineer &rarr; principal engineer &rarr; infrastructure technical lead &rarr; senior manager, DevOps Engineering</p>
+    <p class="progression-note">The engineering didn't stop at any step; the management came on top of it, not instead of it.
+      {{- with site.GetPage "/about" }}
+      <a class="link-arrow" href="{{ .RelPermalink }}">See the full history</a>
+      {{- end }}
+    </p>
+  </div>
+</section>
 
 {{/* Only rendered when something is actually published. */}}
 {{- $writing := where site.RegularPages "Section" "writing" -}}

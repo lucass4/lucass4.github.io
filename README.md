@@ -27,9 +27,13 @@ assets/diagrams/               one SVG per architecture diagram
 assets/js/                     theme toggle and copy-code, both progressive enhancement
 content/_index.md              home page lede
 content/about.md               about page, including the career timeline
-content/work/                  case studies
+content/resume.md              resume page, describing both resume versions
+content/leadership/            management case studies
+content/work/                  architecture case studies
 drafts/                        articles not ready to publish; Hugo never reads this
-layouts/                       the theme
+layouts/                       the theme; layouts/case/ renders both content/leadership/
+                                and content/work/, selected by `type: "case"` plus
+                                `cascade: { type: "case" }` on each section's _index.md
 static/favicon.svg
 tools/gen-chroma.py            regenerates assets/css/chroma.css
 .github/screenshots/           review screenshots, not referenced by the site
@@ -61,25 +65,30 @@ block disappears.
 
 ## Adding content
 
-A case study goes in `content/work/`. Front matter it understands:
+A case study goes in `content/work/` (architecture) or `content/leadership/`
+(management); both sections share the same templates. A section's `_index.md` sets
+`type: "case"` for its own index page, but that alone doesn't reach the case studies
+inside it: without a matching `cascade: { type: "case" }`, each child page falls back
+to the generic `layouts/page.html`, silently and with no build error, so set both. A
+page that genuinely isn't a case study can opt back out of the cascade with its own
+`type: page`. Front matter it understands:
 
 | Key | Purpose |
 |---|---|
 | `problem` | One or two sentences, shown on the index and as the page standfirst |
-| `role` | What you actually did |
+| `role` | What you actually did, shown on the index and the case study page |
 | `scale` | Size or reach, when there is a verified figure |
 | `outcome` | A sentence, shown in the factsheet on the case study page |
 | `metric` | The headline figure, e.g. `2 days → 30 seconds`. Shown large in indexes |
 | `metric_note` | Small print beside the figure |
 | `stack` | List, rendered as a monospace run |
 | `weight` | Order within the section, lowest first |
-| `featured` | `true` puts it on the home page, the first three by `weight` |
 | `description` | Meta description, `og:description` and `twitter:description` |
 | `period` | Date range on the factsheet. The template reads it; no case study sets one |
 
-Indexes show title, problem and `metric`. The prose `outcome`, plus `role`, `scale` and
-`stack`, appear on the case study itself, in a block that is collapsed on mobile. A
-sentence reads past in a list; a figure lands.
+Indexes show title, problem, `role` and `metric`. The prose `outcome`, plus `scale` and
+`stack`, appear only on the case study itself, in a factsheet that's always visible,
+never collapsed behind a tap. A sentence reads past in a list; a figure lands.
 
 Elsewhere: `preview` is the About page's standfirst on the home page, `tags` renders on
 articles in `content/writing/`, and `noindex` adds a robots meta tag.
@@ -87,6 +96,23 @@ articles in `content/writing/`, and `noindex` adds a robots meta tag.
 Case studies carry no `date`: they are ordered by `weight`, and a date would be published
 as `article:published_time` as though it were a publication date. Articles in
 `content/writing/` do have dates, and that is where the metadata comes from.
+
+Moving a published case study between sections (as `support-engineering-rotation` moved
+from `content/work/` to `content/leadership/`) leaves old links pointing at its old URL
+intact: set `aliases` in its front matter to a list of the old paths, and Hugo emits a
+redirect page at each one.
+
+### Home page
+
+The home page's selected work is `params.featured` in `hugo.toml`: an ordered list of
+content paths, rendered in that order regardless of section or `weight`. That's what lets
+it alternate leadership and architecture case studies, something a `weight` within one
+section can't express. Each path is read through `site.GetPage` and guarded with `with`,
+so a draft page or a typo is silently skipped rather than breaking the build.
+
+`impact` and `areas` are front matter on `content/_index.md` itself. `impact` is a list of
+`figure` / `note` pairs rendered as static text, no counters. `areas` is a list of
+`title` / `href` / `body`, rendered as the two areas of work above the case-study list.
 
 ### Architecture diagrams
 

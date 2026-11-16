@@ -1,5 +1,9 @@
 ---
 title: "Work"
+linkTitle: "Technical Work"
+type: "case"
+cascade:
+  type: "case"
 description: "Case studies on platform architecture, AWS multi-account design, and infrastructure automation with agents."
 ---
 

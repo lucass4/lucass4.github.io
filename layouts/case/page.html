@@ -1,0 +1,44 @@
+{{ define "main" }}
+<article class="prose-page">
+  <div class="wrap prose-layout">
+    <header class="page-head page-head--compact">
+      <p class="page-head__kicker mono">
+        <a href="{{ .CurrentSection.RelPermalink }}">{{ .CurrentSection.LinkTitle }}</a>
+        {{- with .Params.period }}
+        <span class="sep" aria-hidden="true">·</span><span>{{ . }}</span>
+        {{- end }}
+      </p>
+      <h1 class="page-head__title">{{ .Title }}</h1>
+      {{- with .Params.problem }}
+      <p class="page-head__lede">{{ . }}</p>
+      {{- end }}
+
+      {{/* Role, scale, outcome and stack were dropped from the index previews
+           and live here instead, always visible: the role is the point of
+           the page, not something worth hiding behind a tap on mobile. */}}
+      <dl class="factsheet">
+        {{- with .Params.role }}
+        <div><dt>Role</dt><dd>{{ . }}</dd></div>
+        {{- end }}
+        {{- with .Params.scale }}
+        <div><dt>Scale</dt><dd>{{ . }}</dd></div>
+        {{- end }}
+        {{- with .Params.outcome }}
+        <div><dt>Outcome</dt><dd>{{ . }}</dd></div>
+        {{- end }}
+        {{- with .Params.stack }}
+        <div><dt>Stack</dt><dd>{{ delimit . ", " }}</dd></div>
+        {{- end }}
+      </dl>
+    </header>
+
+    {{ partial "toc.html" . }}
+
+    <div class="prose">
+      {{ .Content }}
+    </div>
+
+    {{ partial "page-nav.html" . }}
+  </div>
+</article>
+{{ end }}

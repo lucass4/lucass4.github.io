@@ -27,7 +27,7 @@
         <div><dt>Outcome</dt><dd>{{ . }}</dd></div>
         {{- end }}
         {{- with .Params.stack }}
-        <div><dt>Stack</dt><dd>{{ delimit . ", " }}</dd></div>
+        <div><dt>{{ if eq $.Section "leadership" }}Practices{{ else }}Stack{{ end }}</dt><dd>{{ delimit . ", " }}</dd></div>
         {{- end }}
       </dl>
     </header>

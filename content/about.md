@@ -45,9 +45,10 @@ Engineering function that had to own it alongside the platform.
 I was setting that function's technical direction before I had the management title. In
 March 2026 I became Sr. Manager, DevOps Engineering, and kept platform architecture and
 technical direction with it. The team grew to ten engineers, and the work divided into four
-areas of responsibility: game CI, AI infrastructure, SRE and platform/compute. Turning
-those areas into reporting lines with a hands-on lead for each one was a reorganisation I
-had started and had not finished. The team was spread across Brazil, Portugal, England and
+areas of responsibility: game CI, AI infrastructure, SRE and platform/compute. I was
+moving toward a hands-on lead for each area with delegated technical authority, while I
+kept people management of the team. That reorganisation had started and was not finished.
+The team was spread across Brazil, Portugal, England and
 Canada, an eight-hour spread, so almost nothing could depend on everyone being awake at
 once.
 

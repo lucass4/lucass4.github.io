@@ -47,7 +47,7 @@ and the agent could review and merge the change automatically into a sandbox. Th
 30-second provisioning figure refers to that standardized incubator path; 50 environments
 were provisioned in three months. For onboarding a repository containing a team-built
 service, the agent instead opened a pull request for review before deploying the service
-behind an Okta integration. These two approval models should not be conflated.
+behind an Okta integration.
 
 Underneath it's a LangGraph graph. The agent runs as a FastAPI service with an MCP
 server mounted on it, so an MCP client calls a tool and the
@@ -57,8 +57,6 @@ token and never from the request body, so it comes out the same on both paths.
 
 The tools carry their own schemas, so each integration is described once and the model
 reads that description. There is no glue code in between to drift from the thing it wraps.
-The workflows had different write boundaries: the standardized incubator sandbox allowed
-automated review and merge; repository onboarding opened a pull request for human review.
 
 {{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Repository-onboarding path only: the agent opens a reviewable PR before the team service is deployed. The standardized incubator sandbox path merges automatically and is not shown. Internal service names and repository details are omitted." >}}
 [Request] MCP client*, any client
@@ -79,9 +77,10 @@ verifies the caller's token, checks the required scope, and writes an audit reco
 every call including the ones it refuses. The tool then runs the LangGraph provision
 graph in the same process, which is what the plain HTTP route onto that graph also does.
 The caller's identity is read from the verified token and never from the request body, so
-it is the same on both paths. Each tool carries a strict schema. In the repository-onboarding path depicted here, a read-only preview plans without changes and the application path opens a PR for review. The standardized incubator sandbox follows a different path with automated review and merge.
-For the repository-onboarding path shown here, a GitHub integration opens a pull request and a person reviews it before the team-built service is deployed behind Okta. The separate incubator sandbox path uses automated review and merge because its environments follow a constrained, repeatable shape. The diagram does not depict that sandbox path. Secret redaction guards the
-agent's inputs and its releases and is not a stage a request passes through.
+it is the same on both paths. Each tool carries a strict schema. A read-only preview plans
+without changes. The application path has a GitHub integration open a pull request, and a
+person reviews it before the team-built service is deployed behind Okta. Secret redaction
+guards the agent's inputs and its releases and is not a stage a request passes through.
 {{< /architecture >}}
 
 ## Choosing the framework
@@ -102,12 +101,6 @@ counts when the thing being automated writes to infrastructure.
 
 ## The security model
 
-The approval policy depends on the destination. Standardized incubator games were deployed
-to sandbox environments with automated review and merge. A separately onboarded
-repository, potentially containing a team-built service, received a reviewable pull
-request and was deployed behind Okta. The automated sandbox authority did not imply
-unattended production onboarding.
-
 Its tools carry strict schemas, so it can't invent a call. A model free to emit arbitrary
 tool invocations will eventually emit one that reads as plausible English and isn't a real
 API.
@@ -123,7 +116,7 @@ Releases are gated by an eval harness in CI. The output isn't deterministic, so 
 one there's no way to tell an improvement from a regression, and "it seemed fine when I
 tried it" doesn't survive contact with the next change.
 
-I priced it per workflow, at roughly twelve cents on a warm cache. That number existed
+I priced it per workflow from real runs, at roughly twelve cents on a warm cache. That number existed
 before anyone asked for it. Inference cost nobody has measured becomes a surprise on a
 bill, and a per-run figure makes the automation's economics something you can argue about.
 

@@ -23,7 +23,8 @@ billing console can give you.
 
 ## Constraints
 
-Per-game margin was a real reporting requirement, so the answer couldn't be "estimate it."
+Per-game margin was a real reporting requirement, so finance needed figures that trace
+back to resources, not estimates.
 
 The replacement had to address resources that already existed as well as new resources
 created afterwards, by teams who were not going to enjoy a tagging mandate.
@@ -63,9 +64,10 @@ team that can act on it.
 ## Trade-offs
 
 Charging for requested resources instead of consumed ones is an approximation, and a team
-that over-requests pays for the over-request. I consider that the correct incentive, but it
-does mean the numbers are an allocation model and not a measurement, which matters when
-finance asks.
+that over-requests pays for the over-request. I consider that the correct incentive. Tagged
+resources are attributed from the bill directly. Shared compute is allocated by a stated
+rule, so every charge traces to a pod's requests and can be audited, but it is not metered
+usage, and finance needs to know which figures came from which.
 
 Six accounts instead of 38 also means weaker blast-radius isolation. The tagging work
 replaced the cost reporting the account boundary had been providing. It doesn't replace the
@@ -74,7 +76,8 @@ security boundary, and that was a separate conversation.
 ## Results and lessons
 
 Attribution survived the consolidation through an audit-and-tag campaign for existing
-resources, followed by creation-time controls on covered APIs.
+resources, followed by creation-time controls on covered APIs. Finance used the resulting
+per-game figures for its reporting.
 
 We hadn't documented all the functions those account boundaries served. Billing isolation
 was never why the 38 accounts existed, and it was still load-bearing by the time anyone

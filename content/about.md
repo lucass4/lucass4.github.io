@@ -4,9 +4,9 @@ preview: "The longer version: Kafka, RabbitMQ and enterprise integrations before
 description: "Lucas Sant' Anna: platform and infrastructure engineering leader in Metro Vancouver. Kubernetes, AWS, distributed systems, and engineering leadership."
 ---
 
-I'm a platform and infrastructure engineer who moved into leading the function and kept
-the architecture. The work I care about sits where a system's shape is still undecided:
-design it, take it to production, then run and evolve it with a team that owns it.
+I've spent most of my career designing and building infrastructure platforms, and over
+time I started leading the teams that run them. At Fortis Games I moved into engineering
+management and kept the Kubernetes platform architecture and technical direction with it.
 
 I live in New Westminster, British Columbia, and I've worked remotely for most of the last
 decade.
@@ -28,10 +28,10 @@ deliberate resource sizing.
 
 ## From technical leadership to engineering management
 
-The first leadership I did was technical, not managerial. At Receptiviti and then at
-Prodigy I held principal-level architecture ownership: the decisions were mine, the people
-weren't. At Wrapbook I was technical lead for four engineers, accountable for the technical
-direction of the work and not for the engineers themselves.
+The first leadership I did was technical. At Receptiviti and then at Prodigy I held
+principal-level architecture ownership, which meant I was accountable for the technical
+direction without managing anybody. At Wrapbook I was technical lead for four engineers,
+accountable for the direction of the work and not for the engineers themselves.
 
 Formal people management started at ChatFood, where I managed nine distributed engineers
 through an AWS and Kubernetes migration.
@@ -42,22 +42,24 @@ end to end; the architecture is
 [its own case study](/work/kubernetes-platform-architecture/). I built the DevOps
 Engineering function that had to own it alongside the platform.
 
-I was setting that function's technical direction before I had the management title. When
-it caught up I became Sr. Manager, DevOps Engineering, and I kept platform architecture and
-technical direction alongside it. The team grew to ten engineers across four areas: game
-CI, AI infrastructure, SRE and platform/compute. We were moving toward a hands-on domain
-lead for each area, but that reorganisation was still in progress. The team was spread
-across Brazil, Portugal, England and Canada, an eight-hour spread, so almost nothing could
-depend on everyone being awake at once.
+I was setting that function's technical direction before I had the management title. In
+March 2026 I became Sr. Manager, DevOps Engineering, and kept platform architecture and
+technical direction with it. The team grew to ten engineers, and the work divided into four
+areas of responsibility: game CI, AI infrastructure, SRE and platform/compute. Turning
+those areas into reporting lines with a hands-on lead for each one was a reorganisation I
+had started and had not finished. The team was spread across Brazil, Portugal, England and
+Canada, an eight-hour spread, so almost nothing could depend on everyone being awake at
+once.
 
 Because of the spread I wrote the RFC and ADR process, the service ownership model that set
 out what platform owes product teams and what they own themselves, and the incident
 management model that goes with it. These practices helped engineers make decisions
 asynchronously, and [how the function was built](/leadership/building-devops-engineering/)
 is the
-longer account. Managing it didn't end the hands-on work: I built
-[a LangGraph agent](/work/infrastructure-agent/), reached over MCP, that provisions a
-complete game environment.
+longer account. Managing it didn't end the hands-on work. I built
+[a LangGraph agent](/work/infrastructure-agent/) that provisions a complete game
+environment, with its tools exposed over MCP so it runs from a client an engineer already
+has open.
 
 ## How I work
 
@@ -77,9 +79,6 @@ went up in three months. Consolidating thirty-eight AWS accounts into six remove
 boundary per-game cost reporting had been relying on, so [we audited and tagged existing
 resources and enforced tagging on covered creation
 APIs](/work/aws-multi-account-cost-attribution/) to preserve per-game reporting.
-
-Cost, latency, throughput and the time it takes to get from a request to a running
-environment are what I measure.
 
 For my own development work I use oh-my-pi across commercial and open-source models,
 picking per task.
@@ -113,5 +112,6 @@ rest of my time goes to my wife and our dog.
 
 ## Contact
 
-[LinkedIn](https://linkedin.com/in/lucassantanna) is the way to reach me. Code lives on
+[LinkedIn](https://linkedin.com/in/lucassantanna) is the way to reach me, and I'm glad to
+talk about engineering leadership or principal-level platform work. Code lives on
 [GitHub](https://github.com/lucass4).

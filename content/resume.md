@@ -1,6 +1,8 @@
 ---
 title: "Resume"
 linkTitle: "Resume"
+# ponytail: draft until both PDFs exist; the header nav drops the link on its own.
+draft: true
 description: "Two resume versions of the same career: Sr. Manager, DevOps Engineering at Fortis Games, one leading with engineering management and one with principal-level architecture."
 ---
 

@@ -123,16 +123,17 @@ owns that area, because within a couple of months they'll be answering them.
 It moved more knowledge between areas than the documentation work I ran, because it put
 people inside areas they wouldn't have picked.
 
-The teams filing requests were happier with us afterwards. I never measured that, so it's
-what I observed and what they told me, not a number I can show. What I'd point to as the
+The teams filing requests were happier with us afterwards, going by what I saw and what
+they told me. What I'd point to as the
 likely cause is the part that was visible to them: a named person each week, a ticket
 behind every request, and somebody whose job that week included telling them where their
 request had got to.
 
 ## Trade-offs
 
-One engineer in ten on support is around ten percent of capacity going to work that never
-appears on a roadmap. That cost was already being paid, spread across everyone, where it
+One engineer in ten on support reserves around ten percent of the roster for operational
+work first. The support engineer still picks up pausable project work when the queue
+allows. The operational cost was already being paid, spread across everyone, where it
 couldn't be planned around or measured.
 
 A specialist having a slow week in somebody else's area is a real cost too. Requests take

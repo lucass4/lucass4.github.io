@@ -35,12 +35,11 @@ convenient quiet hour.
 
 ## My role
 
-I designed the architecture and implemented it: networking, GitOps, autoscaling, service
-mesh, secrets, policy, observability, DNS and ingress. Most of the platform's own
-components I built myself. After moving into engineering management I retained platform
-architecture and technical direction. The function grew to ten engineers across game CI,
-AI infrastructure, SRE and platform/compute; the transition toward a hands-on domain lead
-for each area was still in progress.
+I designed the architecture and built its core myself: GitOps, the service mesh,
+autoscaling, policy, secrets and the team onboarding chart. After moving into engineering
+management I retained platform architecture and technical direction. The function grew to
+ten engineers across game CI, AI infrastructure, SRE and platform/compute; the transition
+toward a hands-on domain lead for each area was still in progress.
 
 ## Architecture and decisions
 
@@ -79,9 +78,11 @@ the mesh without its pod spec changing, which is what made cutting over from ECS
 downtime achievable.
 
 Autoscaling is split by concern. Karpenter provisions nodes against the pods actually
-pending, so capacity follows demand without someone maintaining node groups. KEDA scales
-workloads on the signal that drives them, which for the queue-backed and event-driven
-services I was scaling meant queue depth and event rate were more useful than CPU.
+pending, so capacity follows demand without someone maintaining node groups. Game teams
+have their own NodePools, and node affinity and tolerations on each team's pods place
+them there. KEDA scales workloads on the signal that drives them, which for the
+queue-backed and event-driven services I was scaling meant queue depth and event rate were
+more useful than CPU.
 
 Policy is enforced at admission. Kyverno rejects a missing label or an unsafe setting when
 it's submitted, so the cluster can't drift into a state a later sweep has to find and

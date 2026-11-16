@@ -72,9 +72,7 @@ ownership model, which settles what platform owes product teams and what those t
 themselves. And I wrote the incident management model that goes with it, which settles who
 holds an incident while it's open.
 
-I can't attach an improvement figure to any of the three. What I can say is what they were
-designed to do: let engineers make decisions without waiting for me. The domain-lead
-operating model was still being rolled out.
+All three were designed to let engineers make decisions without waiting for me.
 
 ## Operations against projects
 
@@ -85,10 +83,12 @@ The support rotation is how we settled it: I designed, wrote and rolled out a we
 which one engineer holds requests, alerts and dependency upgrades in a fixed priority order,
 requests first and project work last.
 
-At ten engineers that is roughly ten percent of capacity; when the roster had eight it was
-one in eight. The team was already paying that cost through scattered interruptions before
-the rotation made it something we could plan around. The design and the
-trade-offs are in [its own case study](/leadership/support-engineering-rotation/).
+At ten engineers that reserves roughly ten percent of the roster for operational work
+first; when the roster had eight it was one in eight. The support engineer still takes
+project work once requests and alerts are handled. The team was already paying that cost
+through scattered interruptions before the rotation made it something we could plan
+around. The design and the trade-offs are in
+[its own case study](/leadership/support-engineering-rotation/).
 
 ## Managing engineers before Fortis
 

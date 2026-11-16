@@ -27,9 +27,13 @@ assets/diagrams/               one SVG per architecture diagram
 assets/js/                     theme toggle and copy-code, both progressive enhancement
 content/_index.md              home page lede
 content/about.md               about page, including the career timeline
-content/work/                  case studies
+content/resume.md              resume page, describing both resume versions
+content/leadership/            management case studies
+content/work/                  architecture case studies
 drafts/                        articles not ready to publish; Hugo never reads this
-layouts/                       the theme
+layouts/                       the theme; layouts/case/ renders both content/leadership/
+                                and content/work/, selected by `type: "case"` on each
+                                section's _index.md
 static/favicon.svg
 tools/gen-chroma.py            regenerates assets/css/chroma.css
 .github/screenshots/           review screenshots, not referenced by the site
@@ -61,7 +65,8 @@ block disappears.
 
 ## Adding content
 
-A case study goes in `content/work/`. Front matter it understands:
+A case study goes in `content/work/` (architecture) or `content/leadership/`
+(management); both sections share the same templates. Front matter it understands:
 
 | Key | Purpose |
 |---|---|
@@ -83,6 +88,15 @@ never collapsed behind a tap. A sentence reads past in a list; a figure lands.
 Elsewhere: `preview` is the About page's standfirst on the home page, `tags` renders on
 articles in `content/writing/`, and `noindex` adds a robots meta tag.
 
+Case studies carry no `date`: they are ordered by `weight`, and a date would be published
+as `article:published_time` as though it were a publication date. Articles in
+`content/writing/` do have dates, and that is where the metadata comes from.
+
+Moving a published case study between sections (as `support-engineering-rotation` moved
+from `content/work/` to `content/leadership/`) leaves old links pointing at its old URL
+intact: set `aliases` in its front matter to a list of the old paths, and Hugo emits a
+redirect page at each one.
+
 ### Home page
 
 The home page's selected work is `params.featured` in `hugo.toml`: an ordered list of
@@ -94,10 +108,6 @@ so a draft page or a typo is silently skipped rather than breaking the build.
 `impact` and `areas` are front matter on `content/_index.md` itself. `impact` is a list of
 `figure` / `note` pairs rendered as static text, no counters. `areas` is a list of
 `title` / `href` / `body`, rendered as the two areas of work above the case-study list.
-
-Case studies carry no `date`: they are ordered by `weight`, and a date would be published
-as `article:published_time` as though it were a publication date. Articles in
-`content/writing/` do have dates, and that is where the metadata comes from.
 
 ### Architecture diagrams
 

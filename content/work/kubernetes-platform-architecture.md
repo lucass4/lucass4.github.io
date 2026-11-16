@@ -36,12 +36,10 @@ convenient quiet hour.
 ## My role
 
 I designed the architecture and implemented it: networking, GitOps, autoscaling, service
-mesh, secrets, policy, observability, DNS and ingress. I wrote most of the platform's own
-components, including the team-onboarding chart and the platform pieces of the application
-chart: the ECS migration wiring, the VirtualService interface, KEDA support, waypoint JWT
-auth and the oauth-proxy sidecar. After being promoted to run DevOps Engineering I
-kept platform architecture and technical direction while the function grew to four area
-leaders, covering CI/CD, SRE, platform and AI infrastructure.
+mesh, secrets, policy, observability, DNS and ingress. Most of the platform's own
+components I built myself. After being promoted to run DevOps Engineering I kept platform
+architecture and technical direction while the function grew to four area leaders,
+covering CI/CD, SRE, platform and AI infrastructure.
 
 ## Architecture and decisions
 
@@ -109,7 +107,9 @@ team supplies an image, ports, a hostname and what to scale on. The chart render
 workload, the Service, the Istio VirtualService, KEDA scaling, External Secrets, network
 policy, a pod disruption budget, RBAC and Datadog tagging. It only produces
 namespace-scoped, non-privileged workloads, which keeps everything it renders inside what
-Kyverno admits.
+Kyverno admits. The chart began as an open-source generic chart, and the platform-specific
+parts are mine: the Istio VirtualService interface, KEDA support, External Secrets v1,
+waypoint JWT auth, an oauth-proxy sidecar and the ECS migration wiring.
 
 The ECS cutovers went through the same chart. With migration enabled it adds a ServiceEntry
 for the existing ECS host and a DestinationRule that terminates TLS to it, so a single
@@ -117,7 +117,7 @@ VirtualService can carry weighted routes to both ECS and the pods in the cluster
 traffic is a weight change in a values file, and so is rolling back. That is how the
 cutovers happened without a maintenance window.
 
-The onboarding chart turns a new team into a values file: namespaces with the labels the
+The onboarding chart, which I wrote, turns a new team into a values file: namespaces with the labels the
 platform expects, the Argo CD project that limits what the team can deploy and where, an
 Istio ambient waypoint per namespace with optional KEDA scaling, and a leaf ingress on the
 shared load balancer with one certificate per team. The Argo CD project moved into the

@@ -2,7 +2,7 @@
 title: "Owning What AI Writes for You"
 date: 2026-11-16
 tags: ["engineering management", "writing", "ai"]
-description: "The document now takes a prompt and the engineering it represents still takes the afternoon. The standard I hold for AI-assisted writing is the one I already held for code: you're accountable for what you ship, whatever produced it."
+description: "A prompt can produce something that looks like a design document. The engineering it represents still takes the afternoon. The standard I hold for AI-assisted writing is the one I already held for code: you're accountable for what you ship, whatever produced it."
 ---
 
 A design document used to take an afternoon to write. I can generate something that looks
@@ -47,10 +47,10 @@ just read. Cutting that is the cheapest editing there is, and it's the step that
 skipped because the draft already looks done.
 
 The same default that pads a document also fills in architecture the model doesn't know.
-Generated explanations are plausible by construction. They describe how a
-system like yours usually works, which is not the same as how yours does. So verify the
-claims a decision rests on, say which parts are assumptions, then drop the adjectives and
-name the mechanism. The version I keep seeing:
+Generated explanations are plausible by construction. They describe how a system like yours
+usually works, which is not the same as how yours does. So verify the claims a decision
+rests on, say which parts are assumptions, then drop the adjectives and name the mechanism.
+The version I keep seeing:
 
 > This approach will provide a scalable, reliable, and efficient deployment architecture
 > while streamlining our operational workflows.
@@ -67,11 +67,10 @@ Helm chart. There's nothing in "scalable" to check.
 
 ## What I don't ask for
 
-No disclosure for routine help. If AI proofread your document or reorganised a section,
-I treat that the same as asking a colleague to proofread it, and it doesn't need a
-footnote. The exception is circulating
-output you haven't verified, which is a useful thing to do, as long as you label it so
-nobody builds on it by accident.
+No disclosure for routine help. If AI proofread your document or reorganised a section, I
+treat that the same as asking a colleague to proofread it, and it doesn't need a footnote.
+The exception is circulating output you haven't verified, which is a useful thing to do, as
+long as you label it so nobody builds on it by accident.
 
 No new review process, and no restrictions on which tools people use. A checkpoint would
 treat this as a tooling problem, and the tools are not the problem. It would also say the

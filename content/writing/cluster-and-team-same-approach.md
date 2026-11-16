@@ -80,14 +80,18 @@ doesn't need four countries awake at once.
 ## What I got wrong
 
 Majors also says you can only really improve at one of these things at a time. That
-matches what I found, because the two compete for the same attention. I kept platform
-architecture and technical direction after moving into management, and I can tell you
-exactly where that cost me.
+matches what I found, because the two compete for the same attention. Measurement is where
+it showed.
 
-I never instrumented any of it. I can describe what each process changed and I have no
-numbers for a single one. Request volume and time to acknowledge were both sitting right
-there in Slack and ClickUp, and I tracked neither. Instrumenting a process is cheap next to
-writing one, and it's the first thing to go when your attention is already split.
+The rotation I did instrument. I tracked open support requests, and that number is what
+told me whether the rotation was doing its job. It's the reason I can say the process
+worked and not only that people seemed happier.
 
-Three structural fixes, and I left out the loop that would tell me whether any of them
-worked.
+The other two never got the same treatment. The RFC and ADR practice and the service
+ownership model both changed how the team works, and I have no measurement for either one.
+Instrumenting a process is cheap next to writing one, and it's the first thing to go when
+your attention is already split.
+
+So the method needs both halves. Change the structure, then watch a number that tells you
+whether the change held. I did both for the rotation and only the first for the other
+two.

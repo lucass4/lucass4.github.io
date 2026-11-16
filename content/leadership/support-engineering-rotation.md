@@ -1,7 +1,7 @@
 ---
 title: "Building a Weekly Infrastructure Support Rotation"
-weight: 4
-featured: true
+weight: 2
+aliases: ["/work/support-engineering-rotation/"]
 metric: "1 week in 10"
 metric_note: "every engineer rotates through every area"
 problem: "Infrastructure requests, alerts and dependency upgrades arrived continuously and landed on whoever saw them first, so project work was interrupted constantly and each area's knowledge stayed with its specialist."

@@ -1,6 +1,6 @@
 ---
 title: "About"
-preview: "The longer version: distributed systems before Kubernetes, principal-level architecture ownership at Receptiviti and Prodigy, and why building the DevOps Engineering function at Fortis followed from the architecture instead of replacing it."
+preview: "The longer version: Kafka, RabbitMQ and enterprise integrations before Kubernetes, a timeline back to 2008, and how I think about platforms and the operating models that run them."
 description: "Lucas Sant' Anna: platform and infrastructure engineering leader in Metro Vancouver. Kubernetes, AWS, distributed systems, and engineering leadership."
 ---
 
@@ -26,30 +26,31 @@ Flux v1 to ArgoCD without downtime.
 
 The first leadership I did was technical, not managerial. At Receptiviti and then at
 Prodigy I held principal-level architecture ownership: the decisions were mine, the people
-weren't.
+weren't. At Wrapbook I was technical lead for four engineers, accountable for the technical
+direction of the work and not for the engineers themselves.
 
 Formal people management started at ChatFood, where I managed nine distributed engineers
-through an AWS and Kubernetes migration. Wrapbook was technical leadership again: technical
-lead for four engineers, accountable for the technical direction of the work and not for
-the engineers themselves.
+through an AWS and Kubernetes migration.
 
 I joined Fortis Games as infrastructure technical lead and designed the Kubernetes
 platform end to end; the architecture is
-[its own case study](/work/kubernetes-platform-architecture/). The function that had to
-own it was built alongside it, and by the end it was ten engineers through four area
-leaders, one each for CI/CD, SRE, platform and AI infrastructure. The team was spread
-across Brazil, Portugal, England and Canada, an eight-hour spread, so almost nothing could
-depend on everyone being awake at once.
+[its own case study](/work/kubernetes-platform-architecture/). I built the DevOps
+Engineering function that had to own it alongside the platform.
 
-I was setting the function's technical direction before I had the management title. When it
-caught up, the formal people management came with it and I kept platform architecture and
-technical direction alongside it. Because of the spread I wrote the RFC and ADR process,
-the service ownership model that set out what platform owes product teams and what they own
-themselves, and the incident management model that goes with it. All three exist so
-engineers can decide without waiting for me, and
-[how the function was built](/leadership/building-devops-engineering/) is the longer
-account. Managing it didn't end the hands-on work: I built a LangGraph agent, reached over
-MCP, that provisions a complete game environment.
+I was setting that function's technical direction before I had the management title. When
+it caught up I became Sr. Manager, DevOps Engineering, and I kept platform architecture and
+technical direction alongside it. By the end I led ten engineers through four area leaders,
+one each for CI/CD, SRE, platform and AI infrastructure. The team was spread across Brazil,
+Portugal, England and Canada, an eight-hour spread, so almost nothing could depend on
+everyone being awake at once.
+
+Because of the spread I wrote the RFC and ADR process, the service ownership model that set
+out what platform owes product teams and what they own themselves, and the incident
+management model that goes with it. All three exist so engineers can decide without waiting
+for me, and [how the function was built](/leadership/building-devops-engineering/) is the
+longer account. Managing it didn't end the hands-on work: I built
+[a LangGraph agent](/work/infrastructure-agent/), reached over MCP, that provisions a
+complete game environment.
 
 ## How I work
 

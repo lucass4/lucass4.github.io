@@ -116,9 +116,10 @@ Releases are gated by an eval harness in CI. The output isn't deterministic, so 
 one there's no way to tell an improvement from a regression, and "it seemed fine when I
 tried it" doesn't survive contact with the next change.
 
-I priced it per workflow from real runs, at roughly twelve cents on a warm cache. That number existed
-before anyone asked for it. Inference cost nobody has measured becomes a surprise on a
-bill, and a per-run figure makes the automation's economics something you can argue about.
+I priced it per workflow from real runs, at roughly twelve cents on a warm cache. That
+number existed before anyone asked for it. Inference cost nobody has measured becomes a
+surprise on a bill, and a per-run figure makes the automation's economics something you
+can argue about.
 
 ## Results and lessons
 

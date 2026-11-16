@@ -85,9 +85,10 @@ requests first and project work last.
 
 At ten engineers that reserves roughly ten percent of the roster for operational work
 first; when the roster had eight it was one in eight. The support engineer still takes
-project work once requests and alerts are handled. The team was already paying that cost through scattered interruptions before
-the rotation made it something we could plan around. The design and the
-trade-offs are in [its own case study](/leadership/support-engineering-rotation/).
+project work once requests and alerts are handled. The team was already paying that cost
+through scattered interruptions before the rotation made it something we could plan
+around. The design and the trade-offs are in
+[its own case study](/leadership/support-engineering-rotation/).
 
 ## Managing engineers before Fortis
 

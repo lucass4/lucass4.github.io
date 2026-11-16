@@ -217,6 +217,12 @@ hr {
   top: var(--space-3);
 }
 
+/* Its target. `tabindex="-1"` makes #main focusable so the link actually moves
+   focus there; a ring around the whole page is noise, not feedback. */
+#main:focus-visible {
+  outline: none;
+}
+
 .sep {
   color: var(--border-strong);
   padding: 0 0.15em;

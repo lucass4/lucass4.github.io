@@ -42,6 +42,9 @@ knowledge problem worse, by giving one engineer the interrupts permanently.
 I designed the rotation, wrote the process, implemented it and rolled it out. The roster
 started at eight engineers and grew to ten.
 
+How that team came to exist, and the rest of the operating model around it, is in
+[Building DevOps Engineering at Fortis](/leadership/building-devops-engineering/).
+
 ## The design
 
 One engineer per week, Monday to Friday, working hours. The week is named in advance and

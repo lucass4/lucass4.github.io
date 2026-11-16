@@ -73,21 +73,25 @@ whenever somebody asks for one. Design reviews happen when a proposal needs one 
 on a schedule.
 
 Every recurring meeting is a loop that spends the team's attention each time it fires. So I
-keep few of them and make each one do several jobs. Technical arguments go to RFCs and
-ADRs, where they get settled in writing and stay findable, which also means a decision
-doesn't need four countries awake at once.
+keep few of them and make each one do several jobs.
 
-## What I got wrong
+## The version I had to apply to myself
 
-Majors also says you can only really improve at one of these things at a time. That
-matches what I found, because the two compete for the same attention. I kept platform
-architecture and technical direction after moving into management, and I can tell you
-exactly where that cost me.
+The hardest structure to look at is the one you're standing in. Early in my career I went
+deep enough on problems that I became part of the critical path. Decisions waited on me,
+and on a team spread across four countries that is not a small cost. An engineer in
+Portugal spends the afternoon blocked on a morning that hasn't started yet in Canada.
 
-I never instrumented any of it. I can describe what each process changed and I have no
-numbers for a single one. Request volume and time to acknowledge were both sitting right
-there in Slack and ClickUp, and I tracked neither. Instrumenting a process is cheap next to
-writing one, and it's the first thing to go when your attention is already split.
+So I treated it the same way I treated the cluster. I moved where decisions enter. Four
+area leads own the technical decisions in their areas, and they have something to decide
+against: the RFC and ADR process for how an argument gets settled, the service ownership
+model for what the platform owes product teams, and the incident model for who holds an
+incident while it's open. A lead reaching a decision without waiting for me is the point of
+all three.
 
-Three structural fixes, and I left out the loop that would tell me whether any of them
-worked.
+Then I watched a number. I tracked open support requests week to week, and that number is
+what told me the rotation was holding.
+
+That's the whole method. Find the structure producing the behaviour, change where the work
+enters, then watch a number that tells you the change held. It works on a cluster, on a
+week of interrupts, and on my own place in the team's critical path.

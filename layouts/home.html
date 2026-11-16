@@ -15,7 +15,7 @@
       {{- with site.GetPage "/leadership" }}
       <a class="btn btn--primary" href="{{ .RelPermalink }}">Engineering leadership</a>
       {{- end }}
-      <a class="btn btn--ghost" href="{{ site.Params.linkedin }}" rel="me noopener">LinkedIn</a>
+      <a class="btn btn--ghost" href="{{ site.Params.linkedin }}" target="_blank" rel="me noopener">LinkedIn</a>
     </p>
     <p class="hero__meta mono">{{ site.Params.location }}</p>
   </div>
@@ -132,8 +132,8 @@
       <h2 class="section__title" id="contact-title">Contact</h2>
       <p>LinkedIn is the way to reach me.</p>
       <p class="contact__links">
-        <a class="btn btn--ghost" href="{{ site.Params.linkedin }}" rel="me noopener">LinkedIn</a>
-        <a class="btn btn--ghost" href="{{ site.Params.github }}" rel="me noopener">GitHub</a>
+        <a class="btn btn--ghost" href="{{ site.Params.linkedin }}" target="_blank" rel="me noopener">LinkedIn</a>
+        <a class="btn btn--ghost" href="{{ site.Params.github }}" target="_blank" rel="me noopener">GitHub</a>
       </p>
     </div>
   </div>

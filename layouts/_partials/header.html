@@ -21,6 +21,9 @@
         {{- with site.GetPage "/about" }}
         <li><a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
         {{- end }}
+        {{- with site.GetPage "/resume" }}
+        <li><a href="{{ .RelPermalink }}"{{ if eq $.RelPermalink .RelPermalink }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+        {{- end }}
         <li><a href="{{ site.Params.linkedin }}" rel="me noopener">LinkedIn</a></li>
       </ul>
     </nav>

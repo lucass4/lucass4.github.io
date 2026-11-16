@@ -1,7 +1,7 @@
 {{/* Nav is derived from sections that actually have published pages, so an
      empty section never shows up as a dead link. */}}
 {{- $nav := slice -}}
-{{- range slice "work" "writing" -}}
+{{- range slice "leadership" "work" "writing" -}}
   {{- with site.GetPage (printf "/%s" .) -}}
     {{- if .RegularPages -}}
       {{- $nav = $nav | append . -}}

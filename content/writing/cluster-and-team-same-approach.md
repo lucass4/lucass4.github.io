@@ -15,10 +15,9 @@ service acting oddly, an alert firing, a dependency upgrade waiting on review. I
 all week and lands on whoever sees it first. Everyone gets interrupted a little, no
 project moves very far, and each area's knowledge stays with whoever happened to answer.
 
-My first move on both was the same, and it was wrong. Write it down and ask people to be
-careful. A document listing the labels a workload needs. An understanding that we would
-try not to grab requests out of turn. Both aim at the person making the mistake, and
-neither touches what is producing it.
+The obvious answer to both is to write it down and ask people to be careful. A document
+listing the labels a workload needs, an agreement to leave a request for whoever owns it.
+Both aim at the person making the mistake, and neither touches what is producing it.
 
 What worked was changing where the work enters.
 
@@ -45,9 +44,9 @@ Charity Majors calls the career version of this the
 [engineer/manager pendulum](https://charity.wtf/p/the-engineer-manager-pendulum): swinging
 between building and managing across a career, with the argument that the best frontline
 managers are never far from hands-on work and the strongest individual contributors have
-done time managing. I have swung three times. Nine engineers at ChatFood in 2020, back to
-technical lead at Wrapbook in 2022, principal engineer and infrastructure technical lead at
-Fortis Games in 2024, then Sr. Manager of DevOps Engineering there in 2026.
+done time managing. My own path keeps crossing that line. Nine engineers at ChatFood in
+2020, technical lead at Wrapbook in 2022, principal engineer and infrastructure technical
+lead at Fortis Games in 2024, then Sr. Manager of DevOps Engineering there in 2026.
 
 The habit is what carried across each swing. Look at the structure, find where to
 intervene, expect the obvious spot to be the weak one. Admission control and a support
@@ -77,5 +76,5 @@ numbers for a single one. Request volume and time to acknowledge were both sitti
 and ClickUp, and neither was tracked. Instrumenting a process is cheap next to writing
 one, and it is the first thing to fall off when your attention is already split.
 
-Which is the part I should have caught first. I designed three structural fixes and left
-out the loop that tells me whether any of them worked.
+I designed three structural fixes and left out the loop that would tell me whether any of
+them worked.

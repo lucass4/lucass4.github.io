@@ -1,4 +1,4 @@
-{{- /* External links open in a new tab; site links stay in place. */ -}}
+{{- /* Web links open in a new tab; site and mailto links stay in place. */ -}}
 {{- $u := urls.Parse .Destination -}}
-<a href="{{ .Destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if $u.IsAbs }} target="_blank" rel="noopener"{{ end }}>{{ .Text }}</a>
+<a href="{{ .Destination | safeURL }}"{{ with .Title }} title="{{ . }}"{{ end }}{{ if in (slice "http" "https") $u.Scheme }} target="_blank" rel="noopener"{{ end }}>{{ .Text }}</a>
 {{- /* chomp trailing newline */ -}}

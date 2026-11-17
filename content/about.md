@@ -20,16 +20,17 @@ have been Java, Clojure, Go and Python.
 
 At Prodigy Education I owned platform architecture, reliability and cost for a learning
 platform with as many as 200,000 concurrent players on peak days. I led the Karpenter
-migration there, and AWS later published [a case study](https://aws.amazon.com/solutions/case-studies/prodigy-education-eks-case-study/) on it. Along the way I
-contributed kubelet image garbage-collection thresholds
+migration there. After I left, AWS published [a case
+study](https://aws.amazon.com/solutions/case-studies/prodigy-education-eks-case-study/) on
+it. During the migration I contributed kubelet image garbage-collection thresholds
 ([aws/karpenter-provider-aws#3264](https://github.com/aws/karpenter-provider-aws/pull/3264),
-[kubernetes-sigs/karpenter#172](https://github.com/kubernetes-sigs/karpenter/pull/172)) and
-CPU CFS quota support
+[kubernetes-sigs/karpenter#172](https://github.com/kubernetes-sigs/karpenter/pull/172))
+and CPU CFS quota support
 ([kubernetes-sigs/karpenter#187](https://github.com/kubernetes-sigs/karpenter/pull/187))
-upstream. I also moved deployments from Flux v1 to Argo CD without downtime. Most of the 35% cloud-cost reduction
-came from moving compute from On-Demand to Spot, after preparing workloads for
-interruption with topology spreading, node affinity, disruption budgets and more
-deliberate resource sizing.
+upstream. I also moved deployments from Flux v1 to Argo CD without downtime. Most of the
+35% cloud-cost reduction came from moving compute from On-Demand to Spot, after preparing
+workloads for interruption with topology spreading, node affinity, disruption budgets and
+more deliberate resource sizing.
 
 ## From technical leadership to engineering management
 

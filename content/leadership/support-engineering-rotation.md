@@ -9,7 +9,7 @@ role: "Designed it, wrote the process, implemented it and rolled it out"
 scale: "Grew to ten engineers across four countries, every Infrastructure-owned repository"
 outcome: "Interrupts have one owner per week; the other nine keep their project time, and everyone passes through every area in turn"
 stack: ["Argo CD", "Renovate", "ClickUp", "Slack", "Kanban"]
-description: "A weekly support engineer rotation at Fortis Games: one person absorbs requests, alerts and dependency upgrades, which protects everyone else's project time and spreads knowledge across every area of the platform."
+description: "A weekly support engineer rotation for a platform team: one person absorbs requests, alerts and dependency upgrades, which protects everyone else's project time and spreads knowledge across every area of the platform."
 ---
 
 ## Context
@@ -46,7 +46,7 @@ I designed the rotation, wrote the process, implemented it and rolled it out. Th
 started at eight engineers and grew to ten.
 
 How that team came to exist, and the rest of the operating model around it, is in
-[Building DevOps Engineering at Fortis](/leadership/building-devops-engineering/).
+[Building a DevOps Engineering Function](/leadership/building-devops-engineering/).
 
 ## The design
 
@@ -61,7 +61,7 @@ indistinguishable from an on-call week.
 
 The week has four claims on it, in a fixed order:
 
-{{< stack label="What the support week covers" caption="Taken from the team's support engineer process. The priority order is part of the design, not a guideline." >}}
+{{< stack label="What the support week covers" caption="The priority order is part of the design, not a guideline." >}}
 Requests :: Acknowledged, prioritised, followed up until closed or handed over :: first priority
 Monitoring and Argo CD :: Daytime checks and sync or health failures; active incidents follow the separate on-call process :: second priority
 Renovate :: Dependency PRs across Infrastructure-owned repositories, oldest first :: third priority
@@ -148,7 +148,7 @@ often. Shorter shifts would add handoffs, and every handoff is a chance to drop 
 The rotation gives interrupts an owner. It doesn't reduce how many arrive, and a good share
 of them are alerts needing the same first twenty minutes of investigation every time.
 
-My last piece of work at Fortis was a proof-of-concept evaluation of kagent, which runs
+My last piece of work there was a proof-of-concept evaluation of kagent, which runs
 agents as Kubernetes resources with sandboxed execution. The fit here is what interested
 me: an agent that picks up an alert, gathers the context a human would gather and attaches
 it to the ticket changes what the support engineer starts from. The propose-and-approve

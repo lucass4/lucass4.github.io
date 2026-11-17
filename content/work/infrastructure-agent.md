@@ -2,25 +2,25 @@
 title: "Infrastructure Automation with an Agent"
 weight: 2
 metric: "2 days → 30 seconds"
-metric_note: "50 environments in three months"
+metric_note: "dozens of environments in three months"
 problem: "A company that incubates game ideas needs an environment for each one. Standing one up took about two days of coordinated work across several people, which made experiments expensive enough that teams avoided them."
 role: "Designed and built the agent and separate approval paths for incubator sandboxes and service onboarding"
-scale: "50 environments provisioned in three months"
+scale: "Dozens of environments provisioned in three months"
 outcome: "About 30 seconds for the standard incubator sandbox flow; service onboarding took a PR-review path"
-stack: ["LangGraph", "MCP", "FastAPI", "EKS", "GitHub Apps", "Okta"]
-description: "A LangGraph agent with two paths: automated standard incubator sandboxes and PR-reviewed repository onboarding for services protected by Okta."
+stack: ["LangGraph", "MCP", "FastAPI", "EKS", "GitHub"]
+description: "A LangGraph agent with two paths: automated standard incubator sandboxes and PR-reviewed repository onboarding for services behind SSO."
 ---
 
 ## Context
 
-Fortis incubated games. Ideas get built, tested, and either continued or dropped, and every
-one of them needs somewhere to run. The cost of standing up an environment is therefore a
-cap on how many ideas the company can afford to try.
+The company incubated games. Ideas get built, tested, and either continued or dropped, and
+every one of them needs somewhere to run. The cost of standing up an environment is
+therefore a cap on how many ideas the company can afford to try.
 
-A new game environment at Fortis meant a repository, the infrastructure to run it, a
-baseline service on EKS, observability wired up, and SSO configured. Each piece was
-understood. The cost was the coordination between them: about two days, spread across more
-than one person, with waiting in between.
+A new game environment meant a repository, the infrastructure to run it, a baseline
+service on EKS, observability wired up, and SSO configured. Each piece was understood. The
+cost was the coordination between them: about two days, spread across more than one
+person, with waiting in between.
 
 At that cost, teams stop standing things up speculatively. Experiments that should be
 cheap get batched, deferred or skipped, and nobody files a ticket saying "I didn't try
@@ -42,18 +42,16 @@ harness, and the cost model.
 
 ## What it does
 
-There were two workflows. For incubator games, the environment followed a standard shape
-and the agent could review and merge the change automatically into a sandbox. The roughly
-30-second provisioning figure refers to that standardized incubator path; 50 environments
-were provisioned in three months. For onboarding a repository containing a team-built
-service, the agent instead opened a pull request for review before deploying the service
-behind an Okta integration.
+There were two workflows, with approval matched to risk. Incubator environments followed a
+fixed shape, so the agent's changes for them were checked and applied automatically, in a
+sandbox. The roughly 30-second provisioning figure refers to that path, and dozens of
+environments were provisioned in three months. Onboarding a team's own service went
+through human review before anything was deployed.
 
-Underneath it's a LangGraph graph. The agent runs as a FastAPI service with an MCP
-server mounted on it, so an MCP client calls a tool and the
-tool runs the graph in the same process. There's a plain HTTP route onto the same runner
-for anything that isn't an MCP client. The caller's identity is read from the verified
-token and never from the request body, so it comes out the same on both paths.
+Underneath it's a LangGraph graph behind an MCP server, so a tool call from an MCP client
+runs the graph directly, and callers that aren't MCP clients reach the same graph over
+HTTP. The caller's identity comes from authentication, never from what the request says
+about itself, so it is the same on both paths.
 
 The tools carry their own schemas, so each integration is described once and the model
 reads that description. There is no glue code in between to drift from the thing it wraps.
@@ -61,26 +59,25 @@ reads that description. There is no glue code in between to drift from the thing
 {{< architecture svg="infrastructure-agent" label="One provisioning request" caption="Repository-onboarding path only: the agent opens a reviewable PR before the team service is deployed. The standardized incubator sandbox path merges automatically and is not shown. Internal service names and repository details are omitted." >}}
 [Request] MCP client*, any client
 -> tool call
-[Surface] MCP server*, /mcp, JWT verified, scope checked, audited
+[Surface] MCP server*, authenticated, authorized, audited
 -> runs in process
 [Orchestration] LangGraph*, provision graph
 !! Secret redaction :: Guards what the agent reads into context and what its releases ship. Not a stage a request passes through.
 -> opens a PR
-[Repository onboarding] GitHub integration, reviewable PR
+[Repository onboarding] Code review, reviewable PR
 -> requests review
 [Service onboarding boundary] Human approval*
 -> applies
-[Behind the gate] Infrastructure, EKS service, observability, Okta SSO
+[Behind the gate] Infrastructure, EKS service, observability, SSO
 ---
 An MCP client calls a tool on the MCP server mounted on the agent's own API. The server
-verifies the caller's token, checks the required scope, and writes an audit record for
-every call including the ones it refuses. The tool then runs the LangGraph provision
-graph in the same process, which is what the plain HTTP route onto that graph also does.
-The caller's identity is read from the verified token and never from the request body, so
-it is the same on both paths. Each tool carries a strict schema. A read-only preview plans
-without changes. The application path has a GitHub integration open a pull request, and a
-person reviews it before the team-built service is deployed behind Okta. Secret redaction
-guards the agent's inputs and its releases and is not a stage a request passes through.
+authenticates the caller, checks that the caller may use the tool, and records every call,
+including refused ones. The tool then runs the LangGraph provision graph in the same
+process, which is also where non-MCP callers arrive. The caller's identity comes from
+authentication, so it is the same on both paths. Each tool carries a strict schema. A
+read-only preview plans without changes. The application path opens a pull request, and a
+person reviews it before the team-built service is deployed. Secret redaction guards the
+agent's inputs and its releases and is not a stage a request passes through.
 {{< /architecture >}}
 
 ## Choosing the framework
@@ -116,10 +113,10 @@ Releases are gated by an eval harness in CI. The output isn't deterministic, so 
 one there's no way to tell an improvement from a regression, and "it seemed fine when I
 tried it" doesn't survive contact with the next change.
 
-I priced it per workflow from real runs, at roughly twelve cents on a warm cache. That
-number existed before anyone asked for it. Inference cost nobody has measured becomes a
-surprise on a bill, and a per-run figure makes the automation's economics something you
-can argue about.
+I priced it per workflow from real runs, which showed a low per-run cost. The figure
+existed before anyone asked for it. Inference cost nobody has measured becomes a surprise
+on a bill, and a per-run figure makes the automation's economics something you can argue
+about.
 
 ## Results and lessons
 

@@ -8,7 +8,7 @@ weight: 1
 description: "Case studies on engineering management, organisational design and delivery leadership."
 ---
 
-Building and running the DevOps Engineering function at Fortis Games, and the operating
+Building and running a DevOps Engineering function at a game company, and the operating
 models that came out of it. Each case study states what I decided and what I delegated.
 
 We were moving toward hands-on domain leads who could make decisions with context and

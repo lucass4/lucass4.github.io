@@ -1,20 +1,20 @@
 ---
-title: "Building DevOps Engineering at Fortis"
+title: "Building a DevOps Engineering Function"
 weight: 1
 metric: "10 engineers"
 metric_note: "four areas, four countries"
-problem: "Fortis had no platform function. I joined as infrastructure technical lead to build the platform, and the engineering function that would own it had to be built alongside it."
+problem: "The company had no platform function. I joined as infrastructure technical lead to build the platform, and the engineering function that would own it had to be built alongside it."
 role: "Built the function, managed ten engineers, introduced the operating model and began the transition to four domain leads"
-scale: "Ten engineers across Brazil, Portugal, England and Canada, an eight-hour spread"
+scale: "Ten engineers across four countries, an eight-hour spread"
 outcome: "Ten engineers across four areas; written decision and ownership processes adopted while the domain-lead transition was under way"
 stack: ["RFC", "ADR", "Service ownership model", "Incident management", "Kanban"]
-description: "Building and then leading DevOps Engineering at Fortis Games: how the function grew to ten engineers, and the decision processes that let it run without routing through me."
+description: "Building and then leading DevOps Engineering at a game company: how the function grew to ten engineers, and the decision processes that let it run without routing through me."
 ---
 
 ## What was there when I joined
 
-I joined Fortis Games in January 2024 as Principal Software Engineer and Infrastructure
-Technical Lead. There was no internal platform.
+I joined as Principal Software Engineer and Infrastructure Technical Lead. There was no
+internal platform.
 
 Designing one was the first job, and the architecture is
 [its own case study](/work/kubernetes-platform-architecture/). This page is about the other
@@ -30,8 +30,8 @@ Areas formed around it as it grew: CI for games, AI infrastructure, SRE and
 platform/compute. Each one is
 work that someone has to hold by default rather than when asked.
 
-I was setting the function's technical direction well before I had a management title. In
-March 2026 that caught up and I became Sr. Manager, DevOps Engineering. The title changed
+I was setting the function's technical direction well before I had a management title.
+That caught up when I became Sr. Manager, DevOps Engineering. The title changed
 what I was accountable for. It did not change what the team did that week.
 
 ## Four areas, leadership in transition
@@ -41,16 +41,15 @@ platform/compute. I was moving toward one hands-on domain lead per area, with te
 authority delegated closer to the work. This reorganisation was still in progress; I would
 not describe all four leads as fully established.
 
-The team sits in Brazil, Portugal, England and Canada, an eight-hour spread. Almost
-nothing can
-depend on everyone being awake at once, and that rules out two ways of running a team.
+The team sits in four countries, an eight-hour spread. Almost nothing can depend on
+everyone being awake at once, and that rules out two ways of running a team.
 
 The first is the decision made live. The window where all four countries are working is too
 narrow to hold a function's technical decisions, and the people it excludes are the ones who
 have to live with them.
 
 The second is me as the approver. If a lead needs my sign-off to proceed, an engineer in
-Portugal spends the afternoon blocked on a morning that hasn't started in Canada yet.
+Europe spends the afternoon blocked on a morning that hasn't started in Canada yet.
 Routing decisions through one person is a bottleneck on any team; on this one it is also an
 eight-hour delay.
 
@@ -90,16 +89,16 @@ through scattered interruptions before the rotation made it something we could p
 around. The design and the trade-offs are in
 [its own case study](/leadership/support-engineering-rotation/).
 
-## Managing engineers before Fortis
+## Managing engineers before this role
 
-Fortis is not where I first led a team. At ChatFood I managed nine distributed engineers
-from May to December 2020, as Team Leader, through a migration onto AWS and Kubernetes.
-That was people management.
+This is not where I first led a team. As Team Leader at an earlier company I managed nine
+distributed engineers through a migration onto AWS and Kubernetes. That was people
+management.
 
-At Wrapbook, from February to August 2022, I was technical lead for four engineers as Staff
-Platform Systems Engineer. That was technical leadership and not people management, and the
-distinction is worth keeping: I was accountable for the technical direction of that work,
-not for the engineers themselves.
+Later, as Staff Platform Systems Engineer, I was technical lead for four engineers. That
+was technical leadership and not people management, and the distinction is worth keeping:
+I was accountable for the technical direction of that work, not for the engineers
+themselves.
 
 ## What I would do differently
 

@@ -19,7 +19,7 @@ const cards = [
     title: 'Kubernetes Platform Architecture',
     metric: 'No downtime', note: 'ECS to EKS, no maintenance window' },
   { file: 'building-devops-engineering.png', kicker: 'Leadership',
-    title: 'Building DevOps Engineering at Fortis',
+    title: 'Building a DevOps Engineering Function',
     metric: '10 engineers', note: 'four areas, four countries' },
 ];
 

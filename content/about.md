@@ -18,11 +18,16 @@ and Kafka Streams at Receptiviti, RabbitMQ and Java APIs at NS90, enterprise int
 for airline and property clients at Grupo Mult. The languages across that work and since
 have been Java, Clojure, Go and Python.
 
-At Prodigy Education I owned platform architecture, reliability and cost for
-infrastructure serving around 10 million monthly users with peaks above 150,000
-concurrent. I led the Karpenter migration there, contributing upstream along the way, and
-moved deployments from Flux v1 to Argo CD without downtime. Most of the 35% cloud-cost
-reduction came from moving compute from On-Demand to Spot, after preparing workloads for
+At Prodigy Education I owned platform architecture, reliability and cost for a learning
+platform with as many as 200,000 concurrent players on peak days. I led the Karpenter
+migration there, and AWS later published [a case study](https://aws.amazon.com/solutions/case-studies/prodigy-education-eks-case-study/) on it. Along the way I
+contributed kubelet image garbage-collection thresholds
+([aws/karpenter-provider-aws#3264](https://github.com/aws/karpenter-provider-aws/pull/3264),
+[kubernetes-sigs/karpenter#172](https://github.com/kubernetes-sigs/karpenter/pull/172)) and
+CPU CFS quota support
+([kubernetes-sigs/karpenter#187](https://github.com/kubernetes-sigs/karpenter/pull/187))
+upstream. I also moved deployments from Flux v1 to Argo CD without downtime. Most of the 35% cloud-cost reduction
+came from moving compute from On-Demand to Spot, after preparing workloads for
 interruption with topology spreading, node affinity, disruption budgets and more
 deliberate resource sizing.
 
@@ -44,13 +49,12 @@ Engineering function that had to own it alongside the platform.
 
 I was setting that function's technical direction before I had the management title. In
 March 2026 I became Sr. Manager, DevOps Engineering, and kept platform architecture and
-technical direction with it. The team grew to ten engineers, and the work divided into four
-areas of responsibility: game CI, AI infrastructure, SRE and platform/compute. I was
+technical direction with it. The team grew to ten engineers, and the work divided into
+four areas of responsibility: game CI, AI infrastructure, SRE and platform/compute. I was
 moving toward a hands-on lead for each area with delegated technical authority, while I
 kept people management of the team. That reorganisation had started and was not finished.
-The team was spread across Brazil, Portugal, England and
-Canada, an eight-hour spread, so almost nothing could depend on everyone being awake at
-once.
+The team was spread across Brazil, Portugal, England and Canada, an eight-hour spread, so
+almost nothing could depend on everyone being awake at once.
 
 Because of the spread I wrote the RFC and ADR process, the service ownership model that set
 out what platform owes product teams and what they own themselves, and the incident
@@ -74,12 +78,12 @@ decision processes I've built since are partly a correction for that.
 
 The work usually starts as a business problem, and infrastructure is what I solve it with.
 Standing up a game environment took about two days of coordinated work across several
-people, which made experiments expensive enough that teams avoided them, so
-[an agent does it in thirty seconds](/work/infrastructure-agent/) and fifty environments
-went up in three months. Consolidating thirty-eight AWS accounts into six removed the
-boundary per-game cost reporting had been relying on, so [we audited and tagged existing
-resources and enforced tagging on covered creation
-APIs](/work/aws-multi-account-cost-attribution/) to preserve per-game reporting.
+people, which made experiments expensive enough that teams avoided them, so [an agent does
+it in thirty seconds](/work/infrastructure-agent/) and dozens of environments went up in
+three months. Cutting the AWS account count by over 80% removed the boundary per-game cost
+reporting had been relying on, so [we audited and tagged existing resources and enforced
+tagging at creation](/work/aws-multi-account-cost-attribution/) to preserve per-game
+reporting.
 
 For my own development work I use oh-my-pi across commercial and open-source models,
 picking per task.

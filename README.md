@@ -36,7 +36,6 @@ layouts/                       the theme; layouts/case/ renders both content/lea
                                 `cascade: { type: "case" }` on each section's _index.md
 static/favicon.svg
 tools/gen-chroma.py            regenerates assets/css/chroma.css
-.github/screenshots/           review screenshots, not referenced by the site
 ```
 
 `layouts/` has no `themes/` directory and `hugo.toml` sets no `theme`, so the templates

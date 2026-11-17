@@ -8,26 +8,25 @@ role: "Designed and built the platform, then led the function that ran it"
 scale: "Multiple game studios, teams across four countries"
 outcome: "Zero-downtime cutovers from ECS to EKS; a documented decision process that outlived individual projects"
 stack: ["EKS", "Istio Ambient", "ArgoCD", "Helm", "Karpenter", "KEDA", "Kyverno", "Crossplane", "Terraform"]
-description: "Designing a production Kubernetes platform from nothing at Fortis Games: EKS, GitOps, service mesh, autoscaling, policy, and the operating model that made it usable."
+description: "Designing a production Kubernetes platform from nothing at a game company: EKS, GitOps, service mesh, autoscaling, policy, and the operating model that made it usable."
 ---
 
 ## Context
 
-Fortis Games was building game studios and had ECS services, but no coherent shared
-platform. Every team that
-needed a service running needed networking, deployment, secrets, monitoring and DNS, and
-without somewhere shared to get those, each team would have solved them separately and
-differently. I joined as principal software engineer and infrastructure
-technical lead, and the platform was the first thing to design.
+The company was building game studios and had ECS services, but no coherent shared
+platform. Every team that needed a service running needed networking, deployment, secrets,
+monitoring and DNS, and without somewhere shared to get those, each team would have solved
+them separately and differently. I joined as principal software engineer and
+infrastructure technical lead, and the platform was the first thing to design.
 
 The requirement was that a studio team should be able to ship a service without having to
 learn how the infrastructure underneath it is wired.
 
 ## Constraints
 
-The engineering team was spread across Brazil, Portugal, England and Canada, an
-eight-hour spread. Nothing could require everyone awake at the same time, which rules out
-a platform that depends on tribal knowledge or on asking me.
+The engineering team was spread across four countries, an eight-hour spread. Nothing could
+require everyone awake at the same time, which rules out a platform that depends on tribal
+knowledge or on asking me.
 
 Workloads were already running on ECS. The platform had to be somewhere existing services
 could move to without a maintenance window, because game traffic doesn't have a
@@ -50,7 +49,7 @@ think about.
 [Delivery] Git, Argo CD*
 -> applies, through admission
 [Cluster, on EKS] Kyverno*, Application workloads*, Istio ambient, KEDA, Karpenter, Crossplane*
-+[Platform services, in the cluster] External Secrets, ExternalDNS, cert-manager, Datadog (Operator-managed agents)
++[Platform services, in the cluster] External Secrets, ExternalDNS, cert-manager, Datadog
 -> workloads claim, Crossplane manages
 [Outside the cluster] AWS resources
 !! Terraform :: Runs outside the cluster and provisions the cluster itself and the AWS accounts underneath it. Not something a request passes through.
@@ -62,8 +61,8 @@ KEDA scales workloads on queue depth and event rate, Karpenter adds nodes for po
 are pending, and Istio in ambient mode connects the workloads with mTLS and L4 policy
 per node and L7 at waypoint proxies. The platform services run in the cluster too:
 External Secrets, ExternalDNS and cert-manager supply secrets, DNS records and
-certificates to the workloads, and Datadog's Operator-managed agents observe them.
-Crossplane runs in production for incubator-game dependencies: DynamoDB tables, IAM roles and policies, and EKS Pod Identity associations. Its providers manage those AWS resources outside the cluster. Terraform stays responsible for the core infrastructure, including the cluster and accounts.
+certificates to the workloads, and Datadog's agents observe them.
+Crossplane runs in production for incubator-game dependencies: the AWS data stores and access permissions those games need. Its providers manage those AWS resources outside the cluster. Terraform stays responsible for the core infrastructure, including the cluster and accounts.
 {{< /architecture >}}
 
 Delivery runs through GitOps. ArgoCD reconciles cluster state from Git, so the cluster's
@@ -89,8 +88,8 @@ it's submitted, so the cluster can't drift into a state a later sweep has to fin
 chase down.
 
 Incubator-game dependencies are declared from inside the cluster. Crossplane manages the
-DynamoDB tables, IAM roles and policies, and EKS Pod Identity associations needed to
-bootstrap those games. Core infrastructure remains in Terraform.
+AWS data stores and access permissions needed to bootstrap those games. Core
+infrastructure remains in Terraform.
 
 Secrets, DNS, certificates and observability all follow the same pattern: External
 Secrets, ExternalDNS, cert-manager, Datadog. The platform owns the integration and the
@@ -105,24 +104,21 @@ a chart release and teams pick it up on their own schedule.
 
 The application chart covers Deployments, Jobs and CronJobs from one set of templates. A
 team supplies an image, ports, a hostname and what to scale on. The chart renders the
-workload, the Service, the Istio VirtualService, KEDA scaling, External Secrets, network
-policy, a pod disruption budget, RBAC and Datadog tagging. It only produces
+workload and what surrounds it: routing, scaling, secrets, network policy, a disruption
+budget, access control and observability tagging. It only produces
 namespace-scoped, non-privileged workloads, which keeps everything it renders inside what
 Kyverno admits. The chart began as an open-source generic chart, and the platform-specific
-parts are mine: the Istio VirtualService interface, KEDA support, External Secrets v1,
-waypoint JWT auth, an oauth-proxy sidecar and the ECS migration wiring.
+parts are mine: mesh routing, KEDA support, the External Secrets integration,
+authentication at the mesh and in front of services, and the ECS migration wiring.
 
-The ECS cutovers went through the same chart. With migration enabled it adds a
-ServiceEntry for the ECS host and a DestinationRule that sets outbound TLS origination
-parameters (SIMPLE mode, trusted CA and SNI). The VirtualService can carry weighted routes
-to both ECS and EKS destinations. Moving
-traffic is a weight change in a values file, and so is rolling back. That is how the
-cutovers happened without a maintenance window.
+The ECS cutovers went through the same chart. With migration enabled it registers the ECS
+service with the mesh, and the service's routes can split traffic by weight between the
+ECS and EKS destinations. Moving traffic is a weight change in a values file, and so is
+rolling back. That is how the cutovers happened without a maintenance window.
 
 The onboarding chart, which I wrote, turns a new team into a values file: namespaces with
 the labels the platform expects, the Argo CD project that limits what the team can deploy
-and where, an Istio ambient waypoint per namespace with optional KEDA scaling, and a leaf
-ingress on the shared load balancer with one certificate per team. The Argo CD project
+and where, the team's mesh configuration and its ingress. The Argo CD project
 moved into the chart after onboarding kept needing hand-edits to central files.
 
 ## The operating model

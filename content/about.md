@@ -49,13 +49,12 @@ Engineering function that had to own it alongside the platform.
 
 I was setting that function's technical direction before I had the management title. In
 March 2026 I became Sr. Manager, DevOps Engineering, and kept platform architecture and
-technical direction with it. The team grew to ten engineers, and the work divided into four
-areas of responsibility: game CI, AI infrastructure, SRE and platform/compute. I was
+technical direction with it. The team grew to ten engineers, and the work divided into
+four areas of responsibility: game CI, AI infrastructure, SRE and platform/compute. I was
 moving toward a hands-on lead for each area with delegated technical authority, while I
 kept people management of the team. That reorganisation had started and was not finished.
-The team was spread across Brazil, Portugal, England and
-Canada, an eight-hour spread, so almost nothing could depend on everyone being awake at
-once.
+The team was spread across four countries, an eight-hour spread, so almost nothing could
+depend on everyone being awake at once.
 
 Because of the spread I wrote the RFC and ADR process, the service ownership model that set
 out what platform owes product teams and what they own themselves, and the incident
@@ -83,8 +82,8 @@ people, which made experiments expensive enough that teams avoided them, so [an 
 it in thirty seconds](/work/infrastructure-agent/) and dozens of environments went up in
 three months. Cutting the AWS account count by over 80% removed the boundary per-game cost
 reporting had been relying on, so [we audited and tagged existing resources and enforced
-tagging on covered creation APIs](/work/aws-multi-account-cost-attribution/) to preserve
-per-game reporting.
+tagging at creation](/work/aws-multi-account-cost-attribution/) to preserve per-game
+reporting.
 
 For my own development work I use oh-my-pi across commercial and open-source models,
 picking per task.

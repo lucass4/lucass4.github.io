@@ -6,7 +6,7 @@ impact:
     href: "/leadership/building-devops-engineering/"
   - figure: "200,000 concurrent"
     note: "Education platform peak, per AWS case study"
-    href: "https://aws.amazon.com/solutions/case-studies/prodigy-education-eks-case-study/"
+    href: "/about/#background"
   - figure: "2 days → 30 seconds"
     note: "Incubator sandbox provisioning"
     href: "/work/infrastructure-agent/"

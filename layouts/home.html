@@ -30,7 +30,7 @@
       {{- range . }}
       <li>
         {{- if .href }}
-        <a class="impact__link" href="{{ .href }}"{{ if hasPrefix .href "http" }} target="_blank" rel="noopener"{{ end }}>
+        <a class="impact__link" href="{{ .href }}">
           <span class="impact__figure">{{ .figure }}</span>
           <span class="impact__note mono">{{ .note }}</span>
         </a>

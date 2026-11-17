@@ -29,8 +29,15 @@
     <ul class="impact">
       {{- range . }}
       <li>
+        {{- if .href }}
+        <a class="impact__link" href="{{ .href }}"{{ if hasPrefix .href "http" }} target="_blank" rel="noopener"{{ end }}>
+          <span class="impact__figure">{{ .figure }}</span>
+          <span class="impact__note mono">{{ .note }}</span>
+        </a>
+        {{- else }}
         <span class="impact__figure">{{ .figure }}</span>
         <span class="impact__note mono">{{ .note }}</span>
+        {{- end }}
       </li>
       {{- end }}
     </ul>

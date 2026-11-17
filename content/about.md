@@ -112,9 +112,11 @@ Informática Gerencial, Colégio COTEMIG, 2005.
 
 ## Outside work
 
-I've been boxing for a year and doing CrossFit for three. A homelab and a 3D printer
-absorb most of my tinkering at home. I play drums and, more quietly, acoustic guitar. The
-rest of my time goes to my wife and our dog.
+My wife and our dog come first, and most of my time outside work is spent with them.
+
+Hobbies fit around that. I've been boxing for a year and doing CrossFit for three. A
+homelab and a 3D printer absorb most of my tinkering at home. I play drums and, more
+quietly, acoustic guitar.
 
 ## Contact
 

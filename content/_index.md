@@ -22,9 +22,10 @@ areas:
     body: "I design Kubernetes platforms end to end on AWS, then run them: cutting production over from ECS to EKS without downtime, and automating the provisioning that used to take days."
 ---
 
-Eighteen years on backend and distributed systems, the last nine on AWS. I've held
-principal-level roles at Receptiviti, Prodigy Education and Fortis Games, most recently
-building and then leading DevOps Engineering at Fortis.
+18+ years of software engineering experience, including nine years designing, building,
+and operating production infrastructure on AWS. I've held principal-level roles at
+Receptiviti, Prodigy Education and Fortis Games, most recently building and then leading
+DevOps Engineering at Fortis.
 
 The work below covers both halves: the platforms themselves, and the function that
 runs them.

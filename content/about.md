@@ -107,14 +107,19 @@ picking per task.
 
 ### Education
 
-Technologist in Systems Analysis and Development, UNIMONTES, 2013. Technical course in
-Informática Gerencial, Colégio COTEMIG, 2005.
+**São Judas Tadeu (formerly UNIMONTE)**\
+Undergraduate Degree (Technologist) in Systems Analysis and Development, 2013
+
+**Colégio COTEMIG**\
+Technical Diploma in Business Information Technology, 2005
 
 ## Outside work
 
-I've been boxing for a year and doing CrossFit for three. A homelab and a 3D printer
-absorb most of my tinkering at home. I play drums and, more quietly, acoustic guitar. The
-rest of my time goes to my wife and our dog.
+My wife and our dog come first, and most of my time outside work is spent with them.
+
+Hobbies fit around that. I've been boxing for a year and doing CrossFit for three. A
+homelab and a 3D printer absorb most of my tinkering at home. I play drums and, more
+quietly, acoustic guitar.
 
 ## Contact
 

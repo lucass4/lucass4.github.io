@@ -23,9 +23,9 @@ description: "Platform work at an education technology company: the Karpenter mi
 
 The company runs a learning platform with [as many as 200,000 concurrent players on peak
 days](https://aws.amazon.com/solutions/case-studies/prodigy-education-eks-case-study/),
-per the AWS case study on the Karpenter migration I led. I worked on it across two
-periods, first as Senior DevOps Engineer and later as Principal Software Developer, SRE.
-Platform architecture, reliability and cost were mine.
+per the AWS case study on the Karpenter migration I led, published after I left. I worked
+on it across two periods, first as Senior DevOps Engineer and later as Principal Software
+Developer, SRE. Platform architecture, reliability and cost were mine.
 
 > **Needed:** what the platform ran on, and what shape the problem took when each of the
 > two periods started. One specific pressure or failure per period is enough, and it is

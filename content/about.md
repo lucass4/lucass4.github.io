@@ -53,8 +53,8 @@ technical direction with it. The team grew to ten engineers, and the work divide
 four areas of responsibility: game CI, AI infrastructure, SRE and platform/compute. I was
 moving toward a hands-on lead for each area with delegated technical authority, while I
 kept people management of the team. That reorganisation had started and was not finished.
-The team was spread across four countries, an eight-hour spread, so almost nothing could
-depend on everyone being awake at once.
+The team was spread across Brazil, Portugal, England and Canada, an eight-hour spread, so
+almost nothing could depend on everyone being awake at once.
 
 Because of the spread I wrote the RFC and ADR process, the service ownership model that set
 out what platform owes product teams and what they own themselves, and the incident

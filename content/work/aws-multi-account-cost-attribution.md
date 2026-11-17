@@ -13,9 +13,9 @@ description: "When 38 AWS accounts became six, physical billing isolation disapp
 
 ## Context
 
-Fortis ran 38 AWS accounts. Consolidating them into six shared accounts was the right move
-operationally, and it had a consequence that's easy to miss until the first invoice: an
-account per game is also a cost report per game. The account boundary had been doing
+The company ran 38 AWS accounts. Consolidating them into six shared accounts was the right
+move operationally, and it had a consequence that's easy to miss until the first invoice:
+an account per game is also a cost report per game. The account boundary had been doing
 accounting work nobody designed it to do.
 
 Once several games share an account, "what does this game cost" stops having an answer the
@@ -71,7 +71,7 @@ usage, and finance needs to know which figures came from which.
 
 Six accounts instead of 38 also means weaker blast-radius isolation. The tagging work
 replaced the cost reporting the account boundary had been providing. It doesn't replace the
-security boundary, and that was a separate conversation.
+security boundary.
 
 ## Results and lessons
 

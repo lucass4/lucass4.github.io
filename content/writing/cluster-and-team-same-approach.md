@@ -66,13 +66,13 @@ Charity Majors has a name for the career version of this, the
 between building and managing across a career, and the best frontline managers stay close
 to hands-on work while the strongest individual contributors have done time managing. I've
 crossed that line three times, most recently from principal engineer and infrastructure
-technical lead at Fortis Games in 2024 to Sr. Manager of DevOps Engineering there in 2026.
+technical lead in 2024 to Sr. Manager of DevOps Engineering at the same company in 2026.
 
 ## When I was the bottleneck
 
 Early in my career I went deep enough on problems that I became part of the critical path.
 Decisions waited on me, and on a team spread across four countries that's not a small
-cost. An engineer in Portugal spends the afternoon blocked on a morning that hasn't started
+cost. An engineer in Europe spends the afternoon blocked on a morning that hasn't started
 yet in Canada.
 
 What I wanted was to stop being the person every decision depended on. The team is

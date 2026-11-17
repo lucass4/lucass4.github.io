@@ -1,5 +1,5 @@
 ---
-title: "Platform Reliability and Cost at Prodigy Education"
+title: "Platform Reliability and Cost at an Education Technology Company"
 draft: true
 weight: 2
 metric: "35% lower"
@@ -9,7 +9,7 @@ role: "Owned platform architecture, reliability and cost across two periods on t
 scale: "~10M monthly users, peaks above 150,000 concurrent"
 outcome: "Cloud infrastructure cost down 35%, node provisioning moved to Karpenter with an upstream contribution, deployments moved off Flux v1 to Argo CD with no downtime"
 stack: ["EKS", "Karpenter", "Argo CD", "Flux", "AWS"]
-description: "Platform work at Prodigy Education: the Karpenter migration and what it did to cost, moving delivery from Flux v1 to Argo CD without downtime, and holding reliability at peak."
+description: "Platform work at an education technology company: the Karpenter migration and what it did to cost, moving delivery from Flux v1 to Argo CD without downtime, and holding reliability at peak."
 ---
 
 > **Not publishable yet.** The structure below is the argument and the prose is what I can
@@ -21,10 +21,10 @@ description: "Platform work at Prodigy Education: the Karpenter migration and wh
 
 ## Context
 
-Prodigy Education runs a learning platform serving around 10 million monthly users, with
-peaks above 150,000 concurrent. I worked on it across two periods, as Senior DevOps
-Engineer from December 2020 to December 2021 and as Principal Software Developer, SRE from
-August 2022 to January 2024. Platform architecture, reliability and cost were mine.
+The company runs a learning platform serving around 10 million monthly users, with peaks
+above 150,000 concurrent. I worked on it across two periods, first as Senior DevOps
+Engineer and later as Principal Software Developer, SRE. Platform architecture,
+reliability and cost were mine.
 
 > **Needed:** what the platform ran on, and what shape the problem took when each of the
 > two periods started. One specific pressure or failure per period is enough, and it is
@@ -73,9 +73,9 @@ Deployments moved from Flux v1 to Argo CD with no downtime.
 > **Needed:** why the move happened. Flux v1 reaching end of life, or a capability you
 > needed that it did not have.
 
-> **Needed:** roughly how many services and clusters moved, and the mechanism that kept the
-> cutover from causing downtime. The Fortis case study makes the same kind of claim and
-> earns it by naming the mechanism, so this one should too.
+> **Needed:** roughly how many services and clusters moved, and the mechanism that kept
+> the cutover from causing downtime. The Kubernetes platform case study makes the same
+> kind of claim and earns it by naming the mechanism, so this one should too.
 
 ## Reliability at peak
 

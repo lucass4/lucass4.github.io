@@ -31,11 +31,10 @@ possible.
 ## Architecture and decisions
 
 Ambient mode against the sidecar model, and why ambient was the migration-friendly
-choice. The application-chart migration template registered the ECS host in a ServiceEntry
-and configured SIMPLE outbound TLS, CA verification and SNI on its DestinationRule.
-Still needed: the actual VirtualService rules, where TLS terminated, waypoint placement,
-and what L7 behavior each proxy provided. Because the ServiceEntry template defaults to
-HTTPS on port 443, validate the traffic path for double TLS before claiming the details.
+choice. The application chart's migration mode registered the ECS service with the mesh
+and split traffic by weight. Still needed: how traffic was routed, where TLS terminated,
+waypoint placement and what L7 behaviour each proxy provided, confirmed against the
+migration's own documents. Keep chart configuration out of the published version.
 
 ## Trade-offs and alternatives
 

@@ -12,7 +12,7 @@ impact:
 areas:
   - title: "Engineering Leadership"
     href: "/leadership/"
-    body: "I built DevOps Engineering at Fortis around ten engineers and four areas, introduced written decision processes and a support rotation, and began moving toward domain leads who could make technical decisions without waiting for me."
+    body: "I built a DevOps Engineering function around ten engineers and four areas, introduced written decision processes and a support rotation, and began moving toward domain leads who could make technical decisions without waiting for me."
   - title: "Platform Architecture"
     href: "/work/"
     body: "I design Kubernetes platforms end to end on AWS, then run them: cutting production over from ECS to EKS without downtime, and automating the provisioning that used to take days."

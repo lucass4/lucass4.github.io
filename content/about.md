@@ -107,8 +107,11 @@ picking per task.
 
 ### Education
 
-Technologist in Systems Analysis and Development, UNIMONTES, 2013. Technical course in
-Informática Gerencial, Colégio COTEMIG, 2005.
+**São Judas Tadeu (formerly UNIMONTE)**\
+Undergraduate Degree (Technologist) in Systems Analysis and Development, 2013
+
+**Colégio COTEMIG**\
+Technical Diploma in Business Information Technology, 2005
 
 ## Outside work
 

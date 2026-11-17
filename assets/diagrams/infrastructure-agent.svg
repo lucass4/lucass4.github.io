@@ -58,13 +58,13 @@
     <text class="ac__verb" x="646" y="434" text-anchor="end">proposes</text>
   </g>
 
-  <!-- Repository work sits outside the boundary: the App may open a PR -->
+  <!-- Repository work sits outside the boundary: the agent may open a PR -->
   <g class="anode" tabindex="0" role="img"
-     aria-label="GitHub integration, creates a pull request for human review during service onboarding. The sandbox flow is not shown.">
+     aria-label="Code review, a pull request for human review during service onboarding. The sandbox flow is not shown.">
     <rect class="an__focus-ring" x="692" y="112" width="202" height="92" rx="12" />
     <g class="an">
       <rect class="an__box" x="700" y="120" width="186" height="76" rx="8" />
-      <text class="an__label" x="793" y="152" text-anchor="middle">GitHub</text>
+      <text class="an__label" x="793" y="152" text-anchor="middle">Code review</text>
       <text class="an__sub" x="793" y="171" text-anchor="middle">reviewable PR</text>
     </g>
   </g>

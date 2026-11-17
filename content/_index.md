@@ -2,13 +2,13 @@
 title: "Lucas Sant' Anna"
 impact:
   - figure: "10 engineers"
-    note: "Team led at Fortis Games"
-  - figure: "~10M monthly users"
-    note: "Platform scale at Prodigy Education"
+    note: "Team led"
+  - figure: "200,000 concurrent"
+    note: "Education platform peak, public AWS figure (2019)"
   - figure: "2 days → 30 seconds"
-    note: "Incubator sandbox provisioning at Fortis"
+    note: "Incubator sandbox provisioning"
   - figure: "35% reduction"
-    note: "Cloud infrastructure cost at Prodigy"
+    note: "Cloud infrastructure cost"
 areas:
   - title: "Engineering Leadership"
     href: "/leadership/"

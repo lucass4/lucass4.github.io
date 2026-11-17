@@ -154,12 +154,12 @@
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Datadog runs in the cluster as Operator-managed agents. They observe the workloads.">
+     aria-label="Datadog runs in the cluster as agents. They observe the workloads.">
     <rect class="an__focus-ring" x="750" y="264" width="204" height="70" rx="12" />
     <g class="an">
       <rect class="an__box" x="756" y="270" width="192" height="58" rx="8" />
       <text class="an__label" x="852" y="294" text-anchor="middle">Datadog</text>
-      <text class="an__sub" x="852" y="312" text-anchor="middle">Operator-managed agents</text>
+      <text class="an__sub" x="852" y="312" text-anchor="middle">agents</text>
     </g>
     <path class="ac ac--control" d="M752,299 H738 V210 H706" />
     <text class="ac__verb" x="732" y="235" text-anchor="end">observes</text>

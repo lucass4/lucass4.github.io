@@ -49,7 +49,7 @@ think about.
 [Delivery] Git, Argo CD*
 -> applies, through admission
 [Cluster, on EKS] Kyverno*, Application workloads*, Istio ambient, KEDA, Karpenter, Crossplane*
-+[Platform services, in the cluster] External Secrets, ExternalDNS, cert-manager, Datadog (Operator-managed agents)
++[Platform services, in the cluster] External Secrets, ExternalDNS, cert-manager, Datadog
 -> workloads claim, Crossplane manages
 [Outside the cluster] AWS resources
 !! Terraform :: Runs outside the cluster and provisions the cluster itself and the AWS accounts underneath it. Not something a request passes through.
@@ -61,7 +61,7 @@ KEDA scales workloads on queue depth and event rate, Karpenter adds nodes for po
 are pending, and Istio in ambient mode connects the workloads with mTLS and L4 policy
 per node and L7 at waypoint proxies. The platform services run in the cluster too:
 External Secrets, ExternalDNS and cert-manager supply secrets, DNS records and
-certificates to the workloads, and Datadog's Operator-managed agents observe them.
+certificates to the workloads, and Datadog's agents observe them.
 Crossplane runs in production for incubator-game dependencies: the AWS data stores and access permissions those games need. Its providers manage those AWS resources outside the cluster. Terraform stays responsible for the core infrastructure, including the cluster and accounts.
 {{< /architecture >}}
 
@@ -104,8 +104,8 @@ a chart release and teams pick it up on their own schedule.
 
 The application chart covers Deployments, Jobs and CronJobs from one set of templates. A
 team supplies an image, ports, a hostname and what to scale on. The chart renders the
-workload, the Service, the Istio VirtualService, KEDA scaling, External Secrets, network
-policy, a pod disruption budget, RBAC and Datadog tagging. It only produces
+workload and what surrounds it: routing, scaling, secrets, network policy, a disruption
+budget, access control and observability tagging. It only produces
 namespace-scoped, non-privileged workloads, which keeps everything it renders inside what
 Kyverno admits. The chart began as an open-source generic chart, and the platform-specific
 parts are mine: mesh routing, KEDA support, the External Secrets integration,

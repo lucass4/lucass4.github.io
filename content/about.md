@@ -22,7 +22,7 @@ At Prodigy Education I owned platform architecture, reliability and cost for a l
 platform with as many as 200,000 concurrent players on peak days. I led the Karpenter
 migration there. After I left, AWS published [a case
 study](https://aws.amazon.com/solutions/case-studies/prodigy-education-eks-case-study/) on
-it. Along the way I contributed kubelet image garbage-collection thresholds
+it. During the migration I contributed kubelet image garbage-collection thresholds
 ([aws/karpenter-provider-aws#3264](https://github.com/aws/karpenter-provider-aws/pull/3264),
 [kubernetes-sigs/karpenter#172](https://github.com/kubernetes-sigs/karpenter/pull/172))
 and CPU CFS quota support

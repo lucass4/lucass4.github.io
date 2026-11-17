@@ -19,10 +19,14 @@ for airline and property clients at Grupo Mult. The languages across that work a
 have been Java, Clojure, Go and Python.
 
 At Prodigy Education I owned platform architecture, reliability and cost for a learning
-platform that AWS reported in 2019 at [50,000 to 200,000 concurrent users on a school
-day](https://aws.amazon.com/blogs/publicsector/gamifying-math-education-how-prodigy-uses-aws-to-scale-and-process-20-million-questions-daily/).
-I led the Karpenter migration there, contributing upstream along the way, and moved
-deployments from Flux v1 to Argo CD without downtime. Most of the 35% cloud-cost reduction
+platform with as many as 200,000 concurrent players on peak days. I led the Karpenter
+migration there, and AWS later published [a case study](https://aws.amazon.com/solutions/case-studies/prodigy-education-eks-case-study/) on it. Along the way I
+contributed kubelet image garbage-collection thresholds
+([aws/karpenter-provider-aws#3264](https://github.com/aws/karpenter-provider-aws/pull/3264),
+[kubernetes-sigs/karpenter#172](https://github.com/kubernetes-sigs/karpenter/pull/172)) and
+CPU CFS quota support
+([kubernetes-sigs/karpenter#187](https://github.com/kubernetes-sigs/karpenter/pull/187))
+upstream. I also moved deployments from Flux v1 to Argo CD without downtime. Most of the 35% cloud-cost reduction
 came from moving compute from On-Demand to Spot, after preparing workloads for
 interruption with topology spreading, node affinity, disruption budgets and more
 deliberate resource sizing.

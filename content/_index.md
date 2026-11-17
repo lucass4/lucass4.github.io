@@ -4,7 +4,7 @@ impact:
   - figure: "10 engineers"
     note: "Team led"
   - figure: "200,000 concurrent"
-    note: "Education platform peak, public AWS figure (2019)"
+    note: "Education platform peak, per AWS case study"
   - figure: "2 days → 30 seconds"
     note: "Incubator sandbox provisioning"
   - figure: "35% reduction"

@@ -4,9 +4,9 @@ draft: true
 weight: 2
 metric: "35% lower"
 metric_note: "cloud infrastructure cost"
-problem: "A learning platform that AWS reported in 2019 at 50,000 to 200,000 concurrent users on a school day, where capacity, delivery and cost all needed owners."
+problem: "A learning platform with as many as 200,000 concurrent players on peak days, where capacity, delivery and cost all needed owners."
 role: "Owned platform architecture, reliability and cost across two periods on the team"
-scale: "50,000 to 200,000 concurrent users on a school day (AWS, 2019)"
+scale: "Up to 200,000 concurrent players on peak days (AWS case study)"
 outcome: "Cloud infrastructure cost down 35%, node provisioning moved to Karpenter with an upstream contribution, deployments moved off Flux v1 to Argo CD with no downtime"
 stack: ["EKS", "Karpenter", "Argo CD", "Flux", "AWS"]
 description: "Platform work at an education technology company: the Karpenter migration and what it did to cost, moving delivery from Flux v1 to Argo CD without downtime, and holding reliability at peak."
@@ -21,12 +21,11 @@ description: "Platform work at an education technology company: the Karpenter mi
 
 ## Context
 
-The company runs a learning platform that AWS reported in 2019 at [50,000 to 200,000
-concurrent users on a school
-day](https://aws.amazon.com/blogs/publicsector/gamifying-math-education-how-prodigy-uses-aws-to-scale-and-process-20-million-questions-daily/).
-That figure predates my time there; use only published figures for scale. I worked on it
-across two periods, first as Senior DevOps Engineer and later as Principal Software
-Developer, SRE. Platform architecture, reliability and cost were mine.
+The company runs a learning platform with [as many as 200,000 concurrent players on peak
+days](https://aws.amazon.com/solutions/case-studies/prodigy-education-eks-case-study/),
+per the AWS case study on the Karpenter migration I led. I worked on it across two
+periods, first as Senior DevOps Engineer and later as Principal Software Developer, SRE.
+Platform architecture, reliability and cost were mine.
 
 > **Needed:** what the platform ran on, and what shape the problem took when each of the
 > two periods started. One specific pressure or failure per period is enough, and it is

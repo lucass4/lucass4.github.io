@@ -27,7 +27,8 @@ The question I keep coming back to is simple: who decides what happens next?
 
 Imagine we're building something to investigate Kubernetes deployment failures. We give it
 access to a few read-only operations: checking deployment status, retrieving pod events,
-querying logs, and inspecting container image references.
+querying logs, inspecting container image references, and looking up tags in the container
+registry.
 
 A conventional implementation could retrieve the deployment status, events, and recent
 logs, send everything to an LLM, and ask for a diagnosis. That might work perfectly well.
@@ -37,8 +38,8 @@ Now imagine we change the implementation. Instead of collecting everything upfro
 the model decide what information it needs.
 
 It checks the deployment and discovers that several pods are unavailable. It requests the
-pod events and finds an `ImagePullBackOff` error. From there, it checks the image
-reference and discovers that the configured tag doesn't exist in the registry. The model
+pod events and finds an `ImagePullBackOff` error. From there, it reads the image
+reference, looks the tag up in the registry, and finds that it doesn't exist. The model
 has enough evidence to explain the failure.
 
 Both implementations can reach the same conclusion. The difference is how they get there.
@@ -56,9 +57,9 @@ Both implementations can reach the same conclusion. The difference is how they g
 In the workflow, the application always reads deployment status, then pod events, then
 recent logs, and sends all of it to an LLM, which interprets the results and writes the
 diagnosis. In the agent, the model chooses each read from the previous result: deployment
-status shows pods unavailable, so it reads pod events; the events show
-`ImagePullBackOff`, so it checks the image tag, which is not in the registry. Had a secret
-been missing, it would have checked secrets instead.
+status shows pods unavailable, so it reads pod events; the events show `ImagePullBackOff`,
+so it looks the image tag up in the registry, which doesn't have it. Had a secret been
+missing, it would have checked secrets instead.
 {{< /architecture >}}
 
 In the first, the application determines which operations run and in what order. The model
@@ -106,10 +107,10 @@ until the model finishes or the application stops it.
 [Back to the model] Model*
 ---
 The model returns a tool request. The application runtime validates its arguments and
-checks whether the model may run that tool, then executes it with timeouts and retries.
-The tool can be an MCP server or an ordinary Python function. Its result goes into the
-runtime's state, which keeps everything observed, and the runtime selects or summarizes
-part of that state as the context for the model's next decision.
+checks whether the model may run that tool, then executes it with timeouts, and retries
+where safe. The tool can be an MCP server or an ordinary Python function. Its result goes
+into the runtime's state, which keeps everything observed, and the runtime selects or
+summarizes part of that state as the context for the model's next decision.
 {{< /architecture >}}
 
 That's the basic agent loop, and you can implement it with ordinary Python. There's no

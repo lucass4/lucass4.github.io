@@ -37,12 +37,12 @@
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Execute. Runs the allowed tool call, with timeouts and retries, and receives the result.">
+     aria-label="Execute. Runs the allowed tool call, with timeouts, retries it where that is safe, and receives the result.">
     <rect class="an__focus-ring" x="488" y="112" width="168" height="80" rx="12" />
     <g class="an">
       <rect class="an__box" x="496" y="120" width="152" height="64" rx="8" />
       <text class="an__label" x="572" y="147" text-anchor="middle">Execute</text>
-      <text class="an__sub" x="572" y="166" text-anchor="middle">timeouts, retries</text>
+      <text class="an__sub" x="572" y="166" text-anchor="middle">timeouts, safe retries</text>
     </g>
     <path class="ac ac--control" d="M648,152 H716" />
     <text class="ac__verb" x="682" y="144" text-anchor="middle">calls</text>

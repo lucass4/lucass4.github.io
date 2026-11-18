@@ -100,7 +100,7 @@
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Image tag, the agent's third choice, made because of the image pull error. The configured tag is not in the registry, which explains the failure.">
+     aria-label="Image tag, the agent's third choice, made because of the image pull error. A registry lookup shows the configured tag does not exist, which explains the failure.">
     <rect class="an__focus-ring" x="716" y="268" width="180" height="72" rx="12" />
     <g class="an">
       <rect class="an__box" x="724" y="276" width="164" height="56" rx="8" />

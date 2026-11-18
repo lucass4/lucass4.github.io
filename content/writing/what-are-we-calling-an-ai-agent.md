@@ -43,6 +43,24 @@ has enough evidence to explain the failure.
 
 Both implementations can reach the same conclusion. The difference is how they get there.
 
+{{< architecture svg="workflow-vs-agent" label="Who picks the next step" caption="A fictional investigation. The agent's results return to the model after each step; the next diagram shows that loop." >}}
+[Workflow: the application decides] Deployment status, Pod events, Recent logs
+-> sends everything
+[Workflow, last step] LLM*
+!! Fixed sequence :: The same three reads run every time, in the same order.
+[Agent: the model decides] Model*
+-> picks each step from the last result
+[Agent's steps] Deployment status, Pod events, Image tag
+!! Path not taken :: With a missing secret, the model would have checked secrets instead.
+---
+In the workflow, the application always reads deployment status, then pod events, then
+recent logs, and sends all of it to an LLM, which interprets the results and writes the
+diagnosis. In the agent, the model chooses each read from the previous result: deployment
+status shows pods unavailable, so it reads pod events; the events show
+`ImagePullBackOff`, so it checks the image tag, which is not in the registry. Had a secret
+been missing, it would have checked secrets instead.
+{{< /architecture >}}
+
 In the first, the application determines which operations run and in what order. The model
 interprets the information it's given. In the second, the model chooses what to
 investigate based on what it finds. If the deployment had been failing because of a
@@ -74,6 +92,25 @@ structured request to invoke a tool. The model itself isn't executing the operat
 Our application receives the request, validates it, executes the tool, and returns the
 result. The model uses that information to decide what to do next, and the cycle repeats
 until the model finishes or the application stops it.
+
+{{< architecture svg="agent-loop" label="One turn of the loop" caption="Shows responsibilities only. Rejected requests, stopping conditions and memory between runs are left out." >}}
+[Model] Model*
+-> tool request
+[Application runtime] Validate and authorize*, Execute
+!! Permission boundary :: The runtime decides what the model may execute, whatever the model requests.
+-> calls
+[Tool] MCP server or Python function
+-> result
+[Application runtime] State, Context
+-> next decision
+[Back to the model] Model*
+---
+The model returns a tool request. The application runtime validates its arguments and
+checks whether the model may run that tool, then executes it with timeouts and retries.
+The tool can be an MCP server or an ordinary Python function. Its result goes into the
+runtime's state, which keeps everything observed, and the runtime selects or summarizes
+part of that state as the context for the model's next decision.
+{{< /architecture >}}
 
 That's the basic agent loop, and you can implement it with ordinary Python. There's no
 requirement to use [LangGraph](https://docs.langchain.com/oss/python/langgraph/overview),

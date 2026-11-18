@@ -1,0 +1,98 @@
+<svg class="arch__svg" viewBox="0 40 920 460" role="group"
+     aria-label="The agent loop. The model requests a tool call; the application runtime validates and authorizes it, executes the tool, records the result in state, and selects the context for the model's next decision. Use Tab to step through the components."
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- The model sits outside the runtime on purpose: it only receives context
+       and returns a request. Everything that executes, checks permissions or
+       keeps state is the application's. The tool is one node because MCP and a
+       plain Python function sit in the same place in the loop. -->
+  <g class="ag">
+    <rect class="ag__box" x="232" y="72" width="440" height="396" rx="10" />
+    <text class="ag__label" x="232" y="64">Application runtime</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Model. Receives context and returns either text or a structured tool request. It does not execute anything.">
+    <rect class="an__focus-ring" x="16" y="216" width="176" height="104" rx="12" />
+    <g class="an an--orchestration">
+      <rect class="an__box" x="24" y="224" width="160" height="88" rx="8" />
+      <text class="an__label" x="104" y="262" text-anchor="middle">Model</text>
+      <text class="an__sub" x="104" y="288" text-anchor="middle">decides next action</text>
+    </g>
+    <path class="ac ac--control" d="M184,246 C218,246 218,152 254,152" />
+    <text class="ac__verb" x="214" y="184" text-anchor="end">tool request</text>
+  </g>
+
+  <!-- The permission boundary: a policy decision on the edge to execution -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Validate and authorize. Checks the request's arguments and whether the model may run this tool. The application enforces the permission boundary here.">
+    <rect class="an__focus-ring" x="248" y="112" width="184" height="80" rx="12" />
+    <g class="an an--security">
+      <rect class="an__box" x="256" y="120" width="168" height="64" rx="8" />
+      <text class="an__label" x="340" y="147" text-anchor="middle">Validate, authorize</text>
+      <text class="an__sub" x="340" y="166" text-anchor="middle">permission boundary</text>
+    </g>
+    <path class="ac ac--security" d="M424,152 H494" />
+    <text class="ac__verb" x="459" y="144" text-anchor="middle">allowed</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Execute. Runs the allowed tool call, with timeouts and retries, and receives the result.">
+    <rect class="an__focus-ring" x="488" y="112" width="168" height="80" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="496" y="120" width="152" height="64" rx="8" />
+      <text class="an__label" x="572" y="147" text-anchor="middle">Execute</text>
+      <text class="an__sub" x="572" y="166" text-anchor="middle">timeouts, retries</text>
+    </g>
+    <path class="ac ac--control" d="M648,152 H716" />
+    <text class="ac__verb" x="682" y="144" text-anchor="middle">calls</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Tool. An MCP server or an ordinary Python function; the model's decisions are the same either way. Returns its result to the runtime's state.">
+    <rect class="an__focus-ring" x="712" y="112" width="196" height="80" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="720" y="120" width="180" height="64" rx="8" />
+      <text class="an__label" x="810" y="147" text-anchor="middle">Tool</text>
+      <text class="an__sub" x="810" y="166" text-anchor="middle">MCP server or function</text>
+    </g>
+    <path class="ac ac--data" d="M810,184 V382 H650" />
+    <text class="ac__verb" x="818" y="290">result</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="State. Everything the investigation has observed, kept by the application. Only part of it goes to the model.">
+    <rect class="an__focus-ring" x="488" y="342" width="168" height="80" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="496" y="350" width="152" height="64" rx="8" />
+      <text class="an__label" x="572" y="377" text-anchor="middle">State</text>
+      <text class="an__sub" x="572" y="396" text-anchor="middle">everything observed</text>
+    </g>
+    <path class="ac ac--data" d="M496,382 H426" />
+    <text class="ac__verb" x="461" y="374" text-anchor="middle">selects</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Context. What the model receives for its next decision: a selected or summarized part of state.">
+    <rect class="an__focus-ring" x="248" y="342" width="184" height="80" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="256" y="350" width="168" height="64" rx="8" />
+      <text class="an__label" x="340" y="377" text-anchor="middle">Context</text>
+      <text class="an__sub" x="340" y="396" text-anchor="middle">what the model sees</text>
+    </g>
+    <path class="ac ac--control" d="M256,382 C218,382 218,290 186,290" />
+    <text class="ac__verb" x="214" y="352" text-anchor="end">next decision</text>
+  </g>
+
+  <!-- Legend -->
+  <g class="al" transform="translate(16, 492)">
+    <path class="ac ac--control" d="M0,0 H26" />
+    <text class="al__label" x="34" y="4">control flow</text>
+
+    <path class="ac ac--data" d="M126,0 H152" />
+    <text class="al__label" x="160" y="4">data flow</text>
+
+    <path class="ac ac--security" d="M238,0 H264" />
+    <text class="al__label" x="272" y="4">permission check</text>
+  </g>
+</svg>

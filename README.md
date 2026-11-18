@@ -96,10 +96,9 @@ Case studies carry no `date`: they are ordered by `weight`, and a date would be 
 as `article:published_time` as though it were a publication date. Articles in
 `content/writing/` do have dates, and that is where the metadata comes from.
 
-Moving a published case study between sections (as `support-engineering-rotation` moved
-from `content/work/` to `content/leadership/`) leaves old links pointing at its old URL
-intact: set `aliases` in its front matter to a list of the old paths, and Hugo emits a
-redirect page at each one.
+To move a published case study between sections without breaking links to its old URL,
+set `aliases` in its front matter to a list of the old paths, and Hugo emits a redirect
+page at each one.
 
 ### Home page
 

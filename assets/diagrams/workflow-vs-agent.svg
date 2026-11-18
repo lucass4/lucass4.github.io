@@ -1,0 +1,130 @@
+<svg class="arch__svg" viewBox="0 40 920 500" role="group"
+     aria-label="The same Kubernetes investigation as a workflow and as an agent. In the workflow the application fixes the sequence; in the agent the model picks each step from the last result. Use Tab to step through the components."
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Two regions, one per design. The point of the drawing is who chooses the
+       next step, so the workflow is a fixed chain the application runs, and
+       the agent is a model fanning out to steps it picks one at a time. The
+       secret branch is drawn as a path the model could take, not one it took. -->
+  <g class="ag">
+    <rect class="ag__box" x="16" y="72" width="404" height="436" rx="10" />
+    <text class="ag__label" x="16" y="64">Workflow: the application decides</text>
+  </g>
+  <g class="ag">
+    <rect class="ag__box" x="460" y="72" width="444" height="436" rx="10" />
+    <text class="ag__label" x="460" y="64">Agent: the model decides</text>
+  </g>
+
+  <!-- Workflow: the same three reads every run, then one model call -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Deployment status, step 1 of the workflow. Always runs first, then pod events.">
+    <rect class="an__focus-ring" x="110" y="96" width="216" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="118" y="104" width="200" height="56" rx="8" />
+      <text class="an__label" x="218" y="128" text-anchor="middle">Deployment status</text>
+      <text class="an__sub" x="218" y="146" text-anchor="middle">step 1, always</text>
+    </g>
+    <path class="ac ac--control" d="M218,160 V194" />
+    <text class="ac__verb" x="226" y="181">then</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Pod events, step 2 of the workflow. Always runs after deployment status, then recent logs.">
+    <rect class="an__focus-ring" x="110" y="190" width="216" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="118" y="198" width="200" height="56" rx="8" />
+      <text class="an__label" x="218" y="222" text-anchor="middle">Pod events</text>
+      <text class="an__sub" x="218" y="240" text-anchor="middle">step 2, always</text>
+    </g>
+    <path class="ac ac--control" d="M218,254 V288" />
+    <text class="ac__verb" x="226" y="275">then</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Recent logs, step 3 of the workflow. Always runs, then everything collected goes to the LLM.">
+    <rect class="an__focus-ring" x="110" y="284" width="216" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="118" y="292" width="200" height="56" rx="8" />
+      <text class="an__label" x="218" y="316" text-anchor="middle">Recent logs</text>
+      <text class="an__sub" x="218" y="334" text-anchor="middle">step 3, always</text>
+    </g>
+    <path class="ac ac--control" d="M218,348 V394" />
+    <text class="ac__verb" x="226" y="375">sends everything</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="LLM, the last step of the workflow. Interprets what the application collected and writes the diagnosis. It does not choose what was collected.">
+    <rect class="an__focus-ring" x="110" y="390" width="216" height="88" rx="12" />
+    <g class="an an--orchestration">
+      <rect class="an__box" x="118" y="398" width="200" height="72" rx="8" />
+      <text class="an__label" x="218" y="429" text-anchor="middle">LLM</text>
+      <text class="an__sub" x="218" y="448" text-anchor="middle">interprets, diagnoses</text>
+    </g>
+  </g>
+
+  <!-- Agent: the model picks each read from the last result -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Model, the decision-maker in the agent. Checks deployment status, then pod events, then the image tag, choosing each step from the last result. Could have checked secrets instead.">
+    <rect class="an__focus-ring" x="476" y="234" width="176" height="104" rx="12" />
+    <g class="an an--orchestration">
+      <rect class="an__box" x="484" y="242" width="160" height="88" rx="8" />
+      <text class="an__label" x="564" y="280" text-anchor="middle">Model</text>
+      <text class="an__sub" x="564" y="299" text-anchor="middle">picks the next step</text>
+      <text class="an__sub" x="564" y="314" text-anchor="middle">from the last result</text>
+    </g>
+    <path class="ac ac--control" d="M644,262 C680,262 680,128 720,128" />
+    <path class="ac ac--control" d="M644,278 C690,278 690,216 720,216" />
+    <path class="ac ac--control" d="M644,296 C690,296 690,304 720,304" />
+    <path class="ac ac--data" d="M644,314 C680,314 680,392 720,392" />
+    <text class="ac__verb" x="676" y="360" text-anchor="end">or</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Deployment status, the agent's first choice. Shows several pods unavailable.">
+    <rect class="an__focus-ring" x="716" y="92" width="180" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="724" y="100" width="164" height="56" rx="8" />
+      <text class="an__label" x="806" y="124" text-anchor="middle">Deployment status</text>
+      <text class="an__sub" x="806" y="142" text-anchor="middle">1. pods unavailable</text>
+    </g>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Pod events, the agent's second choice, made because pods were unavailable. Shows ImagePullBackOff.">
+    <rect class="an__focus-ring" x="716" y="180" width="180" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="724" y="188" width="164" height="56" rx="8" />
+      <text class="an__label" x="806" y="212" text-anchor="middle">Pod events</text>
+      <text class="an__sub" x="806" y="230" text-anchor="middle">2. ImagePullBackOff</text>
+    </g>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Image tag, the agent's third choice, made because of the image pull error. A registry lookup shows the configured tag does not exist, which explains the failure.">
+    <rect class="an__focus-ring" x="716" y="268" width="180" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="724" y="276" width="164" height="56" rx="8" />
+      <text class="an__label" x="806" y="300" text-anchor="middle">Image tag</text>
+      <text class="an__sub" x="806" y="318" text-anchor="middle">3. not in registry</text>
+    </g>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Secrets, a path the agent did not take. With a missing secret, the model would have gone here instead.">
+    <rect class="an__focus-ring" x="716" y="356" width="180" height="72" rx="12" />
+    <g class="an an--foundation">
+      <rect class="an__box" x="724" y="364" width="164" height="56" rx="8" />
+      <text class="an__label" x="806" y="388" text-anchor="middle">Secrets</text>
+      <text class="an__sub" x="806" y="406" text-anchor="middle">if one were missing</text>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g class="al" transform="translate(16, 530)">
+    <path class="ac ac--control" d="M0,0 H26" />
+    <text class="al__label" x="34" y="4">next step</text>
+
+    <path class="ac ac--data" d="M118,0 H144" />
+    <text class="al__label" x="152" y="4">a path it could take</text>
+  </g>
+</svg>

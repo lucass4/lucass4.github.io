@@ -21,6 +21,9 @@ enableGitInfo = false
   # Deliberately no email address. It would be scraped out of the rendered HTML.
   linkedin = "https://linkedin.com/in/lucassantanna"
   github = "https://github.com/lucass4"
+  # Cloudflare Web Analytics beacon token. Public by design: it ships in every
+  # page. Cookieless, so no consent banner. Empty means no beacon.
+  cloudflareAnalyticsToken = "3d84db668b2c4562ba024a776c190a9f"
   # The home page's selected work, in order. Deliberately mixed: leadership,
   # architecture, leadership, architecture. A `weight` across one section
   # cannot express that.

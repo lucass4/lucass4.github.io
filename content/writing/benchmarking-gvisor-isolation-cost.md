@@ -63,16 +63,11 @@ At that level, I wouldn't draw much of a conclusion about the performance differ
 Small variations in scheduling, CPU frequency, and the VM itself could account for some of
 it.
 
-What matters is that both runtimes performed similarly.
-
 This makes sense given how gVisor works. Applications execute native CPU instructions. The
 Sentry implements Linux syscalls, but it doesn't emulate every instruction executed by the
 application.
 
 For this particular test, most of the work happened inside the SHA-256 implementation.
-
-I wanted to see what happened when the workload spent more time interacting with the
-system.
 
 ## Directfs versus the Gofer
 
@@ -82,8 +77,6 @@ and how Directfs changes that path.
 Without Directfs, operations that require the backing filesystem go through the Gofer.
 With Directfs, the Sentry can perform certain operations using restricted file descriptors
 supplied by the Gofer.
-
-That difference is easy to describe. I wanted to measure it.
 
 I wrote a small Python benchmark that repeatedly created, read, inspected, and deleted
 files in a bind-mounted directory.
@@ -141,8 +134,6 @@ the cost of additional communication with the Gofer.
 Whether that trade-off makes sense depends on the workload and its threat model.
 
 ## Redis: a more realistic workload
-
-Next, I wanted to test an application rather than an isolated filesystem operation.
 
 I chose Redis because it's straightforward to deploy, has a built-in benchmarking tool,
 and is sensitive to request latency.
@@ -217,14 +208,10 @@ redis-benchmark -h 127.0.0.1 -p 6381 \
   -n 100000 -c 20 -P 16 -t get,set -q
 ```
 
-The results changed considerably.
-
 | Operation | `runc` | gVisor |
 |---|---:|---:|
 | SET | 1,075,269 req/s | 617,284 req/s |
 | GET | 1,123,596 req/s | 645,161 req/s |
-
-Both runtimes became much faster.
 
 With pipelining disabled, gVisor reached approximately 30% of native throughput. At a
 pipeline depth of 16, that increased to about 57%.
@@ -248,28 +235,24 @@ being processed. More work gets done before the client needs to wait for another
 That doesn't remove the Sentry or gVisor's networking overhead. It changes how frequently
 those costs affect progress from the client's perspective.
 
-This is useful when thinking about application design. Two applications performing
-similar amounts of work can behave very differently under gVisor depending on how they
-interact with the operating system.
+Two applications performing similar amounts of work can behave very differently under
+gVisor depending on how they interact with the operating system.
 
 Of course, pipelining isn't always an option. Some workloads need to read a response
 before deciding what to send next.
 
 ## Measuring the syscall boundary
 
-After Redis, I wanted to isolate something smaller.
-
-Redis was useful because it behaved like a real application, but it involved too many
-components to say much about the cost of an individual syscall.
-
-I went back to `getpid()`.
+Redis involves too many components to isolate the cost of a single syscall. I used
+`getpid()` for a more focused test.
 
 It's a simple operation. Under native Linux, the kernel returns the calling process's ID.
 Under gVisor, the Sentry maintains its own process information and returns the virtual
 PID.
 
-I wrote a Python benchmark that called `os.getpid()` 200,000 times. I also measured an
-empty Python loop as a rough baseline.
+I wrote a Python benchmark that called `os.getpid()` 200,000 times. As a rough baseline, I
+also timed 200,000 calls to a no-op function, `lambda: None`, labelled "Python loop" in
+the output.
 
 ```python
 import os
@@ -308,7 +291,7 @@ Python loop: 0.0048s
 getpid():    0.3976s
 ```
 
-The empty Python loop ran in almost the same time under both runtimes.
+The no-op baseline ran in almost the same time under both runtimes.
 
 The `getpid()` benchmark took approximately 12 times longer under gVisor.
 
@@ -323,7 +306,7 @@ When the operation is as small as `getpid()`, that additional work becomes a lar
 of the total execution time.
 
 This is still a Python microbenchmark. The measured time includes Python function-call
-overhead, and the empty-loop baseline doesn't perfectly isolate that cost. It also doesn't
+overhead, and the no-op baseline doesn't perfectly isolate that cost. It also doesn't
 tell us how a multi-threaded application will behave.
 
 Most importantly, it doesn't mean applications running under gVisor will be 12 times
@@ -333,9 +316,9 @@ It shows what can happen when a workload repeatedly crosses the syscall boundary
 doing much work between calls.
 
 
-{{< bars label="Time under runsc-direct, relative to runc" reference="1" reference_label="runc, 1×" caption="Medians from the SHA-256 and `getpid()` runs above. The empty loop is the baseline for the `getpid()` benchmark." >}}
+{{< bars label="Time under runsc-direct, relative to runc" reference="1" reference_label="runc, 1×" caption="Medians from the SHA-256 and `getpid()` runs above. The no-op function call is the baseline for the `getpid()` benchmark." >}}
 SHA-256 hashing :: 1.0165 :: 1.02×
-Empty Python loop :: 1.0213 :: 1.02×
+No-op function call :: 1.0213 :: 1.02×
 getpid()* :: 12.012 :: 12.0×
 {{< /bars >}}
 
@@ -345,31 +328,13 @@ access to host-backed files.
 
 ## Would I use gVisor?
 
-These experiments left me with five observations:
+I wouldn't try to put a single number on gVisor's overhead based on these experiments.
+SHA-256 barely changed, Redis lost a considerable amount of throughput, and disabling
+Directfs made filesystem operations much slower.
 
-| Workload | What I measured |
-|---|---|
-| SHA-256 hashing | Around 2% difference between `runc` and gVisor |
-| Filesystem operations | Directfs 4–24× faster than Gofer-only |
-| Redis, pipeline depth 1 | gVisor reached around 30% of `runc` throughput |
-| Redis, pipeline depth 16 | gVisor reached around 57% of `runc` throughput |
-| Repeated `getpid()` | Around 12× longer under gVisor |
-
-I wouldn't combine these numbers into a single estimate of gVisor's overhead. They're
-different workloads, and the filesystem comparison doesn't even include `runc`.
-
-For me, the more useful question is what the application actually spends its time doing.
-
-If a workload mostly executes CPU instructions, gVisor may add very little measurable
-overhead. If it frequently interacts with the filesystem or network, I'd want to examine
-those paths more carefully.
-
-For workloads executing untrusted code, I'd be willing to accept some overhead in exchange
-for the additional isolation boundary. For a latency-sensitive service, I'd want to
-benchmark the real application before deciding.
-
-These tests didn't change my opinion of gVisor's security model. They gave me a better
-understanding of what I'd need to measure before using it.
+For workloads executing untrusted code, I'd be willing to accept some overhead for the
+additional isolation. For latency-sensitive services, I'd want to measure the actual
+application under the runtime configuration I planned to deploy.
 
 ---
 

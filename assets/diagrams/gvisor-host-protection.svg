@@ -1,0 +1,125 @@
+<svg class="arch__svg" viewBox="0 40 920 488" role="group"
+     aria-label="Protecting the host from the sandbox. The untrusted application's syscalls cross a first boundary into the Sentry. The Sentry's own host operations cross a second boundary: seccomp, user namespaces, capabilities and mount isolation, before reaching the host Linux kernel. Beside it, effective capability counts observed in my lab: 6 with Directfs enabled, 0 with it disabled. Use Tab to step through the components."
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Two boundaries, drawn separately: a line where the application's
+       syscalls reach the Sentry, and a box of host restrictions the Sentry's
+       own calls pass through. The arrow runs through the gap between the four
+       restrictions because they all apply to the same calls. The counts on
+       the right are lab observations, so they sit in their own region and
+       are not drawn as a score. -->
+  <g class="ab">
+    <path class="ab__box" d="M36,176 H564" />
+    <text class="ab__label" x="36" y="168">application to Sentry</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Untrusted application. Its syscalls cross the first boundary and are handled by the Sentry.">
+    <rect class="an__focus-ring" x="192" y="80" width="216" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="200" y="88" width="200" height="56" rx="8" />
+      <text class="an__label" x="300" y="112" text-anchor="middle">Untrusted application</text>
+      <text class="an__sub" x="300" y="130" text-anchor="middle">makes Linux syscalls</text>
+    </g>
+    <path class="ac ac--control" d="M300,144 V196" />
+    <text class="ac__verb" x="308" y="162">syscalls</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Sentry, the application kernel in user space. Its own host operations cross the second boundary of host restrictions before reaching the host kernel.">
+    <rect class="an__focus-ring" x="192" y="192" width="216" height="80" rx="12" />
+    <g class="an an--orchestration">
+      <rect class="an__box" x="200" y="200" width="200" height="64" rx="8" />
+      <text class="an__label" x="300" y="227" text-anchor="middle">Sentry</text>
+      <text class="an__sub" x="300" y="246" text-anchor="middle">application kernel</text>
+    </g>
+    <path class="ac ac--security" d="M300,264 V436" />
+    <text class="ac__verb" x="308" y="288">restricted host operations</text>
+  </g>
+
+  <g class="ab">
+    <rect class="ab__box" x="36" y="304" width="528" height="96" rx="10" />
+    <text class="ab__label" x="36" y="296">Sentry to host</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Seccomp. Filters which host syscalls the Sentry can make.">
+    <rect class="an__focus-ring" x="40" y="320" width="136" height="64" rx="12" />
+    <g class="an an--security">
+      <rect class="an__box" x="48" y="328" width="120" height="48" rx="8" />
+      <text class="an__label" x="108" y="348" text-anchor="middle">Seccomp</text>
+      <text class="an__sub" x="108" y="365" text-anchor="middle">syscall filter</text>
+    </g>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="User namespace. Limits which host user and group IDs are mapped into the sandbox.">
+    <rect class="an__focus-ring" x="168" y="320" width="136" height="64" rx="12" />
+    <g class="an an--security">
+      <rect class="an__box" x="176" y="328" width="120" height="48" rx="8" />
+      <text class="an__label" x="236" y="348" text-anchor="middle">User namespace</text>
+      <text class="an__sub" x="236" y="365" text-anchor="middle">ID mapping</text>
+    </g>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Capabilities. The effective and bounding capability sets the Sentry runs with.">
+    <rect class="an__focus-ring" x="296" y="320" width="136" height="64" rx="12" />
+    <g class="an an--security">
+      <rect class="an__box" x="304" y="328" width="120" height="48" rx="8" />
+      <text class="an__label" x="364" y="348" text-anchor="middle">Capabilities</text>
+      <text class="an__sub" x="364" y="365" text-anchor="middle">CapEff, CapBnd</text>
+    </g>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Mount isolation. The sandbox only sees the filesystem resources made available to it.">
+    <rect class="an__focus-ring" x="424" y="320" width="136" height="64" rx="12" />
+    <g class="an an--security">
+      <rect class="an__box" x="432" y="328" width="120" height="48" rx="8" />
+      <text class="an__label" x="492" y="348" text-anchor="middle">Mount isolation</text>
+      <text class="an__sub" x="492" y="365" text-anchor="middle">exposed mounts</text>
+    </g>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Host Linux kernel. Handles the Sentry's restricted host operations.">
+    <rect class="an__focus-ring" x="192" y="432" width="216" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="200" y="440" width="200" height="56" rx="8" />
+      <text class="an__label" x="300" y="464" text-anchor="middle">Host Linux kernel</text>
+      <text class="an__sub" x="300" y="482" text-anchor="middle">shared with other workloads</text>
+    </g>
+  </g>
+
+  <!-- Lab observations -->
+  <g class="ag">
+    <rect class="ag__box" x="616" y="88" width="288" height="196" rx="10" />
+    <text class="ag__label" x="616" y="80">Observed in my lab</text>
+  </g>
+  <text class="al__label" x="636" y="116">Sentry configuration</text>
+  <text class="al__label" x="884" y="116" text-anchor="end">CapEff</text>
+  <path class="ag__box" d="M636,128 H884" />
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Directfs enabled: 6 effective capabilities on the Sentry, observed in my lab.">
+    <rect class="an__focus-ring" x="628" y="136" width="264" height="44" rx="8" />
+    <g class="an">
+      <text class="an__label" x="636" y="163">Directfs enabled</text>
+      <text class="an__label" x="884" y="163" text-anchor="end">6</text>
+    </g>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Directfs disabled: 0 effective capabilities on the Sentry, observed in my lab.">
+    <rect class="an__focus-ring" x="628" y="184" width="264" height="44" rx="8" />
+    <g class="an">
+      <text class="an__label" x="636" y="211">Directfs disabled</text>
+      <text class="an__label" x="884" y="211" text-anchor="end">0</text>
+    </g>
+  </g>
+
+  <path class="ag__box" d="M636,240 H884" />
+  <text class="an__sub" x="636" y="260">One lab setup, not universal values</text>
+  <text class="an__sub" x="636" y="274">and not a security rating.</text>
+</svg>

@@ -1,0 +1,103 @@
+<svg class="arch__svg" viewBox="0 40 920 516" role="group"
+     aria-label="Where a syscall goes. With runc, the application's syscall goes straight to the host Linux kernel. With runsc, Systrap intercepts it and hands it to the Sentry, which implements the Linux syscall interface and makes its own restricted host operations. Use Tab to step through the components."
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- One region per runtime. The application and the host kernel are drawn
+       the same way in both, so the only difference is what sits between them.
+       The dashed line across both regions is the host kernel boundary. Both
+       applications say "native CPU instructions" because only syscalls change
+       path; nothing is emulated. -->
+  <g class="ag">
+    <rect class="ag__box" x="16" y="72" width="404" height="444" rx="10" />
+    <text class="ag__label" x="16" y="64">runc: the host kernel handles it</text>
+  </g>
+  <g class="ag">
+    <rect class="ag__box" x="460" y="72" width="444" height="444" rx="10" />
+    <text class="ag__label" x="460" y="64">runsc: the Sentry handles it</text>
+  </g>
+
+  <g class="ab">
+    <path class="ab__box" d="M16,414 H904" />
+    <text class="ab__label" x="28" y="406">host kernel boundary</text>
+  </g>
+
+  <!-- runc -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Application under runc. Runs native CPU instructions. Its syscalls go directly to the host Linux kernel.">
+    <rect class="an__focus-ring" x="110" y="88" width="216" height="80" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="118" y="96" width="200" height="64" rx="8" />
+      <text class="an__label" x="218" y="124" text-anchor="middle">Application</text>
+      <text class="an__sub" x="218" y="144" text-anchor="middle">native CPU instructions</text>
+    </g>
+    <path class="ac ac--control" d="M218,160 V438" />
+    <text class="ac__verb" x="226" y="290">Linux syscall</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Host Linux kernel under runc. Implements the application's syscalls itself.">
+    <rect class="an__focus-ring" x="110" y="434" width="216" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="118" y="442" width="200" height="56" rx="8" />
+      <text class="an__label" x="218" y="466" text-anchor="middle">Host Linux kernel</text>
+      <text class="an__sub" x="218" y="484" text-anchor="middle">implements the syscall</text>
+    </g>
+  </g>
+
+  <!-- runsc -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Application under runsc. Runs native CPU instructions. Its syscalls are intercepted by Systrap.">
+    <rect class="an__focus-ring" x="574" y="88" width="216" height="80" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="582" y="96" width="200" height="64" rx="8" />
+      <text class="an__label" x="682" y="124" text-anchor="middle">Application</text>
+      <text class="an__sub" x="682" y="144" text-anchor="middle">native CPU instructions</text>
+    </g>
+    <path class="ac ac--control" d="M682,160 V194" />
+    <text class="ac__verb" x="690" y="181">syscall</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Systrap interception, gVisor's default platform. A seccomp trap stops the syscall and hands control to the Sentry.">
+    <rect class="an__focus-ring" x="574" y="190" width="216" height="72" rx="12" />
+    <g class="an an--foundation">
+      <rect class="an__box" x="582" y="198" width="200" height="56" rx="8" />
+      <text class="an__label" x="682" y="222" text-anchor="middle">Systrap interception</text>
+      <text class="an__sub" x="682" y="240" text-anchor="middle">seccomp trap, handoff</text>
+    </g>
+    <path class="ac ac--control" d="M682,254 V288" />
+    <text class="ac__verb" x="690" y="275">hands off</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Sentry, the application kernel in user space. Implements the application's Linux syscall interface, then makes its own restricted host operations.">
+    <rect class="an__focus-ring" x="574" y="284" width="216" height="88" rx="12" />
+    <g class="an an--orchestration">
+      <rect class="an__box" x="582" y="292" width="200" height="72" rx="8" />
+      <text class="an__label" x="682" y="318" text-anchor="middle">Sentry</text>
+      <text class="an__sub" x="682" y="337" text-anchor="middle">application kernel</text>
+      <text class="an__sub" x="682" y="352" text-anchor="middle">implements Linux syscalls</text>
+    </g>
+    <path class="ac ac--security" d="M682,364 V438" />
+    <text class="ac__verb" x="690" y="392">restricted host operations</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Host Linux kernel under runsc. Handles the Sentry's restricted host operations. The application's syscalls stop at the Sentry.">
+    <rect class="an__focus-ring" x="574" y="434" width="216" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="582" y="442" width="200" height="56" rx="8" />
+      <text class="an__label" x="682" y="466" text-anchor="middle">Host Linux kernel</text>
+      <text class="an__sub" x="682" y="484" text-anchor="middle">restricted host operations</text>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g class="al" transform="translate(16, 540)">
+    <path class="ac ac--control" d="M0,0 H26" />
+    <text class="al__label" x="34" y="4">syscall path</text>
+
+    <path class="ac ac--security" d="M126,0 H152" />
+    <text class="al__label" x="160" y="4">restricted by seccomp, namespaces, capabilities</text>
+  </g>
+</svg>

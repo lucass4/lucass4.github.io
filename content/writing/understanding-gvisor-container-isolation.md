@@ -285,9 +285,6 @@ docker rm -f inspect-runsc-direct inspect-runsc-gofer
 
 ## Where does gVisor actually make sense?
 
-After understanding the architecture, I started thinking about where I would actually use
-it.
-
 I wouldn't replace every container runtime with gVisor. For most trusted internal
 services, a properly configured container with restricted capabilities, seccomp,
 appropriate filesystem permissions, and network policies may already provide sufficient
@@ -334,8 +331,7 @@ external developers. Build scripts and dependencies can execute arbitrary comman
 Running those jobs inside separate sandboxes can reduce the consequences of malicious or
 compromised build code.
 
-Of course, gVisor doesn't solve every security problem in these scenarios. If you mount
-sensitive credentials or give the workload unrestricted access to internal services, the
+If you mount sensitive credentials or give the workload unrestricted access to internal services, the
 application can still use those permissions. You still need to manage secrets, network
 access, filesystem mounts, and tenant boundaries.
 
@@ -346,7 +342,7 @@ benchmarks before making that decision. The same applies to applications that de
 specific Linux kernel features, privileged operations, or specialized devices.
 
 I'd be more inclined to use gVisor for workloads where the code itself is part of the
-threat model, rather than treating it as the default runtime for every application.
+threat model.
 
 ## Compatibility and the cost of isolation
 

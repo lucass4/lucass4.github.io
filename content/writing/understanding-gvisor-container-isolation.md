@@ -23,7 +23,7 @@ This is what got me interested in [gVisor](https://gvisor.dev/).
 
 ## Putting another kernel between the application and the host
 
-gVisor takes an interesting approach to container isolation. Instead of relying
+gVisor takes a different approach to container isolation. Instead of relying
 exclusively on the host Linux kernel to implement the application's system calls, it
 provides its own application kernel running in user space.
 
@@ -115,8 +115,6 @@ With gVisor, I found a Sentry, a Gofer, and additional processes used by the san
 execution platform. The application was running, but its Linux process environment was
 being managed by gVisor.
 
-That made the distinction much more concrete.
-
 ## So what about filesystem access?
 
 This was one of my first questions.
@@ -134,7 +132,7 @@ requires access to a backing filesystem, the Gofer can perform it on the Sentry'
 This separation is deliberate. The Sentry processes requests from untrusted applications,
 so giving it unrestricted host filesystem access would create another problem.
 
-There's an interesting optimization here, though.
+Directfs changes how that filesystem access works.
 
 Originally, filesystem operations relied heavily on communication between the Sentry and
 Gofer. That introduced quite a bit of overhead.
@@ -172,9 +170,6 @@ filesystem resources made available to it, mount isolation, and syscall restrict
 
 Directfs avoids many Gofer round trips, but the Sentry needs additional host filesystem
 permissions to use it.
-
-I found this particularly interesting because it exposes a real design trade-off: stronger
-separation between components versus reducing the cost of communicating between them.
 
 ## What protects the host if the Sentry is compromised?
 
@@ -218,8 +213,6 @@ for runtime in runsc-direct runsc-gofer; do
     "/proc/$pid/status"
 done
 ```
-
-The results were interesting.
 
 **Directfs enabled:**
 
@@ -276,7 +269,7 @@ That doesn't mean a compromised Sentry is harmless. It still has access to certa
 resources and host interfaces. But it demonstrates how gVisor limits the privileges of the
 component responsible for handling untrusted applications.
 
-I also started to understand why the Gofer exists. Moving filesystem operations into a
+The capability results show why the Gofer exists. Moving filesystem operations into a
 separate, restricted process allows the Sentry to operate with fewer host privileges.
 
 The Gofer still needs access to the filesystem resources assigned to the container. Those
@@ -313,7 +306,7 @@ share the host kernel.
 gVisor adds another isolation boundary between those workloads and the host. Each
 customer or trust domain can run in a separate sandbox with its own Sentry.
 
-This is particularly interesting for serverless platforms, where workloads from different
+This matters for serverless platforms, where workloads from different
 customers may execute on shared infrastructure. Google Cloud Run is one example of a
 service that uses gVisor.
 
@@ -328,7 +321,7 @@ execution environment.
 
 **AI agents** are another case I've been thinking about.
 
-An agent that generates code and executes it creates an interesting security problem. Even
+An agent that generates code and executes it creates a security problem. Even
 if the agent itself is trusted, the generated code might contain mistakes or execute
 commands you didn't anticipate.
 
@@ -432,14 +425,9 @@ I ran a few experiments comparing filesystem operations, Redis, and CPU-intensiv
 and the differences were substantial. I'll cover those measurements separately because
 they're worth examining in detail.
 
-What interested me most about gVisor was its approach to the security boundary. Docker
-already offers good mechanisms for restricting what a container can do. gVisor goes
-further by changing which implementation handles the application's kernel interface, then
-restricting that implementation's access to the host.
-
-For workloads executing untrusted code, that extra boundary is a compelling design choice.
-For everything else, I'd want to understand the threat model and the performance cost
-before introducing it.
+I wouldn't use gVisor for every workload. For untrusted code, the extra isolation boundary
+makes sense to me. For everything else, I'd want to understand the threat model,
+compatibility requirements, and performance cost before introducing it.
 
 ---
 

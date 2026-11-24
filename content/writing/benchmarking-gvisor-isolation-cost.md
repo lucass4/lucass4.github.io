@@ -89,7 +89,7 @@ I wrote a small Python benchmark that repeatedly created, read, inspected, and d
 files in a bind-mounted directory.
 
 Each test performed 1,000 operations. I ran the tests multiple times using both gVisor
-configurations.
+configurations. The table shows the mean of those runs.
 
 These were the results:
 
@@ -99,6 +99,22 @@ These were the results:
 | Read | 32.10 ms | 235.09 ms | 7.3× |
 | Stat | 3.87 ms | 45.98 ms | 11.9× |
 | Delete | 6.72 ms | 161.25 ms | 24.0× |
+
+
+{{< bars label="Mean time for 1,000 operations, both under gVisor" caption="Shorter is faster. The filesystem test had no `runc` run, so this compares the two gVisor configurations only." >}}
+## Create :: 4.4× faster with Directfs
+Directfs* :: 57.24 :: 57.24 ms
+Gofer-only :: 253.72 :: 253.72 ms
+## Read :: 7.3×
+Directfs* :: 32.10 :: 32.10 ms
+Gofer-only :: 235.09 :: 235.09 ms
+## Stat :: 11.9×
+Directfs* :: 3.87 :: 3.87 ms
+Gofer-only :: 45.98 :: 45.98 ms
+## Delete :: 24.0×
+Directfs* :: 6.72 :: 6.72 ms
+Gofer-only :: 161.25 :: 161.25 ms
+{{< /bars >}}
 
 The difference in file deletion stood out. The Gofer-only configuration took roughly 24
 times longer for the same number of operations.
@@ -163,8 +179,6 @@ redis-benchmark -h 127.0.0.1 -p 6381 \
   -n 100000 -c 20 -P 1 -t get,set -q
 ```
 
-The difference was substantial.
-
 | Operation | `runc` | gVisor |
 |---|---:|---:|
 | SET | 152,672 req/s | 45,228 req/s |
@@ -214,6 +228,16 @@ Both runtimes became much faster.
 
 With pipelining disabled, gVisor reached approximately 30% of native throughput. At a
 pipeline depth of 16, that increased to about 57%.
+
+
+{{< bars label="Redis throughput under gVisor, as a share of runc" max="100" reference="100" reference_label="runc throughput" caption="Pipelining made both runtimes faster, so the chart shows gVisor relative to `runc`. The tables above have the absolute values." >}}
+## Pipeline depth 1
+SET* :: 29.62 :: 29.6%
+GET* :: 30.71 :: 30.7%
+## Pipeline depth 16
+SET* :: 57.41 :: 57.4%
+GET* :: 57.42 :: 57.4%
+{{< /bars >}}
 
 The absolute performance gap remained significant, but the relative difference was
 smaller.
@@ -271,7 +295,8 @@ benchmark("Python loop", lambda: None)
 benchmark("getpid()", os.getpid)
 ```
 
-I ran it under `runc` and `runsc-direct`.
+I ran it under `runc` and `runsc-direct`. I aligned the output and added the runtime
+headers for readability.
 
 ```text
 ========== runc ==========
@@ -297,8 +322,6 @@ native syscall.
 When the operation is as small as `getpid()`, that additional work becomes a large part
 of the total execution time.
 
-It's worth being careful with the result.
-
 This is still a Python microbenchmark. The measured time includes Python function-call
 overhead, and the empty-loop baseline doesn't perfectly isolate that cost. It also doesn't
 tell us how a multi-threaded application will behave.
@@ -309,13 +332,16 @@ slower.
 It shows what can happen when a workload repeatedly crosses the syscall boundary without
 doing much work between calls.
 
-That also helps explain the earlier results.
+
+{{< bars label="Time under runsc-direct, relative to runc" reference="1" reference_label="runc, 1×" caption="Medians from the SHA-256 and `getpid()` runs above. The empty loop is the baseline for the `getpid()` benchmark." >}}
+SHA-256 hashing :: 1.0165 :: 1.02×
+Empty Python loop :: 1.0213 :: 1.02×
+getpid()* :: 12.012 :: 12.0×
+{{< /bars >}}
 
 SHA-256 spent most of its time executing CPU instructions. Redis made frequent use of
 networking and other system interfaces. The filesystem benchmark repeatedly exercised
 access to host-backed files.
-
-Different execution patterns, different costs.
 
 ## Would I use gVisor?
 

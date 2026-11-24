@@ -95,25 +95,25 @@ These were the results:
 
 | Operation | Directfs | Gofer-only | Directfs speedup |
 |---|---:|---:|---:|
-| Create | 57.24 ms | 253.72 ms | 4.4× |
-| Read | 32.10 ms | 235.09 ms | 7.3× |
-| Stat | 3.87 ms | 45.98 ms | 11.9× |
-| Delete | 6.72 ms | 161.25 ms | 24.0× |
+| Create | 58.36 ms | 254.28 ms | 4.4× |
+| Read | 32.82 ms | 235.90 ms | 7.2× |
+| Stat | 3.83 ms | 46.28 ms | 12.1× |
+| Delete | 6.71 ms | 161.27 ms | 24.0× |
 
 
 {{< bars label="Mean time for 1,000 operations, both under gVisor" caption="Shorter is faster. The filesystem test had no `runc` run, so this compares the two gVisor configurations only." >}}
 ## Create :: 4.4× faster with Directfs
-Directfs* :: 57.24 :: 57.24 ms
-Gofer-only :: 253.72 :: 253.72 ms
-## Read :: 7.3×
-Directfs* :: 32.10 :: 32.10 ms
-Gofer-only :: 235.09 :: 235.09 ms
-## Stat :: 11.9×
-Directfs* :: 3.87 :: 3.87 ms
-Gofer-only :: 45.98 :: 45.98 ms
+Directfs* :: 58.36 :: 58.36 ms
+Gofer-only :: 254.28 :: 254.28 ms
+## Read :: 7.2×
+Directfs* :: 32.82 :: 32.82 ms
+Gofer-only :: 235.90 :: 235.90 ms
+## Stat :: 12.1×
+Directfs* :: 3.83 :: 3.83 ms
+Gofer-only :: 46.28 :: 46.28 ms
 ## Delete :: 24.0×
-Directfs* :: 6.72 :: 6.72 ms
-Gofer-only :: 161.25 :: 161.25 ms
+Directfs* :: 6.71 :: 6.71 ms
+Gofer-only :: 161.27 :: 161.27 ms
 {{< /bars >}}
 
 The difference in file deletion stood out. The Gofer-only configuration took roughly 24

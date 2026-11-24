@@ -94,7 +94,7 @@ docker run -d --name gvisor \
 Then I inspected the Linux host processes:
 
 ```bash
-ps -eo pid,ppid,comm,args \
+ps -eo pid,comm,args \
   | grep -E '[s]leep 600|[r]unsc|[g]visor'
 ```
 
@@ -143,11 +143,11 @@ gVisor later introduced **Directfs**, which is enabled by default. With Directfs
 Gofer provides restricted file descriptors for the container's configured mounts, allowing
 the Sentry to perform certain filesystem operations directly.
 
-{{< architecture svg="gvisor-filesystem-paths" label="Two paths to the filesystem" caption="The Gofer is a separate process in both. With Directfs it passes the Sentry file descriptors for the configured mounts, and the Sentry works relative to them without a LISAFS round trip per operation." >}}
+{{< architecture svg="gvisor-filesystem-paths" label="Two paths to the filesystem" caption="The Gofer is a separate process in both. With Directfs it passes the Sentry file descriptors for the configured mounts, and the Sentry works relative to them without a LISAFS round trip for each host-backed operation." >}}
 [Directfs disabled] Application
 -> file syscall
 [Sandbox process] Sentry*
--> LISAFS RPC, each operation
+-> LISAFS RPC, for host-backed operations
 [Separate process] Gofer
 -> performs it
 [Configured mounts only] Host-backed filesystem
@@ -159,8 +159,8 @@ the Sentry to perform certain filesystem operations directly.
 [Configured mounts only] Host-backed filesystem
 !! Mount FDs :: The Gofer opens the configured mounts and passes their file descriptors to the Sentry.
 ---
-With Directfs disabled, the application's file syscall goes to the Sentry, which sends
-each filesystem operation to the Gofer as a LISAFS RPC. The Gofer, a separate process,
+With Directfs disabled, the application's file syscall goes to the Sentry. Operations that
+need the host-backed filesystem go to the Gofer as LISAFS RPCs. The Gofer, a separate process,
 performs it on the host-backed filesystem. With Directfs enabled, the Gofer opens the
 container's configured mounts and passes their file descriptors to the Sentry. The Sentry
 then performs filesystem operations relative to those descriptors itself, without a round

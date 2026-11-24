@@ -83,12 +83,12 @@
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Host Linux kernel under runsc. Receives only the Sentry's restricted operations, not the application's syscalls.">
+     aria-label="Host Linux kernel under runsc. Handles the Sentry's restricted host operations. The application's syscalls stop at the Sentry.">
     <rect class="an__focus-ring" x="574" y="434" width="216" height="72" rx="12" />
     <g class="an">
       <rect class="an__box" x="582" y="442" width="200" height="56" rx="8" />
       <text class="an__label" x="682" y="466" text-anchor="middle">Host Linux kernel</text>
-      <text class="an__sub" x="682" y="484" text-anchor="middle">sees the Sentry, not the app</text>
+      <text class="an__sub" x="682" y="484" text-anchor="middle">restricted host operations</text>
     </g>
   </g>
 

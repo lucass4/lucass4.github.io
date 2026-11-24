@@ -83,7 +83,7 @@
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Host Linux kernel. Receives only the Sentry's restricted operations.">
+     aria-label="Host Linux kernel. Handles the Sentry's restricted host operations.">
     <rect class="an__focus-ring" x="192" y="432" width="216" height="72" rx="12" />
     <g class="an">
       <rect class="an__box" x="200" y="440" width="200" height="56" rx="8" />

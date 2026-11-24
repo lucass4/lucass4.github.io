@@ -1,5 +1,5 @@
 <svg class="arch__svg" viewBox="0 40 920 456" role="group"
-     aria-label="Two paths to the filesystem. With Directfs disabled, the Sentry sends each filesystem operation to the Gofer over LISAFS RPC, and the Gofer performs it. With Directfs enabled, the Gofer opens the configured mounts and passes their file descriptors to the Sentry, which performs restricted operations relative to them. The Gofer is a separate process in both. Use Tab to step through the components."
+     aria-label="Two paths to the filesystem. With Directfs disabled, the Sentry sends operations that need the host-backed filesystem to the Gofer over LISAFS RPC, and the Gofer performs it. With Directfs enabled, the Gofer opens the configured mounts and passes their file descriptors to the Sentry, which performs restricted operations relative to them. The Gofer is a separate process in both. Use Tab to step through the components."
      xmlns="http://www.w3.org/2000/svg">
 
   <!-- Same layout in both regions so the reader compares one arrow at a time.
@@ -29,7 +29,7 @@
   </g>
 
   <g class="anode" tabindex="0" role="img"
-     aria-label="Sentry, Directfs disabled. Sends each filesystem operation to the Gofer as a LISAFS RPC.">
+     aria-label="Sentry, Directfs disabled. Sends operations that need the host-backed filesystem to the Gofer as LISAFS RPCs.">
     <rect class="an__focus-ring" x="32" y="204" width="156" height="88" rx="12" />
     <g class="an an--orchestration">
       <rect class="an__box" x="40" y="212" width="140" height="72" rx="8" />
@@ -38,7 +38,7 @@
     </g>
     <path class="ac ac--control" d="M180,248 H276" />
     <text class="ac__verb" x="230" y="240" text-anchor="middle">LISAFS RPC</text>
-    <text class="ac__verb" x="230" y="264" text-anchor="middle">each operation</text>
+    <text class="ac__verb" x="230" y="264" text-anchor="middle">for host access</text>
   </g>
 
   <g class="anode" tabindex="0" role="img"

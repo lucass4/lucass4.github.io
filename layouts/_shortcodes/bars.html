@@ -1,0 +1,63 @@
+{{/* Horizontal bar chart.
+
+     Usage:
+
+       {{< bars label="..." caption="..." reference="1" reference_label="runc" >}}
+       ## Group name :: optional note
+       Bar label* :: 12.01 :: 12.0×
+       Bar label :: 1.02 :: 1.02×
+       {{< /bars >}}
+
+     One bar per line: label, value, and the text shown beside the bar. A
+     trailing * on the label draws that bar in the accent; the rest are
+     neutral. Every bar carries its own label, so which series a bar belongs
+     to never depends on colour. A `##` line starts a group.
+
+     `max` sets the scale; it defaults to the largest value. `reference`
+     draws a line at that value on every track, named by `reference_label`.
+
+     HTML, not SVG, so it reflows at 390px, follows the theme tokens and is
+     read as text. The bars themselves are aria-hidden; the label and value
+     beside each one carry the content.
+*/}}
+{{- $rows := slice -}}
+{{- $max := 0.0 -}}
+{{- range split (trim .Inner "\n ") "\n" -}}
+  {{- $line := trim . " \t" -}}
+  {{- if hasPrefix $line "##" -}}
+    {{- $bits := split (trim (strings.TrimPrefix "##" $line) " ") "::" -}}
+    {{- $note := cond (gt (len $bits) 1) (trim (index $bits 1) " ") "" -}}
+    {{- $rows = $rows | append (dict "group" (trim (index $bits 0) " ") "note" $note) -}}
+  {{- else if $line -}}
+    {{- $bits := split $line "::" -}}
+    {{- $label := trim (index $bits 0) " " -}}
+    {{- $value := float (trim (index $bits 1) " ") -}}
+    {{- if gt $value $max }}{{ $max = $value }}{{ end -}}
+    {{- $rows = $rows | append (dict "label" (trim $label "*") "key" (hasSuffix $label "*") "value" $value "text" (trim (index $bits 2) " ")) -}}
+  {{- end -}}
+{{- end -}}
+{{- with .Get "max" }}{{ $max = float . }}{{ end -}}
+{{- $id := printf "bars-%s" (substr (sha1 .Inner) 0 8) -}}
+{{- $ref := .Get "reference" -}}
+
+<figure class="bars" role="group" aria-labelledby="{{ $id }}-label"
+  {{- with $ref }} style="--ref: {{ printf "%.2f" (mul (div (float .) $max) 100) }}%"{{ end }}>
+  <p class="bars__label mono" id="{{ $id }}-label">{{ .Get "label" }}</p>
+  {{- with $ref }}
+  <p class="bars__ref-key mono"><span class="bars__ref-swatch" aria-hidden="true"></span>{{ $.Get "reference_label" }}</p>
+  {{- end }}
+  {{- range $rows }}
+  {{- if .group }}
+  <p class="bars__group">{{ .group }}{{ with .note }} <span class="bars__note">{{ . }}</span>{{ end }}</p>
+  {{- else }}
+  <div class="bars__row{{ if .key }} bars__row--key{{ end }}{{ if $ref }} bars__row--ref{{ end }}">
+    <span class="bars__name mono">{{ .label }}</span>
+    <span class="bars__track" aria-hidden="true"><span class="bars__bar" style="width: {{ printf "%.2f" (mul (div .value $max) 100) }}%"></span></span>
+    <span class="bars__value mono">{{ .text }}</span>
+  </div>
+  {{- end }}
+  {{- end }}
+  {{- with .Get "caption" }}
+  <figcaption>{{ . | markdownify }}</figcaption>
+  {{- end }}
+</figure>

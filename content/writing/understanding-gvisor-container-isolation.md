@@ -331,9 +331,9 @@ external developers. Build scripts and dependencies can execute arbitrary comman
 Running those jobs inside separate sandboxes can reduce the consequences of malicious or
 compromised build code.
 
-If you mount sensitive credentials or give the workload unrestricted access to internal services, the
-application can still use those permissions. You still need to manage secrets, network
-access, filesystem mounts, and tenant boundaries.
+If you mount sensitive credentials or give the workload unrestricted access to internal
+services, the application can still use those permissions. You still need to manage
+secrets, network access, filesystem mounts, and tenant boundaries.
 
 There's also the question of whether the additional isolation is worth the cost.
 

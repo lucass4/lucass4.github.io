@@ -1,6 +1,6 @@
 ---
 title: "Understanding gVisor: A Different Approach to Container Isolation"
-draft: true
+date: 2026-11-24
 tags: ["gvisor", "containers", "linux", "security", "kubernetes"]
 description: "Exploring how gVisor isolates containers using a user-space kernel, the Sentry and Gofer, with hands-on experiments examining processes, security boundaries, and syscall compatibility."
 ---

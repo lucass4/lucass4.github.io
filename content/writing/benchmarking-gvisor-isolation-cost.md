@@ -1,6 +1,6 @@
 ---
 title: "Benchmarking gVisor: How Much Does Isolation Cost?"
-draft: true
+date: 2026-11-24
 tags: ["gvisor", "containers", "linux", "performance"]
 description: "Measuring gVisor against runc on one ARM64 VM: SHA-256 hashing, Directfs versus Gofer-only filesystem operations, Redis with and without pipelining, and repeated getpid() calls."
 ---

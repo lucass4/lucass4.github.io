@@ -1,0 +1,127 @@
+<svg class="arch__svg" viewBox="0 40 920 456" role="group"
+     aria-label="Two paths to the filesystem. With Directfs disabled, the Sentry sends each filesystem operation to the Gofer over LISAFS RPC, and the Gofer performs it. With Directfs enabled, the Gofer opens the configured mounts and passes their file descriptors to the Sentry, which performs restricted operations relative to them. The Gofer is a separate process in both. Use Tab to step through the components."
+     xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Same layout in both regions so the reader compares one arrow at a time.
+       The Gofer is drawn in both: Directfs changes who performs the operation,
+       not whether the Gofer exists. The filesystem box says "configured mounts
+       only" because neither path reaches the rest of the host. -->
+  <g class="ag">
+    <rect class="ag__box" x="16" y="72" width="428" height="384" rx="10" />
+    <text class="ag__label" x="16" y="64">Directfs disabled</text>
+  </g>
+  <g class="ag">
+    <rect class="ag__box" x="476" y="72" width="428" height="384" rx="10" />
+    <text class="ag__label" x="476" y="64">Directfs enabled, the default</text>
+  </g>
+
+  <!-- Directfs disabled -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Application, Directfs disabled. Makes a file syscall, handled by the Sentry.">
+    <rect class="an__focus-ring" x="32" y="88" width="156" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="40" y="96" width="140" height="56" rx="8" />
+      <text class="an__label" x="110" y="120" text-anchor="middle">Application</text>
+      <text class="an__sub" x="110" y="138" text-anchor="middle">in the sandbox</text>
+    </g>
+    <path class="ac ac--control" d="M110,152 V208" />
+    <text class="ac__verb" x="118" y="184">file syscall</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Sentry, Directfs disabled. Sends each filesystem operation to the Gofer as a LISAFS RPC.">
+    <rect class="an__focus-ring" x="32" y="204" width="156" height="88" rx="12" />
+    <g class="an an--orchestration">
+      <rect class="an__box" x="40" y="212" width="140" height="72" rx="8" />
+      <text class="an__label" x="110" y="242" text-anchor="middle">Sentry</text>
+      <text class="an__sub" x="110" y="262" text-anchor="middle">sandbox process</text>
+    </g>
+    <path class="ac ac--control" d="M180,248 H276" />
+    <text class="ac__verb" x="230" y="240" text-anchor="middle">LISAFS RPC</text>
+    <text class="ac__verb" x="230" y="264" text-anchor="middle">each operation</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Gofer, Directfs disabled. A separate process that performs the filesystem operation on the Sentry's behalf.">
+    <rect class="an__focus-ring" x="272" y="204" width="156" height="88" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="280" y="212" width="140" height="72" rx="8" />
+      <text class="an__label" x="350" y="242" text-anchor="middle">Gofer</text>
+      <text class="an__sub" x="350" y="262" text-anchor="middle">separate process</text>
+    </g>
+    <path class="ac ac--control" d="M350,284 V368" />
+    <text class="ac__verb" x="358" y="330">performs it</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Host-backed filesystem, Directfs disabled. Only the container's configured mounts, reached through the Gofer.">
+    <rect class="an__focus-ring" x="32" y="364" width="396" height="76" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="40" y="372" width="380" height="60" rx="8" />
+      <text class="an__label" x="230" y="398" text-anchor="middle">Host-backed filesystem</text>
+      <text class="an__sub" x="230" y="417" text-anchor="middle">configured mounts only</text>
+    </g>
+  </g>
+
+  <!-- Directfs enabled -->
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Application, Directfs enabled. Makes a file syscall, handled by the Sentry.">
+    <rect class="an__focus-ring" x="492" y="88" width="156" height="72" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="500" y="96" width="140" height="56" rx="8" />
+      <text class="an__label" x="570" y="120" text-anchor="middle">Application</text>
+      <text class="an__sub" x="570" y="138" text-anchor="middle">in the sandbox</text>
+    </g>
+    <path class="ac ac--control" d="M570,152 V208" />
+    <text class="ac__verb" x="578" y="184">file syscall</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Sentry, Directfs enabled. Performs filesystem operations itself, relative to the mount file descriptors the Gofer passed it, with no RPC per operation.">
+    <rect class="an__focus-ring" x="492" y="204" width="156" height="88" rx="12" />
+    <g class="an an--orchestration">
+      <rect class="an__box" x="500" y="212" width="140" height="72" rx="8" />
+      <text class="an__label" x="570" y="242" text-anchor="middle">Sentry</text>
+      <text class="an__sub" x="570" y="262" text-anchor="middle">sandbox process</text>
+    </g>
+    <path class="ac ac--security" d="M570,284 V368" />
+    <text class="ac__verb" x="578" y="322">FD-relative ops,</text>
+    <text class="ac__verb" x="578" y="336">no RPC</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Gofer, Directfs enabled. Still a separate process. Opens the configured mounts and passes their file descriptors to the Sentry.">
+    <rect class="an__focus-ring" x="732" y="204" width="156" height="88" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="740" y="212" width="140" height="72" rx="8" />
+      <text class="an__label" x="810" y="242" text-anchor="middle">Gofer</text>
+      <text class="an__sub" x="810" y="262" text-anchor="middle">separate process</text>
+    </g>
+    <path class="ac ac--data" d="M740,248 H644" />
+    <text class="ac__verb" x="690" y="240" text-anchor="middle">mount FDs</text>
+    <path class="ac ac--data" d="M810,284 V368" />
+    <text class="ac__verb" x="818" y="330">opens mounts</text>
+  </g>
+
+  <g class="anode" tabindex="0" role="img"
+     aria-label="Host-backed filesystem, Directfs enabled. Still only the container's configured mounts. The Sentry reaches them through the donated file descriptors, not the rest of the host.">
+    <rect class="an__focus-ring" x="492" y="364" width="396" height="76" rx="12" />
+    <g class="an">
+      <rect class="an__box" x="500" y="372" width="380" height="60" rx="8" />
+      <text class="an__label" x="690" y="398" text-anchor="middle">Host-backed filesystem</text>
+      <text class="an__sub" x="690" y="417" text-anchor="middle">configured mounts only</text>
+    </g>
+  </g>
+
+  <!-- Legend -->
+  <g class="al" transform="translate(16, 480)">
+    <path class="ac ac--control" d="M0,0 H26" />
+    <text class="al__label" x="34" y="4">request</text>
+
+    <path class="ac ac--data" d="M110,0 H136" />
+    <text class="al__label" x="144" y="4">file descriptors, set up by the Gofer</text>
+
+    <path class="ac ac--security" d="M400,0 H426" />
+    <text class="al__label" x="434" y="4">direct, restricted to those descriptors</text>
+  </g>
+</svg>
